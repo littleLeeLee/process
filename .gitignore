@@ -1,0 +1,11 @@
+/local.properties
+*.iml
+/build
+/.idea
+/.svn
+/.gradle
+/*/build
+*.apk
+/captures
+/gradle.properties
+/import-summary.txt

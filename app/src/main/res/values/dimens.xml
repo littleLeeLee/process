@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="splash_image_width">65dp</dimen>
+    <dimen name="splash_image_heigth">65dp</dimen>
+    <dimen name="tv_titlesize">22sp</dimen>
+    <dimen name="login_margin">30dp</dimen>
+    <dimen name="tv_textsize_l">20sp</dimen>
+    <dimen name="tv_textsize_m">16sp</dimen>
+    <dimen name="tv_textsize_s">14sp</dimen>
+    <dimen name="tv_textsize_ss">12sp</dimen>
+    <dimen name="tv_hintsize">15sp</dimen>
+
+</resources>
