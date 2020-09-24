@@ -1,0 +1,65 @@
+
+/*
+  caseName：对应的case 名字，
+  caseId : 对应case 的ID ，
+  enable :是否测试 0否 1是，
+  result:测试的结果 0不通过 1通过  2未测试
+  description :扩展字段
+*/
+
+
+{
+
+  "action": {
+    "name": "test_result",
+    "test_case__list": [
+
+          {"caseName":"SimReader","caseId":1,"enable":1,"result": 1,"description": ""},
+          {"caseName":"NetWork","caseId":2,"enable":1,"result": 1,"description": ""},
+          {"caseName":"WiFi","caseId":3,"enable":1,"result": 0,"description": ""},
+          {"caseName":"GPS","caseId":4,"enable":1,"result": 0,"description": ""},
+          {"caseName":"BlueTooth","caseId":5,"enable":1,"result": 0,"description": ""},
+          {"caseName":"Gyroscope","caseId":6,"enable":1,"result": 0,"description": ""},
+          {"caseName":"Barometer","caseId":7,"enable":1,"result": 0,"description": ""},
+          {"caseName":"Proximity Sensor","caseId":8,"enable":1,"result": 1,"description": ""},
+          {"caseName":"Accelerometer","caseId":9,"enable":1,"result": 2,"description": ""},
+          {"caseName":"Loud Speaker","caseId":11,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Earpiece","caseId":12,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Mic ES","caseId":13,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Vid Mic ES","caseId":14,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Microphone","caseId":15,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Video Microphone","caseId":16,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Front Microphone","caseId":17,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Headset-Left","caseId":18,"enable":1, "result": 0,"description": ""},
+          {"caseName":"Headset-Right","caseId":19,"enable":1, "result": 0,"description": ""},
+          {"caseName":"Headset Port","caseId":20,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Lightning Headset","caseId":21,"enable":1, "result": 1,"description": ""},
+          {"caseName":"True Depth Camera","caseId":22,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Front Camera","caseId":23,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Rear Camera","caseId":24,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Flash","caseId":25,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Wide Camera","caseId":26,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Telephoto Camera","caseId":27,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Fingerprint Sensor","caseId":28,"enable":1, "result": 2,"description": ""},
+          {"caseName":"Face ID","caseId":29,"enable":1, "result": 2,"description": ""},
+          {"caseName":"Power Button","caseId":30,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Home Button","caseId":31,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Volume Down Button","caseId":32,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Volume Up Button","caseId":33,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Flip Switch","caseId":34,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Back Button","caseId":35,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Menu Button","caseId":36,"enable":1, "result": 1,"description": ""},
+          {"caseName":"LCD","caseId":37,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Touch Screen","caseId":38,"enable":1, "result": 1,"description": ""},
+          {"caseName":"3D Touch","caseId":39,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Spen","caseId":40,"enable":0, "result": 1,"description": ""},
+          {"caseName":"Spen Back Button","caseId":41,"enable":0, "result": 1,"description": ""},
+          {"caseName":"Spen Hover","caseId":42,"enable":0, "result": 1,"description": ""},
+          {"caseName":"Spen Menu Button","caseId":43,"enable":0, "result": 1,"description": ""},
+          {"caseName":"Spen Remove","caseId":44,"enable":0, "result": 1,"description": ""},
+          {"caseName":"Vibration","caseId":45,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Wire Charge","caseId":46,"enable":1, "result": 0,"description": ""},
+          {"caseName":"Wireless Charge","caseId":47,"enable":1, "result": 1,"description": ""}
+                  ]
+      }
+}

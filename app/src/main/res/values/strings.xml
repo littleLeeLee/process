@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">KintexCheck</string>
+    <string name="loading">loading</string>
 </resources>

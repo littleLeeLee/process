@@ -1,0 +1,64 @@
+
+/*
+  caseName：对应的case 名字，
+  caseId : 对应case 的ID ，
+  enable :是否测试 0否 1是，
+  visible:测试的方式 0后台隐式测试  1前台可见的测试 2默认后台 如果不行需要转为前台
+*/
+
+
+{
+
+  "action": {
+    "name": "start",
+    "test_case_list": [
+
+          {"caseName":"SimReader","caseId":1,"enable":1,"visible": 1},
+          {"caseName":"NetWork","caseId":2,"enable":1,"visible": 1},
+          {"caseName":"WiFi","caseId":3,"enable":1,"visible": 0},
+          {"caseName":"GPS","caseId":4,"enable":1,"visible": 0},
+          {"caseName":"BlueTooth","caseId":5,"enable":1,"visible": 0},
+          {"caseName":"Gyroscope","caseId":6,"enable":1,"visible": 0},
+          {"caseName":"Barometer","caseId":7,"enable":1,"visible": 0},
+          {"caseName":"Proximity Sensor","caseId":8,"enable":1,"visible": 1},
+          {"caseName":"Accelerometer","caseId":9,"enable":1,"visible": 2},
+          {"caseName":"Loud Speaker","caseId":11,"enable":1, "visible": 1},
+          {"caseName":"Earpiece","caseId":12,"enable":1, "visible": 1},
+          {"caseName":"Mic ES","caseId":13,"enable":1, "visible": 1},
+          {"caseName":"Vid Mic ES","caseId":14,"enable":1, "visible": 1},
+          {"caseName":"Microphone","caseId":15,"enable":1, "visible": 1},
+          {"caseName":"Video Microphone","caseId":16,"enable":1, "visible": 1},
+          {"caseName":"Front Microphone","caseId":17,"enable":1, "visible": 1},
+          {"caseName":"Headset-Left","caseId":18,"enable":1, "visible": 0},
+          {"caseName":"Headset-Right","caseId":19,"enable":1, "visible": 0},
+          {"caseName":"Headset Port","caseId":20,"enable":1, "visible": 1},
+          {"caseName":"Lightning Headset","caseId":21,"enable":1, "visible": 1},
+          {"caseName":"True Depth Camera","caseId":22,"enable":1, "visible": 1},
+          {"caseName":"Front Camera","caseId":23,"enable":1, "visible": 1},
+          {"caseName":"Rear Camera","caseId":24,"enable":1, "visible": 1},
+          {"caseName":"Flash","caseId":25,"enable":1, "visible": 1},
+          {"caseName":"Wide Camera","caseId":26,"enable":1, "visible": 1},
+          {"caseName":"Telephoto Camera","caseId":27,"enable":1, "visible": 1},
+          {"caseName":"Fingerprint Sensor","caseId":28,"enable":1, "visible": 2},
+          {"caseName":"Face ID","caseId":29,"enable":1, "visible": 2},
+          {"caseName":"Power Button","caseId":30,"enable":1, "visible": 1},
+          {"caseName":"Home Button","caseId":31,"enable":1, "visible": 1},
+          {"caseName":"Volume Down Button","caseId":32,"enable":1, "visible": 1},
+          {"caseName":"Volume Up Button","caseId":33,"enable":1, "visible": 1},
+          {"caseName":"Flip Switch","caseId":34,"enable":1, "visible": 1},
+          {"caseName":"Back Button","caseId":35,"enable":1, "visible": 1},
+          {"caseName":"Menu Button","caseId":36,"enable":1, "visible": 1},
+          {"caseName":"LCD","caseId":37,"enable":1, "visible": 1},
+          {"caseName":"Touch Screen","caseId":38,"enable":1, "visible": 1},
+          {"caseName":"3D Touch","caseId":39,"enable":1, "visible": 1},
+          {"caseName":"Spen","caseId":40,"enable":0, "visible": 1},
+          {"caseName":"Spen Back Button","caseId":41,"enable":0, "visible": 1},
+          {"caseName":"Spen Hover","caseId":42,"enable":0, "visible": 1},
+          {"caseName":"Spen Menu Button","caseId":43,"enable":0, "visible": 1},
+          {"caseName":"Spen Remove","caseId":44,"enable":0, "visible": 1},
+          {"caseName":"Vibration","caseId":45,"enable":1, "visible": 1},
+          {"caseName":"Wire Charge","caseId":46,"enable":1, "visible": 0},
+          {"caseName":"Wireless Charge","caseId":47,"enable":1, "visible": 1}
+                  ]
+      }
+}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#154992</color>
+    <color name="colorPrimary">#3296DC</color>
     <color name="colorPrimaryDark">#124071</color>
     <color name="colorAccent">#fdbd34</color>
     <color name="bgColor">#f5f5f5</color>
@@ -29,9 +29,11 @@
     <color name="pink">#ffc0cb</color><!--粉红色 -->
     <color name="lightpink">#ffb6c1</color><!--亮粉红色 -->
     <color name="orange">#ffa500</color><!--橙色 -->
+    <color name="tvColorMain">#3296DC</color>
     <color name="lightsalmon">#ffa07a</color><!--亮肉色 -->
     <color name="darkorange">#ff8c00</color><!--暗桔黄色 -->
     <color name="coral">#ff7f50</color><!--珊瑚色 -->
+    <color name="textColor">#7f7f7f</color><!--珊瑚色 -->
     <color name="hotpink">#ff69b4</color><!--热粉红色 -->
     <color name="tomato">#ff6347</color><!--西红柿色 -->
     <color name="orangered">#ff4500</color><!--红橙色 -->
@@ -104,6 +106,8 @@
     <color name="blueviolet">#8a2be2</color><!--紫罗兰蓝色 -->
     <color name="lightskyblue">#87cefa</color><!--亮天蓝色 -->
     <color name="skyblue">#87ceeb</color><!--天蓝色 -->
+    <color name="littleblue">#ADD8E6</color><!--淡蓝色 -->
+    <color name="skyblue1">#87cee0</color><!--天蓝色 -->
     <color name="gray">#808080</color><!--灰色 -->
     <color name="grey">#808080</color><!--灰色 -->
     <color name="olive">#808000</color><!--橄榄色 -->
