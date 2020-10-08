@@ -16,7 +16,12 @@ import java.net.Socket;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.util.Log;
+
+import com.kintex.check.bean.AdbBean;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class ThreadReadWriterIOSocket implements Runnable
@@ -62,8 +67,13 @@ public class ThreadReadWriterIOSocket implements Runnable
 					/* 读操作命令 */
 					currCMD = readCMDFromSocket(in);
 					Log.v(androidService.TAG, Thread.currentThread().getName() + "---->" + "**currCMD ==== " + currCMD);
+					if(TextUtils.isEmpty(currCMD)){
+						EventBus.getDefault().post(new AdbBean("断开连接" ));
+					}else {
+						EventBus.getDefault().post(new AdbBean("收到的内容：" + currCMD));
+					}
 
-					out.write(("我收到了："+currCMD).getBytes());
+					out.write(("手机收到了："+currCMD).getBytes());
 					out.flush();
 
 					/*if(currCMD.equals("getfile")){
@@ -134,15 +144,15 @@ public class ThreadReadWriterIOSocket implements Runnable
 		try
 		{
 			int numReadedBytes = in.read(tempbuffer, 0, tempbuffer.length);
-			msg = new String(tempbuffer, 0, numReadedBytes, "utf-8");
-			tempbuffer = null;
+				msg = new String(tempbuffer, 0, numReadedBytes, "utf-8");
+				tempbuffer = null;
 		} catch (Exception e)
 		{
 			Log.v(androidService.TAG, Thread.currentThread().getName() + "---->" + "readFromSocket error");
 			androidService.ioThreadFlag = false;
 			e.printStackTrace();
 		}
-		// Log.v(Service139.TAG, "msg=" + msg);
+
 		return msg;
 	}
 

@@ -8,7 +8,12 @@ import android.view.View
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.AdbBean
 import com.kintex.check.other.androidService
+import kotlinx.android.synthetic.main.activity_testadb.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.io.*
 import java.net.ServerSocket
 import java.net.Socket
@@ -17,15 +22,15 @@ import kotlin.concurrent.thread
 
 class TestAdbActivity : BaseActivity() {
 
-    private var androidServer :AndroidServer?=null
     private var serverThread :SocketServerThread?=null
-
+    private var adbIntent : Intent ?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_testadb)
-
-        startService(Intent(this, androidService::class.java))
+        adbIntent = Intent(this, androidService::class.java)
+        startService(adbIntent)
 
 /*
         findViewById<View>(R.id.btnStart).setOnClickListener {
@@ -55,6 +60,10 @@ class TestAdbActivity : BaseActivity() {
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun readMessageFromAdb( adbBean: AdbBean){
+        tv_adbResult.append("\n"+adbBean.resultMessage)
+    }
 
 
      class AndroidServer : Thread() {
@@ -195,6 +204,13 @@ class TestAdbActivity : BaseActivity() {
             }
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this);
+        stopService(adbIntent)
+
     }
 
     companion object{

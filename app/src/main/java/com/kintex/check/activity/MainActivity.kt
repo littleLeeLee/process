@@ -90,7 +90,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         findViewById<WaveView>(R.id.view_testStart).setOnClickListener(this)
         findViewById<TextView>(R.id.tv_titleName).setOnClickListener(this)
         setView()
-        startAutoTest(0)
+    //    startAutoTest(0)
     }
 
     private fun setView() {

@@ -13,10 +13,14 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.kintex.check.bean.AdbBean;
+
+import org.greenrobot.eventbus.EventBus;
+
 public class androidService extends Service
 {
 
-	public static final String TAG = "chl";
+	public static final String TAG = "wylee";
 	public static Boolean mainThreadFlag = true;
 	public static Boolean ioThreadFlag = true;
 	ServerSocket serverSocket = null;
@@ -50,9 +54,10 @@ public class androidService extends Service
 		{
 			Log.d("wyLee", "doListen()");
 			serverSocket = new ServerSocket(SERVER_PORT);
-			Log.d("wyLee", "doListen() 2");
+			EventBus.getDefault().post(new AdbBean("正在监听"));
 			Socket socket = serverSocket.accept();
-			Log.d("wyLee", "doListen() 3");
+			Log.d("wyLee", "accept");
+			EventBus.getDefault().post(new AdbBean("accept"));
 			new Thread(new ThreadReadWriterIOSocket(this, socket)).start();
 
 		} catch (IOException e)
@@ -122,6 +127,7 @@ public class androidService extends Service
 		{
 			Log.v(TAG, Thread.currentThread().getName() + "---->" + "serverSocket.close()");
 			if (serverSocket != null) serverSocket.close();
+			unregisterReceiver(sysBR);
 		} catch (IOException e)
 		{
 			e.printStackTrace();

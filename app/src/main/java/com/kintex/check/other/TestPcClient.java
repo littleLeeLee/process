@@ -50,19 +50,13 @@ public class TestPcClient {
                                 msg = scanner.nextLine();
                                 out.println(msg);
                                 out.flush();
-                                System.out.println("send");
-
-
-                            msg = scanner.nextLine();
-                            out.println(msg);
-                            out.flush();
-                            System.out.println("send");
+                                System.out.println("send" + msg);
 
                             readMsg = in.readLine();
                             if(readMsg != null) {
                                 System.out.println("read:"+readMsg);
                             }else {
-                                System.out.println("read:");
+                                System.out.println("read: null");
                             }
 
                         }catch (Exception e){
@@ -79,7 +73,6 @@ public class TestPcClient {
             System.out.println("error : "+ex.getMessage());
         }
 
-        //    createSocket();
     }
 
 
