@@ -16,12 +16,11 @@ public class ServiceBroadcastReceiver extends BroadcastReceiver {
                 + "ServiceBroadcastReceiver onReceive");  
   
         String action = intent.getAction();  
-        if (START_ACTION.equalsIgnoreCase(action)) {  
+        if (START_ACTION.equalsIgnoreCase(action)) {
             context.startService(new Intent(context, androidService.class));  
-  
-            Log.d(androidService.TAG, Thread.currentThread().getName() + "---->"  
+            Log.d(androidService.TAG, Thread.currentThread().getName() + "---->"
                     + "ServiceBroadcastReceiver onReceive start end");  
-        } else if (STOP_ACTION.equalsIgnoreCase(action)) {  
+        } else if (STOP_ACTION.equalsIgnoreCase(action)) {
             context.stopService(new Intent(context, androidService.class));  
             Log.d(androidService.TAG, Thread.currentThread().getName() + "---->"  
                     + "ServiceBroadcastReceiver onReceive stop end");  

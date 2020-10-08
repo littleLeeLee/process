@@ -83,5 +83,5 @@ dependencies {
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
     //对话框
-    implementation 'com.kongzue.dialog:dialog:2.4.8'
+    implementation 'com.kongzue.dialog_v3x:dialog:3.2.4'
 }

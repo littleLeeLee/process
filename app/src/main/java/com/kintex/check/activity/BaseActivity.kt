@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.kintex.check.R
+import com.kintex.check.bean.TestResultBean
 import com.kintex.check.utils.MyUtils
 import com.zyao89.view.zloading.ZLoadingDialog
 import com.zyao89.view.zloading.Z_TYPE
@@ -60,6 +61,13 @@ import java.lang.Exception
 
         }
     }
+
+     fun sendResult(position:Int,result :Int){
+
+         EventBus.getDefault().post(TestResultBean(position,result))
+         finish()
+     }
+
 
      override fun onDestroy() {
          super.onDestroy()

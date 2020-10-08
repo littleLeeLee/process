@@ -2,8 +2,10 @@ package com.kintex.check.activity
 
 import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import androidx.core.app.NotificationCompat
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.kintex.check.bean.TestResultBean
@@ -33,6 +35,11 @@ class SpeakerActivity : BaseActivity() {
     }
 
     private fun setView() {
+        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val streamMaxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,streamMaxVolume,1)
+
+
         tv_titleReset.text = "Back"
         tv_titleReset.setOnClickListener {
 

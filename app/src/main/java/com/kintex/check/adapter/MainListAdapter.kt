@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.kintex.check.R
 import com.kintex.check.bean.TestPlanBean
+import com.kintex.check.utils.ResultCode.DEFAULT
 
 
 class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MyViewHolder> {
@@ -49,12 +50,10 @@ class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MyViewHolder> {
 
         }
 
-        if(testPlan.clickState){
+        if(testPlan.clickState && testPlan.planResult != DEFAULT){
             holder.cardView.setCardBackgroundColor(mContext!!.resources.getColor(R.color.littleblue,null))
         }else{
-
             holder.cardView.setCardBackgroundColor(mContext!!.resources.getColor(R.color.white,null))
-
         }
 
         holder.itemView.setOnClickListener {

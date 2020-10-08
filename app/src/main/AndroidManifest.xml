@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kintex.check">
 
     <!-- 闪光灯权限 -->
@@ -28,6 +29,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!--录音权限-->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <!--打电话权限-->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <!--读取账号信息-->
@@ -67,6 +69,12 @@
         <activity android:name=".activity.AccelerometerPlayActivity" />
         <activity android:name=".activity.CameraActivity" />
         <activity android:name=".activity.SpeakerActivity" />
+        <activity android:name=".activity.DigitizerActivity" >
+        </activity>
+        <activity android:name=".activity.LCDActivity" />
+        <activity android:name=".activity.MicEarActivity" />
+        <activity android:name=".activity.HeadSetActivity" />
+        <activity android:name=".activity.CallPhoneActivity" />
 
         <receiver android:name=".other.ServiceBroadcastReceiver">
             <intent-filter >
@@ -78,6 +86,8 @@
         <receiver android:name=".recevier.ScreenReceiver" />
 
         <service android:name=".other.androidService"></service>
+        <receiver android:name=".activity.HeadSetActivity$HeadSetReceiver"
+            tools:ignore="Instantiatable" />
 
     </application>
 

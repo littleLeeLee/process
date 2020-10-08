@@ -1,19 +1,19 @@
 package com.kintex.check.adapter
 
 import android.content.Context
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.kintex.check.R
-import com.kintex.check.bean.TestPlanBean
 
 
 class CameraAdapter : RecyclerView.Adapter<CameraAdapter.MyViewHolder> {
     private var mContext : Context?= null
+    private var cameraManager : CameraManager?= null
     private var planList : ArrayList<String> ?= null
     private var itemClickListener : onItemClickListener ? = null
     private var itemLongClickListener : onItemLongClickListener ? = null
@@ -27,11 +27,31 @@ class CameraAdapter : RecyclerView.Adapter<CameraAdapter.MyViewHolder> {
     }
     override fun onBindViewHolder(holder: CameraAdapter.MyViewHolder, position: Int) {
         val deviceId = planList!![position]
-        if(position == planList!!.size-1){
+       /* if(position == planList!!.size-1){
             holder.name.text = "闪光灯"
-        }else{
-            holder.name.text = deviceId
-        }
+        }else{*/
+            val cameraCharacteristics = cameraManager!!.getCameraCharacteristics(deviceId)
+            val facing = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING)
+            if(facing == null){
+                holder.name.text = deviceId
+                return
+            }
+            when(facing){
+
+                CameraCharacteristics.LENS_FACING_FRONT -> { // 前置摄像
+                    holder.name.text = "Front Camera :$deviceId"
+                     }
+                CameraCharacteristics.LENS_FACING_BACK -> { // 后置摄像头
+                    holder.name.text = "Rear Camera :$deviceId"
+                         }
+                CameraCharacteristics.LENS_FACING_EXTERNAL -> { // 外置摄像头
+
+                    holder.name.text = "Extra Camera :$deviceId"
+                    }
+
+            }
+
+      //  }
 
 
         holder.itemView.setOnClickListener {
@@ -41,11 +61,15 @@ class CameraAdapter : RecyclerView.Adapter<CameraAdapter.MyViewHolder> {
 
     }
 
-    constructor (context: Context, list : ArrayList<String>){
+    constructor (
+        context: Context,
+        list: ArrayList<String>,
+        cameraManager: CameraManager
+    ){
         mContext = context
         planList = ArrayList()
         planList!!.addAll(list)
-
+        this.cameraManager = cameraManager
     }
 
 

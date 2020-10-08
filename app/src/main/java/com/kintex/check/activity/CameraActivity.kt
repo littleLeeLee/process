@@ -3,6 +3,7 @@ package com.kintex.check.activity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.SurfaceTexture
@@ -23,10 +24,12 @@ import com.kintex.check.adapter.CameraAdapter
 import com.kintex.check.bean.CameraBean
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.utils.ResultCode.FAILED
-import com.kintex.check.utils.ResultCode.FRONT_CAM_POSITION
+import com.kintex.check.utils.ResultCode.CAM_POSITION
 import com.kintex.check.utils.ResultCode.PASSED
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener
+import com.kongzue.dialog.util.BaseDialog
+import com.kongzue.dialog.v3.MessageDialog
 import kotlinx.android.synthetic.main.activity_camera.*
-import kotlinx.android.synthetic.main.item_camera.*
 import kotlinx.android.synthetic.main.title_include.*
 import org.greenrobot.eventbus.EventBus
 
@@ -80,7 +83,7 @@ class CameraActivity : BaseActivity() {
         }
         tv_titleDone.setOnClickListener {
 
-            EventBus.getDefault().post(TestResultBean(FRONT_CAM_POSITION, FAILED))
+            EventBus.getDefault().post(TestResultBean(CAM_POSITION, FAILED))
             finish()
 
         }
@@ -112,10 +115,10 @@ class CameraActivity : BaseActivity() {
             }
 
         }
-        //最后一个是闪光灯-1
-        deviceIdList.add("Flash")
-        cameraList.add(CameraBean("Flash","UnKnown",""))
-        val cameraAdapter = CameraAdapter(this, deviceIdList)
+        //最后一个是闪光灯-1  闪光灯 改为全亮
+/*        deviceIdList.add("Flash")
+        cameraList.add(CameraBean("Flash","UnKnown",""))*/
+        val cameraAdapter = CameraAdapter(this, deviceIdList,cameraManager)
 
         cameraRecyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
 
@@ -123,9 +126,9 @@ class CameraActivity : BaseActivity() {
             @SuppressLint("SetTextI18n")
             override fun onItemClick(view: View, position: Int) {
                 //显示当前ID的结果
-                tv_currentId.text = cameraList[position].cameraId + "："+cameraList[position].cameraState
+             //   tv_currentId.text = cameraList[position].cameraId + "："+cameraList[position].cameraState
 
-                if(position == deviceIdList.size-1){
+              /*  if(position == deviceIdList.size-1){
                     isFlashPressed = true
                     //闪光灯
                     isFlashOpen = !isFlashOpen
@@ -133,16 +136,16 @@ class CameraActivity : BaseActivity() {
                     closeCamera()
                     openCamera(currid)
 
-                }else{
-                    isFlashPressed = false
+                }else{*/
+                /*    isFlashPressed = false
                     isFlashOpen = false
                     if(openedCamera!!.id != deviceIdList[position]){
 
                         closeCamera()
                         openCamera(deviceIdList[position])
 
-                    }
-                }
+                    }*/
+            //    }
 
 
             }
@@ -157,10 +160,10 @@ class CameraActivity : BaseActivity() {
     private fun editState(state : String) {
         var stateCount = cameraList.size
         var passCount = 0
-        if(isFlashPressed){
+        /*if(isFlashPressed){
             cameraList[cameraList.size-1].cameraState = state
             tv_currentId.text = "Flash：$state"
-        }else{
+        }else{*/
 
             for (cameraBean in cameraList) {
 
@@ -176,19 +179,60 @@ class CameraActivity : BaseActivity() {
                 }
             }
             tv_currentId.text = openedCamera!!.id + "："+state
-        }
+    //    }
 
         if(stateCount ==0){
             if(passCount == cameraList.size){
-                EventBus.getDefault().post(TestResultBean(FRONT_CAM_POSITION, PASSED))
-            }else{
-                EventBus.getDefault().post(TestResultBean(FRONT_CAM_POSITION, FAILED))
-            }
-            finish()
+                showFlashDialog()
 
+            }else{
+                EventBus.getDefault().post(TestResultBean(CAM_POSITION, FAILED))
+                finish()
+            }
         }
 
 
+        var index = 0
+        for (k in cameraList.indices){
+
+            if(cameraList[k].cameraId == openedCamera!!.id){
+                index = k
+            }
+        }
+
+        if(index  != cameraList.size -1){
+            index+=1
+            closeCamera()
+            openCamera(cameraList[index].cameraId)
+            XLog.d("openCamera$index")
+        }
+
+
+    }
+
+    private fun showFlashDialog() {
+        val dialog = MessageDialog.build(this)
+            .setTitle( "提示")
+            .setMessage("请确认手机闪光灯是否亮起")
+            .setOkButton("是",object : OnDialogButtonClickListener {
+                override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
+                    dialog!!.dismiss()
+                    EventBus.getDefault().post(TestResultBean(CAM_POSITION, PASSED))
+                    finish()
+                    return false
+                }
+            })
+            .setCancelButton("否",object : OnDialogButtonClickListener {
+                override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
+                    dialog!!.dismiss()
+                    EventBus.getDefault().post(TestResultBean(CAM_POSITION, FAILED))
+                    finish()
+                    return false
+                }
+            })
+
+            dialog.cancelable = false
+            dialog.show()
     }
 
     private var previewTexture : SurfaceTexture ?=null
@@ -234,9 +278,6 @@ class CameraActivity : BaseActivity() {
                 openedCamera!!.close()
                 openedCamera = null
             }
-
-
-
         }catch (e:Exception){
             XLog.d(e)
         }
@@ -317,13 +358,13 @@ class CameraActivity : BaseActivity() {
 
 
         //控制闪光灯
-        if(isFlashOpen){
+     //   if(isFlashOpen){
             createCaptureRequest!!.set(CaptureRequest.FLASH_MODE,
                 CaptureRequest.FLASH_MODE_TORCH)
-        }else{
+       /* }else{
             createCaptureRequest!!.set(CaptureRequest.FLASH_MODE,
                 CaptureRequest.FLASH_MODE_OFF)
-        }
+        }*/
         //add 的surface  必须是创建session 时传入的surface
         createCaptureRequest!!.addTarget(surface)
         //创建一个build 实例
@@ -385,6 +426,7 @@ class CameraActivity : BaseActivity() {
 
     companion object{
         fun start(context: Context){
+            XLog.d("start")
             context.startActivity(Intent(context,CameraActivity::class.java))
         }
     }

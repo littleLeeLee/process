@@ -2,6 +2,7 @@ package com.kintex.check.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.admin.DevicePolicyManager
 import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.DialogInterface
@@ -26,17 +27,25 @@ import com.kintex.check.utils.ResultCode.BLUETOOTH_POSITION
 import com.kintex.check.utils.ResultCode.BUTTON_POSITION
 import com.kintex.check.utils.ResultCode.DEFAULT
 import com.kintex.check.utils.ResultCode.FAILED
-import com.kintex.check.utils.ResultCode.FRONT_CAM_POSITION
+import com.kintex.check.utils.ResultCode.CAM_POSITION
+import com.kintex.check.utils.ResultCode.DEVICE_LOCK_POSITION
+import com.kintex.check.utils.ResultCode.DIGITIZER_POSITION
 import com.kintex.check.utils.ResultCode.GPS_POSITION
+import com.kintex.check.utils.ResultCode.HEADSET_POSITION
+import com.kintex.check.utils.ResultCode.LCD_POSITION
+import com.kintex.check.utils.ResultCode.MIC_EAR_POSITION
 import com.kintex.check.utils.ResultCode.MIC_LOUD_POSITION
 import com.kintex.check.utils.ResultCode.PASSED
 import com.kintex.check.utils.ResultCode.PROXIMITY_POSITION
 import com.kintex.check.utils.ResultCode.RESET
+import com.kintex.check.utils.ResultCode.TEST_CALL_POSITION
 import com.kintex.check.utils.ResultCode.VIBRATION_POSITION
 import com.kintex.check.utils.ResultCode.WIFI_POSITION
 import com.kintex.check.view.SmoothLinearLayoutManager
 import com.kintex.check.view.WaveView
-import com.kongzue.dialog.v2.SelectDialog
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener
+import com.kongzue.dialog.util.BaseDialog
+import com.kongzue.dialog.v3.MessageDialog
 import com.tbruyelle.rxpermissions2.RxPermissions
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -53,8 +62,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         TestPlanBean("Buttons","Test the hardware buttons on your device.",R.mipmap.wifi,0),
         TestPlanBean("Vibration","Device vibration test",R.mipmap.wifi,0),
         TestPlanBean("Accelerometer","Make the soccer ball touch all the corner of the display by titling the device.",R.mipmap.wifi,0),
-        TestPlanBean("Front Camera","Take a picture using front facing camera.Test Front Flash.",R.mipmap.wifi,0),
-        TestPlanBean("Rear Camera","Take a picture using rear facing cameraDevice. Test Rear Flash.",R.mipmap.wifi,0),
+        TestPlanBean("CameraTest","Take a picture using front facing camera.Test Front Flash.",R.mipmap.wifi,0),
+     //   TestPlanBean("Rear Camera","Take a picture using rear facing cameraDevice. Test Rear Flash.",R.mipmap.wifi,0),
         TestPlanBean("Mic Loud Speaker","Test the mic of this devices with loud speaker.",R.mipmap.wifi,0),
         TestPlanBean("Mic Ear Speaker","Test the mic of this device with ear speaker.",R.mipmap.wifi,0),
         TestPlanBean("HeadSet Test","Test the headSet of this device.",R.mipmap.wifi,0),
@@ -81,7 +90,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         findViewById<WaveView>(R.id.view_testStart).setOnClickListener(this)
         findViewById<TextView>(R.id.tv_titleName).setOnClickListener(this)
         setView()
-
+        startAutoTest(0)
     }
 
     private fun setView() {
@@ -131,7 +140,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         checkAccelerometer()
                     }
 
-                    FRONT_CAM_POSITION->{
+                    CAM_POSITION->{
                         checkCamera()
                     }
 
@@ -140,12 +149,80 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         checkMic()
 
                     }
+
+                    MIC_EAR_POSITION->{
+
+                        checkEar()
+
+                    }
+                    HEADSET_POSITION->{
+
+                        checkHeadSet()
+
+                    }
+
+                    LCD_POSITION->{
+                        checkLCD()
+                    }
+
+                    DIGITIZER_POSITION->{
+
+                        checkDigitizer()
+
+                    }
+
+                    TEST_CALL_POSITION->{
+
+                        testCall()
+
+                    }
+
+                    DEVICE_LOCK_POSITION->{
+
+                        checkDevice()
+
+                    }
                 }
             }
         })
         ryMainList!!.adapter = adapter
 
         checkPermission()
+
+    }
+
+    private fun checkDevice() {
+
+    }
+
+    private fun testCall() {
+
+        CallPhoneActivity.start(this)
+
+    }
+
+    private fun checkHeadSet() {
+
+        HeadSetActivity.start(this)
+
+    }
+
+    private fun checkEar() {
+
+        MicEarActivity.start(this)
+
+    }
+
+    private fun checkLCD() {
+
+        LCDActivity.start(this)
+
+    }
+
+    private fun checkDigitizer() {
+
+
+        DigitizerActivity.start(this)
 
     }
 
@@ -158,7 +235,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private fun checkCamera() {
 
-
+        XLog.d("checkCamera")
         CameraActivity.start(this)
 
 
@@ -187,22 +264,28 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
         try {
             vibrator!!.vibrate(1000000)
-            val dialog = SelectDialog.build(this, "震动提醒", "请确认手机是否有震动",
-                "是", object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
+            val dialog = MessageDialog.build(this)
+                .setTitle("震动提醒")
+                .setMessage("请确认手机是否有震动")
+                .setOkButton("是", object : OnDialogButtonClickListener {
+                    override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                         vibrator!!.cancel()
                         dialog!!.dismiss()
                         updateUI(TestResultBean(VIBRATION_POSITION, PASSED))
+                        return false
                     }
-                }, "否", object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                })
+                .setCancelButton("否",object : OnDialogButtonClickListener {
+                    override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                         vibrator!!.cancel()
                         dialog!!.dismiss()
                         updateUI(TestResultBean(VIBRATION_POSITION, FAILED))
+                        return false
+
                     }
                 })
-            dialog.setCanCancel(false)
-            dialog.showDialog()
+            dialog.cancelable = false
+            dialog.show()
         }catch (e :Exception){
             XLog.d(e)
 
@@ -214,7 +297,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
 
         when(v!!.id){
-
             //adb
             R.id.tv_titleName->{
 
@@ -224,12 +306,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
             R.id.tv_titleReset -> {
 
-                for ( k in testPlanList.indices) {
-                    testPlanList[k].planResult = DEFAULT
-                    testPlanList[k].clickState = false
-                }
-
-                updateUI(TestResultBean(RESET, DEFAULT))
+                resetTest()
             }
 
             R.id.tv_titleDone -> {
@@ -239,8 +316,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.view_testStart ->{
-
-                isAutoMode = true
+                resetTest()
                 startAutoTest(0)
 
             }
@@ -250,6 +326,16 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     }
 
+    private fun resetTest() {
+
+        for ( k in testPlanList.indices) {
+            testPlanList[k].planResult = DEFAULT
+            testPlanList[k].clickState = false
+        }
+
+        updateUI(TestResultBean(RESET, DEFAULT))
+
+    }
 
 
     //检测GPS
@@ -308,6 +394,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     //更新UI 界面
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun updateUI(resultBean: TestResultBean){
+        XLog.d("updateUI")
         var position = resultBean.position
         var result = resultBean.result
         //-1 是一个特殊的参数  用来显示重置状态的list
@@ -339,6 +426,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
                         if(position < testPlanList.size-1 ){
                             startAutoTest(position + 1)
+                            XLog.d(" startAutoTest ${position + 1}")
                         }
 
                     }
@@ -352,7 +440,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun startAutoTest(position: Int) {
-
+        isAutoMode = true
         when(position){
 
             WIFI_POSITION->{
@@ -381,6 +469,37 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
             VIBRATION_POSITION->{
                 checkVibration()
+            }
+
+            ACCELEROMETER_POSITION->{
+                checkAccelerometer()
+            }
+
+            CAM_POSITION->{
+                checkCamera()
+            }
+
+            MIC_LOUD_POSITION->{
+                checkMic()
+            }
+            MIC_EAR_POSITION->{
+                checkEar()
+            }
+
+            HEADSET_POSITION->{
+                checkHeadSet()
+            }
+
+            LCD_POSITION->{
+                checkLCD()
+            }
+
+            DIGITIZER_POSITION->{
+                checkDigitizer()
+            }
+
+            TEST_CALL_POSITION->{
+                testCall()
             }
 
             else->{

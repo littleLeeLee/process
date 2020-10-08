@@ -10,9 +10,7 @@ import com.elvishew.xlog.interceptor.BlacklistTagsFilterInterceptor
 import com.elvishew.xlog.printer.AndroidPrinter
 import com.elvishew.xlog.printer.file.FilePrinter
 import com.kintex.check.BuildConfig
-import com.kongzue.dialog.v2.DialogSettings
-import com.kongzue.dialog.v2.DialogSettings.STYLE_IOS
-import com.kongzue.dialog.v2.DialogSettings.THEME_LIGHT
+import com.kongzue.dialog.util.DialogSettings
 
 class MyApplication : Application() {
 
@@ -20,8 +18,11 @@ class MyApplication : Application() {
         super.onCreate()
         initLog()
         Utils.init(this)
-        DialogSettings.style = STYLE_IOS
-        DialogSettings.tip_theme = THEME_LIGHT
+        DialogSettings.isUseBlur = (true)                   //是否开启模糊效果，默认关闭
+        DialogSettings.modalDialog = (true)                //是否开启模态窗口模式，一次显示多个对话框将以队列形式一个一个显示，默认关闭
+        DialogSettings.style =  DialogSettings.STYLE.STYLE_IOS    //全局主题风格，提供三种可选风格，STYLE_MATERIAL, STYLE_KONGZUE, STYLE_IOS
+        DialogSettings.theme = (DialogSettings.THEME.LIGHT)          //全局对话框明暗风格，提供两种可选主题，LIGHT, DARK
+        DialogSettings.tipTheme = (DialogSettings.THEME.LIGHT)
     }
 
     private fun initLog() {
