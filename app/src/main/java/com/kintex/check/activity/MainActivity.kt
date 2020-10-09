@@ -2,10 +2,8 @@ package com.kintex.check.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.admin.DevicePolicyManager
 import android.bluetooth.BluetoothManager
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.location.LocationManager
 import android.os.Bundle
@@ -21,6 +19,7 @@ import com.kintex.check.R
 import com.kintex.check.adapter.MainListAdapter
 import com.kintex.check.bean.TestPlanBean
 import com.kintex.check.bean.TestResultBean
+import com.kintex.check.other.AdbTestActivity
 import com.kintex.check.utils.CheckWifiManager
 import com.kintex.check.utils.ResultCode.ACCELEROMETER_POSITION
 import com.kintex.check.utils.ResultCode.BLUETOOTH_POSITION
@@ -28,13 +27,14 @@ import com.kintex.check.utils.ResultCode.BUTTON_POSITION
 import com.kintex.check.utils.ResultCode.DEFAULT
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.CAM_POSITION
-import com.kintex.check.utils.ResultCode.DEVICE_LOCK_POSITION
+import com.kintex.check.utils.ResultCode.BATTERY_POSITION
 import com.kintex.check.utils.ResultCode.DIGITIZER_POSITION
 import com.kintex.check.utils.ResultCode.GPS_POSITION
 import com.kintex.check.utils.ResultCode.HEADSET_POSITION
 import com.kintex.check.utils.ResultCode.LCD_POSITION
 import com.kintex.check.utils.ResultCode.MIC_EAR_POSITION
 import com.kintex.check.utils.ResultCode.MIC_LOUD_POSITION
+import com.kintex.check.utils.ResultCode.NFC_POSITION
 import com.kintex.check.utils.ResultCode.PASSED
 import com.kintex.check.utils.ResultCode.PROXIMITY_POSITION
 import com.kintex.check.utils.ResultCode.RESET
@@ -70,7 +70,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         TestPlanBean("LCD","Test The LCD Display and Digitizer of the screen.",R.mipmap.wifi,0),
         TestPlanBean("Digitizer","Test the Digitizer of your device.",R.mipmap.wifi,0),
         TestPlanBean("Test Call","Voice call and network connectivity test.",R.mipmap.wifi,0),
-        TestPlanBean("Device Lock","FRP And Reactivation Test.",R.mipmap.wifi,0))
+     //   TestPlanBean("Device Lock","FRP And Reactivation Test.",R.mipmap.wifi,0),
+        TestPlanBean("Battery","Battery related information.",R.mipmap.wifi,0),
+        TestPlanBean("NFC","TestNFC.",R.mipmap.wifi,0)
+    )
+
 
     private var ryMainList : RecyclerView ?= null
     private var adapter: MainListAdapter?=null
@@ -177,10 +181,17 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
                     }
 
-                    DEVICE_LOCK_POSITION->{
+                  /*  DEVICE_LOCK_POSITION->{
 
                         checkDevice()
 
+                    }*/
+                    BATTERY_POSITION->{
+                        checkBattery()
+                    }
+
+                    NFC_POSITION->{
+                        checkNFC()
                     }
                 }
             }
@@ -188,6 +199,18 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         ryMainList!!.adapter = adapter
 
         checkPermission()
+
+    }
+
+    private fun checkNFC() {
+
+        NFCActivity.start(this)
+
+    }
+
+    private fun checkBattery() {
+
+        BatteryActivity.start(this)
 
     }
 
@@ -234,11 +257,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun checkCamera() {
-
         XLog.d("checkCamera")
         CameraActivity.start(this)
-
-
     }
 
     private fun checkAccelerometer() {
@@ -300,7 +320,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             //adb
             R.id.tv_titleName->{
 
-                    TestAdbActivity.start(this)
+                  //  TestAdbActivity.start(this)
+                    startActivity(Intent(this,AdbTestActivity::class.java))
 
             }
 
@@ -501,6 +522,15 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             TEST_CALL_POSITION->{
                 testCall()
             }
+
+            BATTERY_POSITION->{
+                checkBattery()
+            }
+
+            NFC_POSITION->{
+                checkNFC()
+            }
+
 
             else->{
 

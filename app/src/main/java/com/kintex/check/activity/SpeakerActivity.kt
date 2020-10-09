@@ -36,9 +36,10 @@ class SpeakerActivity : BaseActivity() {
 
     private fun setView() {
         val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.mode = AudioManager.MODE_NORMAL
         val streamMaxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,streamMaxVolume,1)
-
+        audioManager.isSpeakerphoneOn = true
 
         tv_titleReset.text = "Back"
         tv_titleReset.setOnClickListener {

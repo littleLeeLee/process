@@ -34,7 +34,9 @@
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <!--读取账号信息-->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-
+    //NFC
+    <uses-permission android:name="android.permission.NFC"/>
+    <uses-feature android:name="android.hardware.nfc"  android:required="false" />
     <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -75,18 +77,23 @@
         <activity android:name=".activity.MicEarActivity" />
         <activity android:name=".activity.HeadSetActivity" />
         <activity android:name=".activity.CallPhoneActivity" />
-
-        <receiver android:name=".other.ServiceBroadcastReceiver">
-            <intent-filter >
-                <action android:name="NotifyServiceStart"/>
-                <action android:name="NotifyServiceStop" />
+        <activity android:name=".other.AdbTestActivity" />
+        <activity android:name=".activity.BatteryActivity" />
+        <activity android:name=".activity.NFCActivity"
+           >
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
             </intent-filter>
-        </receiver>
+        </activity>
+
         <receiver android:name=".recevier.KeyEventReceiver" />
         <receiver android:name=".recevier.ScreenReceiver" />
 
-        <service android:name=".other.androidService"></service>
         <receiver android:name=".activity.HeadSetActivity$HeadSetReceiver"
+            tools:ignore="Instantiatable" />
+        <receiver android:name=".activity.BatteryActivity$BatteryReceiver"
             tools:ignore="Instantiatable" />
 
     </application>

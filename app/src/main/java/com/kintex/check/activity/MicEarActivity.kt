@@ -128,6 +128,13 @@ class MicEarActivity  : BaseActivity(){
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.mode = AudioManager.MODE_NORMAL
+        audioManager.isSpeakerphoneOn = true
+    }
+
     companion object{
         fun start(context: Context){
             XLog.d("start")

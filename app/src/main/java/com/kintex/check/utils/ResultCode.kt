@@ -23,7 +23,9 @@ object ResultCode {
     var LCD_POSITION = 11
     var DIGITIZER_POSITION = 12
     var TEST_CALL_POSITION = 13
-    var DEVICE_LOCK_POSITION = 14
+  //  var DEVICE_LOCK_POSITION = 14
+    var BATTERY_POSITION = 14
+    var NFC_POSITION = 15
 
 
 }

@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.kintex.check.bean.AdbBean
-import com.kintex.check.other.androidService
 import kotlinx.android.synthetic.main.activity_testadb.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -17,7 +15,6 @@ import org.greenrobot.eventbus.ThreadMode
 import java.io.*
 import java.net.ServerSocket
 import java.net.Socket
-import kotlin.concurrent.thread
 
 
 class TestAdbActivity : BaseActivity() {
@@ -29,8 +26,7 @@ class TestAdbActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_testadb)
-        adbIntent = Intent(this, androidService::class.java)
-        startService(adbIntent)
+
 
 /*
         findViewById<View>(R.id.btnStart).setOnClickListener {
