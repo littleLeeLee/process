@@ -29,6 +29,7 @@ import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.CAM_POSITION
 import com.kintex.check.utils.ResultCode.BATTERY_POSITION
 import com.kintex.check.utils.ResultCode.DIGITIZER_POSITION
+import com.kintex.check.utils.ResultCode.FINGER_POSITION
 import com.kintex.check.utils.ResultCode.GPS_POSITION
 import com.kintex.check.utils.ResultCode.HEADSET_POSITION
 import com.kintex.check.utils.ResultCode.LCD_POSITION
@@ -39,6 +40,7 @@ import com.kintex.check.utils.ResultCode.PASSED
 import com.kintex.check.utils.ResultCode.PROXIMITY_POSITION
 import com.kintex.check.utils.ResultCode.RESET
 import com.kintex.check.utils.ResultCode.TEST_CALL_POSITION
+import com.kintex.check.utils.ResultCode.TOUCH_POSITION
 import com.kintex.check.utils.ResultCode.VIBRATION_POSITION
 import com.kintex.check.utils.ResultCode.WIFI_POSITION
 import com.kintex.check.view.SmoothLinearLayoutManager
@@ -47,6 +49,7 @@ import com.kongzue.dialog.interfaces.OnDialogButtonClickListener
 import com.kongzue.dialog.util.BaseDialog
 import com.kongzue.dialog.v3.MessageDialog
 import com.tbruyelle.rxpermissions2.RxPermissions
+import kotlinx.android.synthetic.main.title_include.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -72,7 +75,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         TestPlanBean("Test Call","Voice call and network connectivity test.",R.mipmap.wifi,0),
      //   TestPlanBean("Device Lock","FRP And Reactivation Test.",R.mipmap.wifi,0),
         TestPlanBean("Battery","Battery related information.",R.mipmap.wifi,0),
-        TestPlanBean("NFC","TestNFC.",R.mipmap.wifi,0)
+        TestPlanBean("NFC","TestNFC.",R.mipmap.wifi,0),
+        TestPlanBean("TouchCount","Test TouchCount.",R.mipmap.wifi,0),
+        TestPlanBean("FingerPrint","Test Fingerprint.",R.mipmap.wifi,0)
     )
 
 
@@ -99,7 +104,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private fun setView() {
 
-
+        tv_titleReset.text = "Reset"
         adapter = MainListAdapter(this, testPlanList)
 
         val smoothLinearLayoutManager =
@@ -193,12 +198,33 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     NFC_POSITION->{
                         checkNFC()
                     }
+
+                    TOUCH_POSITION->{
+                        checkTouchCount()
+
+                    }
+
+                    FINGER_POSITION->{
+                        checkFingerPrint()
+                    }
                 }
             }
         })
         ryMainList!!.adapter = adapter
 
         checkPermission()
+
+    }
+
+    private fun checkFingerPrint() {
+
+        FingerPrintActivity.start(this)
+
+    }
+
+    private fun checkTouchCount() {
+
+        TouchCountActivity.start(this)
 
     }
 

@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <!-- 振动器权限 -->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.VIBRATE"/>
     <!-- 蓝牙权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
@@ -34,7 +35,6 @@
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <!--读取账号信息-->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    //NFC
     <uses-permission android:name="android.permission.NFC"/>
     <uses-feature android:name="android.hardware.nfc"  android:required="false" />
     <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
@@ -43,6 +43,7 @@
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
 
     <application
         android:allowBackup="true"
@@ -87,6 +88,8 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.TouchCountActivity" />
+        <activity android:name=".activity.FingerPrintActivity" />
 
         <receiver android:name=".recevier.KeyEventReceiver" />
         <receiver android:name=".recevier.ScreenReceiver" />

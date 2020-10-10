@@ -1,0 +1,7 @@
+[{"Status":true,"name":"Serial Number","FactorySerial":"G28XT0VPHG7N","CurrentSerial":"G28XT0VPHG7N"},
+  {"Status":true,"name":"Main Board","FactorySerial":"F3X63730JBVGXJQA","CurrentSerial":"F3X63730JBVGXJQA"},
+  {"Status":true,"name":"Bio Sensor","FactorySerial":"F6G8182061JH251ABD","CurrentSerial":"F6G8182061JH251ABD"},
+  {"Status":true,"name":"Battery","FactorySerial":"F5D82154CK2H885AU","CurrentSerial":"F5D82154CK2H885AU"},
+  {"Status":false,"name":"Front Camera","FactorySerial":"F6J843195P0GV7RFG","CurrentSerial":"DNM834305PBHTPH9Q"},
+  {"Status":true,"name":"Back Camera","FactorySerial":"DNL70262RBVGKCQG8","CurrentSerial":"DNL70262RBVGKCQG8"},
+  {"Status":true,"name":"Touch ID","FactorySerial":"0219001c0a229627a842390e0c0200c5","CurrentSerial":"0219001c0a229627a842390e0c0200c5"}]

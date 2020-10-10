@@ -26,6 +26,8 @@ object ResultCode {
   //  var DEVICE_LOCK_POSITION = 14
     var BATTERY_POSITION = 14
     var NFC_POSITION = 15
+    var TOUCH_POSITION = 16
+    var FINGER_POSITION = 17
 
 
 }
