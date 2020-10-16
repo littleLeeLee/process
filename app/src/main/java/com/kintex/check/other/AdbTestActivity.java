@@ -11,14 +11,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.elvishew.xlog.XLog;
 import com.kintex.check.R;
+import com.kintex.check.bean.AdbBean;
+import com.kintex.check.bean.KeyEventBean;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -29,10 +35,10 @@ public class AdbTestActivity extends Activity {
     private static WifiManager wifi;
     static TextView cmd;
 
-    static Handler handler = new Handler(){
+    static Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            cmd.append((String)msg.obj);
+            cmd.append((String) msg.obj);
         }
     };
 
@@ -45,7 +51,21 @@ public class AdbTestActivity extends Activity {
         setContentView(R.layout.activity_testadb);
         cmd = (TextView) findViewById(R.id.tv_adbResult);
         MySocketServer.startListen(this);
+        findViewById(R.id.btnSend).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        out.println("哈哈哈");
+                        out.flush();
+                        XLog.d("send");
+                    }
+                }).start();
+
+            }
+        });
     }
 
     private void startSocket() {
@@ -72,21 +92,23 @@ public class AdbTestActivity extends Activity {
     }
 
 
-    private static class NetState{
+    private static class NetState {
 
-        private String intToIp(int ip){
+        private String intToIp(int ip) {
             return (ip & 0xFF) + "." + ((ip >> 8) & 0xFF) + "." + ((ip >> 16) & 0xFF) + "."
                     + ((ip >> 24) & 0xFF);
         }
 
-        public String GetIPAddress(){
+        public String GetIPAddress() {
             String ServerIP = intToIp(wifi.getConnectionInfo().getIpAddress());
             return ServerIP;
         }
     }
 
+    static PrintStream out;
+
     static class MySocketServer implements Runnable {
-        private static final String TAG="MySocketServer";
+        private static final String TAG = "MySocketServer";
         private static final int serverListenPort = 10086;
 
         private static Context mContext = null;
@@ -101,78 +123,64 @@ public class AdbTestActivity extends Activity {
         }
 
 
-
         @Override
         public void run() {
             try {
-                // establish server socket
+
                 int connIndex = 0;
                 ServerSocket serverSocket = new ServerSocket(serverListenPort);//, connectionMaxLength, InetAddress.getByName(serverIpString));
                 Message.obtain(handler, 0, "- address:" + serverSocket.getLocalSocketAddress() + "\n").sendToTarget();
 
-
                 while (true) {
-                    Message.obtain(handler, 0,"- ServerSocket start listene\n").sendToTarget();
+                    Message.obtain(handler, 0, "- ServerSocket start listene\n").sendToTarget();
                     Socket incoming = serverSocket.accept();
-                    Message.obtain(handler, 0, "- Connected a client!connIndex:" + connIndex + " RemoteSocketAddress:" + String.valueOf(incoming.getRemoteSocketAddress()) + "\n").sendToTarget();
-                    Log.e(TAG, "Connected a client!connIndex:" + connIndex + " RemoteSocketAddress:" + String.valueOf(incoming.getRemoteSocketAddress()));
+                    XLog.d("accept");
+                 //   Message.obtain(handler, 0, "- Connected a client!connIndex:" + connIndex + " RemoteSocketAddress:" + String.valueOf(incoming.getRemoteSocketAddress()) + "\n").sendToTarget();
+                //    XLog.d("Connected a client!connIndex:" + connIndex + " RemoteSocketAddress:" + String.valueOf(incoming.getRemoteSocketAddress()));
                     Thread connHandle = new Thread(new ConnectionHandle(mContext, incoming, connIndex));
                     connHandle.start();
                     connIndex++;
                 }
-            } catch (UnknownHostException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+
             }
         }
-    }
 
-    static   Scanner in;
-    static PrintStream out;
-    static class ConnectionHandle implements Runnable {
-        public static final String TAG = "ConnectionHandle:";
-        public static final String DELIMITER = "##";
-        public static final String CMD_GETDIR = "cmd::msg";
 
-        private Context mContext;
-        private Socket connectedSocket;
-        private int connIndex;
+        static class ConnectionHandle implements Runnable {
+            public static final String TAG = "ConnectionHandle:";
 
-        public ConnectionHandle(Context ctx, Socket incoming, int connIdx) {
-            mContext = ctx;
-            connectedSocket = incoming;
-            connIndex = connIdx;
-        }
 
-        @Override
-        public void run(){
-            Message.obtain(handler, 0, "- run client thread to deal socket\n").sendToTarget();
-            Log.e(TAG, "+run()");
+            private Context mContext;
+            private Socket connectedSocket;
+            private int connIndex;
 
-            try {
+            public ConnectionHandle(Context ctx, Socket incoming, int connIdx) {
+                mContext = ctx;
+                connectedSocket = incoming;
+                connIndex = connIdx;
+            }
+
+            @Override
+            public void run() {
+                Message.obtain(handler, 0, "- run client thread to deal socket\n").sendToTarget();
+                XLog.d(" thread run()");
+
                 try {
+                    StringBuffer stringBuffer = new StringBuffer();
                     InputStream inStream = connectedSocket.getInputStream();
                     OutputStream outStream = connectedSocket.getOutputStream();
+                    Scanner in = new Scanner(inStream, "UTF8");
 
-                     in = new Scanner(inStream, "UTF8");
-                     out = new PrintStream(outStream, true, "UTF8");
-                    //PrintWriter out = new PrintWriter(outStream, true);
-
-                    //InputStreamReader  reader  = new InputStreamReader(inStream, "UTF8");
-                    //OutputStreamWriter writer = new OutputStreamWriter(outStream, "UTF8");
-
-                    //String test = TAG + "abc陈123";
-                    //writer.write(test);
-                    //writer.flush();
+                    out = new PrintStream(outStream, true, "UTF8");
                     out.println("客户端连接成功！");
                     out.flush();
                     boolean done = false;
-
-
                     while (!done && in.hasNext()) {
                         String token = in.next();
-                        Log.e(TAG, token);
+                        stringBuffer.append(token);
+                        XLog.d("token" + token);
                         Message.obtain(handler, 0, "-第" +connIndex+ "次成功接收消息: " + token + "\n").sendToTarget();
                         out.println("客户端成功接收：" + token);
                         out.flush();
@@ -181,34 +189,44 @@ public class AdbTestActivity extends Activity {
                         }
                     }
 
+                   /* String toString = readFromSocket(inStream);
+                    XLog.d("stringBuffer:" + toString);*/
+                 //   Message.obtain(handler, 0, "-第" + connIndex + "次成功接收消息: " + toString + "\n").sendToTarget();
                     connectedSocket.close();
 
                     Thread.sleep(10);
+                } catch (Exception e) {
+                    XLog.e("IOException:" + e.getMessage());
+                    e.printStackTrace();
                 }
-                finally {
-                    //incoming.close();
-                    //outStream.close();
-                }
+                XLog.d("-run() finish");
+                Message.obtain(handler, 0, "连接已断开\n").sendToTarget();
             }
-            catch (IOException e) {
-                Log.e(TAG, "IOException:" + e.getMessage());
-                e.printStackTrace();
-            }
-            catch (InterruptedException e) {
-                Log.e(TAG, "InterruptedException:" + e.getMessage());
-                e.printStackTrace();
-            }
-            catch (Exception e) {
-                Log.e(TAG, "Exception:" + e.getClass().getName() + " msg:" + e.getMessage());
-            }
-            Log.e(TAG, "-run()");
+        }
+
+    }
+
+
+    /* 从InputStream流中读数据 */
+    public static String readFromSocket(InputStream in) {
+        try {
+
+            int MAX_BUFFER_BYTES = 1024*1024*10;
+            XLog.d("MAX_BUFFER_BYTES:"+MAX_BUFFER_BYTES);
+            String msg = "";
+            byte[] tempbuffer = new byte[MAX_BUFFER_BYTES];
+
+            int numReadedBytes = in.read(tempbuffer, 0, tempbuffer.length);
+            msg = new String(tempbuffer, 0, numReadedBytes, "utf-8");
+            return msg;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-
     }
 }

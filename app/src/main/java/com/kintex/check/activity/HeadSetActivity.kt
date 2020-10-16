@@ -4,13 +4,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.AdbBean
+import com.kintex.check.bean.KeyEventBean
 import com.kintex.check.bean.TestCase
 import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.FAILED
@@ -32,7 +33,6 @@ class HeadSetActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_headset)
         setView()
-
     }
     private var headReceiver : HeadSetReceiver ?=null
     private fun setView() {
