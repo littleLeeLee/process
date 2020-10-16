@@ -59,7 +59,13 @@
           {"caseName":"Spen Remove","caseId":44,"enable":0, "result": 1,"description": ""},
           {"caseName":"Vibration","caseId":45,"enable":1, "result": 1,"description": ""},
           {"caseName":"Wire Charge","caseId":46,"enable":1, "result": 0,"description": ""},
-          {"caseName":"Wireless Charge","caseId":47,"enable":1, "result": 1,"description": ""}
+          {"caseName":"Wireless Charge","caseId":47,"enable":1, "result": 1,"description": ""},
+          {"caseName":"NFC","caseId":48,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Multi Touch","caseId":49,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Light sensor","caseId":50,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Screen Rotation","caseId":51,"enable":1, "result": 1,"description": ""},
+          {"caseName":"BatteryHealth","caseId":52,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Dial","caseId":53,"enable":1, "result": 1,"description": ""}
                   ]
       }
 }

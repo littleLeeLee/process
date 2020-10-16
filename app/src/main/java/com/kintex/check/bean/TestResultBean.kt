@@ -6,9 +6,11 @@ class TestResultBean {
 
     var position = 0
     var result = FAILED
-
-    constructor(position: Int, result: Int) {
+    var description : String = ""
+    var itemCaseList : ArrayList<TestCase>?=null
+    constructor(position: Int, result: Int,itemCaseList : ArrayList<TestCase>?) {
         this.position = position
         this.result = result
+        this.itemCaseList = itemCaseList
     }
 }

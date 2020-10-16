@@ -20,6 +20,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.blankj.utilcode.util.Utils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.utils.PhoneInfoCheck
 import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.FAILED
@@ -37,6 +38,9 @@ import javax.crypto.SecretKey
 
 class FingerPrintActivity : BaseActivity() {
 
+    private var resultCaseList = arrayListOf<TestCase>(
+        TestCase("Fingerprint Sensor",27,"Fingerprint","",1,0)
+    )
     private var biometricPrompt : BiometricPrompt ?= null
     private var authenticationCallback : MyAuthenticationCallback ?=null
     private var isHeightVersion = false
@@ -46,7 +50,8 @@ class FingerPrintActivity : BaseActivity() {
         setContentView(R.layout.activity_fingerprint)
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
             ToastUtils.showShort("该手机版本过低")
-            sendResult(FINGER_POSITION,FAILED)
+            resultCaseList[0].result = 0
+            sendResult(FINGER_POSITION,FAILED,resultCaseList)
             return
         }
 
@@ -72,8 +77,8 @@ class FingerPrintActivity : BaseActivity() {
         }
 
         tv_titleDone.setOnClickListener {
-
-            sendResult(FINGER_POSITION, FAILED)
+            resultCaseList[0].result = 0
+            sendResult(FINGER_POSITION, FAILED,resultCaseList)
 
         }
 
@@ -86,7 +91,8 @@ class FingerPrintActivity : BaseActivity() {
         biometricPrompt = BiometricPrompt.Builder(this).setTitle("指纹验证").setDescription("请用录入的手指解锁\n短时间五次解锁失败会使指纹模块停用")
             .setNegativeButton("取消", mainExecutor, object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
-                    sendResult(FINGER_POSITION, FAILED)
+                    resultCaseList[0].result = 0
+                    sendResult(FINGER_POSITION, FAILED,resultCaseList)
                 }
             }).build()
 
@@ -103,10 +109,12 @@ class FingerPrintActivity : BaseActivity() {
             ToastUtils.showShort("指纹模块已停用，请等待30秒")
             XLog.d("onAuthenticationError$errString errorCode$errorCode")
             if(errorCode == 7 || errorCode == 9){
-                   sendResult(FINGER_POSITION, FAILED)
+                resultCaseList[0].result = 0
+                   sendResult(FINGER_POSITION, FAILED,resultCaseList)
             }else{
                 ToastUtils.showShort(errString)
-                sendResult(FINGER_POSITION, FAILED)
+                resultCaseList[0].result = 0
+                sendResult(FINGER_POSITION, FAILED,resultCaseList)
             }
 
         }
@@ -115,7 +123,8 @@ class FingerPrintActivity : BaseActivity() {
             super.onAuthenticationSucceeded(result)
             XLog.d("onAuthenticationSucceeded$result")
             ToastUtils.showShort("PASS")
-            sendResult(FINGER_POSITION, PASSED)
+            resultCaseList[0].result = 1
+            sendResult(FINGER_POSITION, PASSED,resultCaseList)
         }
 
 
@@ -148,12 +157,15 @@ class FingerPrintActivity : BaseActivity() {
                     ToastUtils.showShort("指纹模块已停用，请等待30秒")
                     XLog.d("onAuthenticationError$errString errorCode$errorCode")
                     if(errorCode == 7 || errorCode == 9){
-                        sendResult(FINGER_POSITION, FAILED)
+                        resultCaseList[0].result = 0
+                        sendResult(FINGER_POSITION, FAILED,resultCaseList)
                     }else if(errorCode == 10){
-                        sendResult(FINGER_POSITION, FAILED)
+                        resultCaseList[0].result = 0
+                        sendResult(FINGER_POSITION, FAILED,resultCaseList)
                     }else{
                         ToastUtils.showShort(errString)
-                        sendResult(FINGER_POSITION, FAILED)
+                        resultCaseList[0].result = 0
+                        sendResult(FINGER_POSITION, FAILED,resultCaseList)
                     }
                 }
 
@@ -161,7 +173,8 @@ class FingerPrintActivity : BaseActivity() {
                     super.onAuthenticationSucceeded(result)
                     XLog.d("onAuthenticationSucceeded$result")
                     ToastUtils.showShort("PASS")
-                    sendResult(FINGER_POSITION, PASSED)
+                    resultCaseList[0].result = 1
+                    sendResult(FINGER_POSITION, PASSED,resultCaseList)
                 }
 
                 override fun onAuthenticationFailed() {
@@ -246,7 +259,8 @@ class FingerPrintActivity : BaseActivity() {
             }).setCancelButton("取消", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                     dialog!!.dismiss()
-                    sendResult(ResultCode.FINGER_POSITION, ResultCode.FAILED)
+                    resultCaseList[0].result = 0
+                    sendResult(ResultCode.FINGER_POSITION, ResultCode.FAILED,resultCaseList)
                     return false
                 }
             })

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.LCD_POSITION
@@ -15,6 +16,10 @@ import kotlinx.android.synthetic.main.activity_lcd.*
 import org.greenrobot.eventbus.EventBus
 
 class LCDActivity : BaseActivity(), View.OnClickListener {
+
+    private var resultCaseList  = arrayListOf<TestCase>(
+        TestCase("LCD",37,"LCD","",1,0)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +42,13 @@ class LCDActivity : BaseActivity(), View.OnClickListener {
         when(v!!.id){
 
             R.id.tv_lcdPass->{
-                EventBus.getDefault().post(TestResultBean(LCD_POSITION, PASSED))
-                finish()
+                resultCaseList[0].result = 1
+                sendResult(LCD_POSITION, PASSED,resultCaseList)
             }
 
             R.id.tv_lcdFail->{
-                EventBus.getDefault().post(TestResultBean(LCD_POSITION, FAILED))
-                finish()
+                resultCaseList[0].result = 0
+                sendResult(LCD_POSITION, FAILED,resultCaseList)
             }
 
             R.id.tv_colorView->{
@@ -82,7 +87,6 @@ class LCDActivity : BaseActivity(), View.OnClickListener {
 
     companion object{
         fun start(context: Context){
-            XLog.d("start")
             context.startActivity(Intent(context,LCDActivity::class.java))
         }
     }

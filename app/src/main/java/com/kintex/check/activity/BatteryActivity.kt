@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.utils.ResultCode.BATTERY_POSITION
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.PASSED
@@ -20,6 +21,9 @@ import kotlinx.android.synthetic.main.title_include.*
 
 class BatteryActivity  : BaseActivity() {
 
+    private var resultCaseList = arrayListOf<TestCase>(
+        TestCase("BatteryHealth",52,"BatteryHealth","",1,0)
+    )
     private var batteryReceiver : BatteryReceiver ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,19 +49,20 @@ class BatteryActivity  : BaseActivity() {
         }
 
         tv_titleDone.setOnClickListener {
-
-            sendResult(BATTERY_POSITION, FAILED)
+            resultCaseList[0].result = 0
+            sendResult(BATTERY_POSITION, FAILED,resultCaseList)
 
         }
 
         btn_failed.setOnClickListener {
 
-            sendResult(BATTERY_POSITION, FAILED)
+            resultCaseList[0].result = 0
+            sendResult(BATTERY_POSITION, FAILED,resultCaseList)
         }
 
         btn_passed.setOnClickListener {
-
-            sendResult(BATTERY_POSITION, PASSED)
+            resultCaseList[0].result = 1
+            sendResult(BATTERY_POSITION, FAILED,resultCaseList)
         }
 
     }

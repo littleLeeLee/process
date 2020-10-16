@@ -22,6 +22,7 @@ import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.kintex.check.adapter.CameraAdapter
 import com.kintex.check.bean.CameraBean
+import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.CAM_POSITION
@@ -31,10 +32,11 @@ import com.kongzue.dialog.util.BaseDialog
 import com.kongzue.dialog.v3.MessageDialog
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.title_include.*
-import org.greenrobot.eventbus.EventBus
 
 
 class CameraActivity : BaseActivity() {
+
+
     private  val cameraManager : CameraManager by lazy { getSystemService(CameraManager::class.java)}
     private  var cameraStateCallback : CameraStateCallback?=null
     private var backGroundThread : HandlerThread?=null
@@ -42,7 +44,7 @@ class CameraActivity : BaseActivity() {
 
     private var handler : Handler?=null
 
-
+    private var resultCaseList = arrayListOf<TestCase>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,20 +73,26 @@ class CameraActivity : BaseActivity() {
 
     }
 
-    private var isFlashOpen = false
-    private var isFlashPressed = false
+
     private var cameraList = ArrayList<CameraBean>()
     private fun setView() {
 
-        tv_titleReset.text = "back"
-        tv_titleName.text = "Camera"
+        tv_titleReset.text = "Back"
+        tv_titleName.text = "Camera Test"
         tv_titleReset.setOnClickListener {
             finish()
         }
         tv_titleDone.setOnClickListener {
+            for (k in cameraList.indices){
 
-            EventBus.getDefault().post(TestResultBean(CAM_POSITION, FAILED))
-            finish()
+                if(cameraList[k].cameraState == "Pass"){
+                    resultCaseList[k].result =1
+                }else{
+                    resultCaseList[k].result =0
+                }
+
+            }
+            sendResult(CAM_POSITION, FAILED,resultCaseList)
 
         }
 
@@ -111,6 +119,7 @@ class CameraActivity : BaseActivity() {
             if(null == previewSize){
                 deviceIdList.remove(device)
             }else{
+                resultCaseList.add(TestCase("Camera",24,"Camera:${device}","",1,0))
                 cameraList.add(CameraBean(device,"UnKnown",""))
             }
 
@@ -118,6 +127,7 @@ class CameraActivity : BaseActivity() {
         //最后一个是闪光灯-1  闪光灯 改为全亮
 /*        deviceIdList.add("Flash")
         cameraList.add(CameraBean("Flash","UnKnown",""))*/
+        resultCaseList.add(TestCase("Camera",25,"Flash","",1,0))
         val cameraAdapter = CameraAdapter(this, deviceIdList,cameraManager)
 
         cameraRecyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
@@ -160,10 +170,6 @@ class CameraActivity : BaseActivity() {
     private fun editState(state : String) {
         var stateCount = cameraList.size
         var passCount = 0
-        /*if(isFlashPressed){
-            cameraList[cameraList.size-1].cameraState = state
-            tv_currentId.text = "Flash：$state"
-        }else{*/
 
             for (cameraBean in cameraList) {
 
@@ -179,15 +185,15 @@ class CameraActivity : BaseActivity() {
                 }
             }
             tv_currentId.text = openedCamera!!.id + "："+state
-    //    }
+
 
         if(stateCount ==0){
             if(passCount == cameraList.size){
                 showFlashDialog()
 
             }else{
-                EventBus.getDefault().post(TestResultBean(CAM_POSITION, FAILED))
-                finish()
+               // sendResult(CAM_POSITION, FAILED)
+                XLog.d("这里应该不会走")
             }
         }
 
@@ -217,16 +223,18 @@ class CameraActivity : BaseActivity() {
             .setOkButton("是",object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                     dialog!!.dismiss()
-                    EventBus.getDefault().post(TestResultBean(CAM_POSITION, PASSED))
-                    finish()
+                    for (testCase in resultCaseList) {
+                        testCase.result = 1
+                    }
+                    sendResult(CAM_POSITION, PASSED,resultCaseList)
                     return false
                 }
             })
             .setCancelButton("否",object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                     dialog!!.dismiss()
-                    EventBus.getDefault().post(TestResultBean(CAM_POSITION, FAILED))
-                    finish()
+                    resultCaseList[resultCaseList.size-1].result = 0
+                    sendResult(CAM_POSITION, FAILED,resultCaseList)
                     return false
                 }
             })
@@ -433,7 +441,7 @@ class CameraActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
-        try {
+   //     try {
             if(openedCamera != null){
                 openedCamera!!.close()
                 openedCamera = null
@@ -445,12 +453,11 @@ class CameraActivity : BaseActivity() {
                 backGroundThread = null
                 handler = null
             }
-        }catch (e:Exception){
-            XLog.d(e)
-        }
-
-
+      //  }catch (e:Exception){
+     //       XLog.d(e)
+    //    }
 
     }
+
 
 }

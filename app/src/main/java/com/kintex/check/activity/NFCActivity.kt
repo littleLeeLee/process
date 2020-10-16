@@ -6,6 +6,7 @@ import android.nfc.FormatException
 import android.os.Bundle
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.utils.NfcUtils
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.NFC_POSITION
@@ -17,7 +18,9 @@ import java.io.IOException
 import java.io.UnsupportedEncodingException
 
 class NFCActivity : BaseActivity() {
-
+    private var resultCaseList  = arrayListOf<TestCase>(
+        TestCase("NFC",48,"NFC","",1,0)
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nfc)
@@ -37,18 +40,19 @@ class NFCActivity : BaseActivity() {
         }
 
         tv_titleDone.setOnClickListener {
-
-            sendResult(NFC_POSITION, FAILED)
+            resultCaseList[0].result = 0
+            sendResult(NFC_POSITION, FAILED,resultCaseList)
         }
 
         btn_failed.setOnClickListener {
-            sendResult(NFC_POSITION, FAILED)
+            resultCaseList[0].result = 0
+            sendResult(NFC_POSITION, FAILED,resultCaseList)
 
         }
 
         btn_passed.setOnClickListener {
-
-            sendResult(NFC_POSITION, PASSED)
+            resultCaseList[0].result = 1
+            sendResult(NFC_POSITION, PASSED,resultCaseList)
 
         }
 

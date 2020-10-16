@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.kintex.check.bean.KeyEventBean
+import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.recevier.KeyEventReceiver
 import com.kintex.check.recevier.ScreenReceiver
@@ -199,23 +200,53 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
     private fun hasFinishTest(){
 
             if(isHomePass && isPowerPass && isMenuPass && isVolumeUpPass && isVolumeDownPass && isBackPass){
-
+                for (testCase in resultCaseList) {
+                    testCase.result = 1
+                }
                 btnHome!!.postDelayed(Runnable {
-                    EventBus.getDefault().post(TestResultBean(BUTTON_POSITION, PASSED))
-                    finish()
+                    sendResult(BUTTON_POSITION, PASSED,resultCaseList)
                 },200)
 
             }
 
     }
+    private var resultCaseList = arrayListOf<TestCase>(
+        TestCase("Buttons",30,"Power Button","",1,0),
+        TestCase("Buttons",31,"Home Button","",1,0),
+        TestCase("Buttons",32,"Volume Down Button","",1,0),
+        TestCase("Buttons",33,"Volume Up Button","",1,0),
+        TestCase("Buttons",35,"Back Button","",1,0),
+        TestCase("Buttons",36,"Menu Button","",1,0)
+    )
 
     private fun finishTest(){
         if(isHomePass && isPowerPass && isMenuPass && isVolumeUpPass && isVolumeDownPass && isBackPass){
-           EventBus.getDefault().post(TestResultBean(BUTTON_POSITION, PASSED))
-           finish()
+            for (testCase in resultCaseList) {
+                testCase.result = 1
+            }
+            sendResult(BUTTON_POSITION, PASSED,resultCaseList)
         }else{
-            EventBus.getDefault().post(TestResultBean(BUTTON_POSITION, FAILED))
-            finish()
+            if(isPowerPass){
+                resultCaseList[0].result = 1
+            }
+            if(isHomePass){
+                resultCaseList[1].result = 1
+            }
+            if(isVolumeDownPass){
+                resultCaseList[2].result = 1
+            }
+
+            if(isVolumeUpPass){
+                resultCaseList[3].result = 1
+            }
+            if(isBackPass){
+                resultCaseList[4].result = 1
+            }
+            if(isMenuPass){
+                resultCaseList[5].result = 1
+            }
+
+            sendResult(BUTTON_POSITION, FAILED,resultCaseList)
         }
     }
 

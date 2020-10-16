@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.utils.AudioUtils
 import com.kintex.check.utils.ResultCode.FAILED
@@ -20,6 +21,11 @@ import kotlin.random.Random
 
 class SpeakerActivity : BaseActivity() {
 
+    private var resultCaseList  = arrayListOf<TestCase>(
+        TestCase("Loud Speaker",11,"Loud Speaker","",1,0),
+        TestCase("Loud Speaker",15,"Microphone","",1,0),
+        TestCase("Loud Speaker",16,"Video Microphone","",1,0)
+    )
     private var mediaPlayer : MediaPlayer ?=null
     private var isComplete = false
     private var hasError = false
@@ -51,8 +57,23 @@ class SpeakerActivity : BaseActivity() {
         tv_titleName.text = "Mic Loud Speaker Test"
 
         tv_titleDone.setOnClickListener {
-            EventBus.getDefault().post(TestResultBean(MIC_LOUD_POSITION, FAILED))
-            finish()
+            if(isLoudPass){
+                resultCaseList[0].result = 1
+            }else{
+                resultCaseList[0].result = 0
+            }
+            if(isMicPass){
+                resultCaseList[1].result = 1
+            }else{
+                resultCaseList[1].result = 0
+            }
+
+            if(isVideoMicPass){
+                resultCaseList[2].result = 1
+            }else{
+                resultCaseList[2].result = 0
+            }
+            sendResult(MIC_LOUD_POSITION, FAILED,resultCaseList)
         }
         tv_play.setOnClickListener {
 
@@ -214,12 +235,29 @@ class SpeakerActivity : BaseActivity() {
                     tv_videoMic.postDelayed(Runnable {
 
                         if(isLoudPass && isMicPass && isVideoMicPass){
-
-                            EventBus.getDefault().post(TestResultBean(MIC_LOUD_POSITION, PASSED))
+                            for (testCase in resultCaseList) {
+                                testCase.result = 1
+                            }
+                            EventBus.getDefault().post(TestResultBean(MIC_LOUD_POSITION, PASSED,resultCaseList))
 
                         }else{
+                            if(isLoudPass){
+                                resultCaseList[0].result = 1
+                            }else{
+                                resultCaseList[0].result = 0
+                            }
+                            if(isMicPass){
+                                resultCaseList[1].result = 1
+                            }else{
+                                resultCaseList[1].result = 0
+                            }
 
-                            EventBus.getDefault().post(TestResultBean(MIC_LOUD_POSITION, FAILED))
+                            if(isVideoMicPass){
+                                resultCaseList[2].result = 1
+                            }else{
+                                resultCaseList[2].result = 0
+                            }
+                            sendResult(MIC_LOUD_POSITION, FAILED,resultCaseList)
 
                         }
                         finish()

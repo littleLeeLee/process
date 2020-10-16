@@ -17,6 +17,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.kintex.check.adapter.MainListAdapter
+import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestPlanBean
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.other.AdbTestActivity
@@ -49,6 +50,7 @@ import com.kongzue.dialog.interfaces.OnDialogButtonClickListener
 import com.kongzue.dialog.util.BaseDialog
 import com.kongzue.dialog.v3.MessageDialog
 import com.tbruyelle.rxpermissions2.RxPermissions
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.title_include.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -80,6 +82,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         TestPlanBean("FingerPrint","Test Fingerprint.",R.mipmap.wifi,0)
     )
 
+    private var testPlanResultList = arrayListOf<TestCase>()
+
 
     private var ryMainList : RecyclerView ?= null
     private var adapter: MainListAdapter?=null
@@ -96,7 +100,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         done = findViewById(R.id.tv_titleDone)
         reset!!.setOnClickListener(this)
         done!!.setOnClickListener(this)
-        findViewById<WaveView>(R.id.view_testStart).setOnClickListener(this)
+        //findViewById<WaveView>(R.id.view_testStart).setOnClickListener(this)
+        iv_start.setOnClickListener(this)
         findViewById<TextView>(R.id.tv_titleName).setOnClickListener(this)
         setView()
     //    startAutoTest(0)
@@ -109,7 +114,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
         val smoothLinearLayoutManager =
             SmoothLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
+        ryMainList!!.setItemViewCacheSize(20)
         ryMainList!!.layoutManager = smoothLinearLayoutManager
         adapter!!.setOnItemClickListener(object : MainListAdapter.onItemClickListener{
             override fun onItemClick(view: View, position: Int) {
@@ -301,6 +306,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         ProximityActivity.start(this@MainActivity)
 
     }
+    private var vibratorCaseList = arrayListOf<TestCase>(
+        TestCase("Vibration", 45, "Vibration", "", 1, 0)
+    )
 
     private var vibrator: Vibrator?=null
     private fun checkVibration() {
@@ -317,7 +325,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                         vibrator!!.cancel()
                         dialog!!.dismiss()
-                        updateUI(TestResultBean(VIBRATION_POSITION, PASSED))
+                        vibratorCaseList[0].result =1
+                        updateUI(TestResultBean(VIBRATION_POSITION, PASSED,vibratorCaseList))
                         return false
                     }
                 })
@@ -325,7 +334,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                         vibrator!!.cancel()
                         dialog!!.dismiss()
-                        updateUI(TestResultBean(VIBRATION_POSITION, FAILED))
+                        vibratorCaseList[0].result =0
+                        updateUI(TestResultBean(VIBRATION_POSITION, FAILED,vibratorCaseList))
                         return false
 
                     }
@@ -357,19 +367,37 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.tv_titleDone -> {
-
-
-
+                showTestSummary()
             }
 
-            R.id.view_testStart ->{
+            /*R.id.view_testStart ->{
                 resetTest()
                 startAutoTest(0)
 
+            }*/
+            R.id.iv_start->{
+                resetTest()
+                startAutoTest(0)
             }
 
         }
+    }
 
+
+    private fun updateSummary(arrayList: ArrayList<TestCase>){
+
+        if(testPlanResultList.size == 0){
+            testPlanResultList.addAll(arrayList)
+        }else{
+
+            for (testCase in arrayList) {
+
+
+
+            }
+
+
+        }
 
     }
 
@@ -380,24 +408,31 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             testPlanList[k].clickState = false
         }
 
-        updateUI(TestResultBean(RESET, DEFAULT))
+        updateUI(TestResultBean(RESET, DEFAULT,null))
 
     }
 
-
+    private var gpsCaseList = arrayListOf<TestCase>(
+        TestCase("GPS", 4, "GPS", "", 1, 0)
+    )
     //检测GPS
     private fun checkGPS() {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val locationEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         val netLocationEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         if(locationEnabled || netLocationEnabled){
-            updateUI(TestResultBean(GPS_POSITION, PASSED))
+            gpsCaseList[0].result = 1
+            updateUI(TestResultBean(GPS_POSITION, PASSED,gpsCaseList))
         }else{
-            updateUI(TestResultBean(GPS_POSITION,FAILED))
+            gpsCaseList[0].result = 0
+            updateUI(TestResultBean(GPS_POSITION,FAILED,gpsCaseList))
         }
 
     }
 
+    private var wifiCaseList = arrayListOf<TestCase>(
+        TestCase("WiFi", 3, "WiFi", "", 1, 0)
+    )
 
     //检测wifi
     private fun checkWifi() {
@@ -410,26 +445,35 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         val checkWifiIsConnect = CheckWifiManager.checkWifiIsConnect()
         XLog.d(checkWifiIsConnect)
             if(checkWifiIsConnect){
-                updateUI(TestResultBean(WIFI_POSITION,PASSED))
+                wifiCaseList[0].result = 1
+                updateUI(TestResultBean(WIFI_POSITION,PASSED,wifiCaseList))
             }else{
-                updateUI(TestResultBean(WIFI_POSITION,FAILED))
+                wifiCaseList[0].result = 0
+                updateUI(TestResultBean(WIFI_POSITION,FAILED,wifiCaseList))
             }
 
     }
 
+
+    private var blueToothCaseList = arrayListOf<TestCase>(
+        TestCase("BlueTooth", 5, "BlueTooth", "", 1, 0)
+    )
     //检测蓝牙
     private fun checkBlueTooth() {
 
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         val adapter = bluetoothManager.adapter
         if(adapter.isEnabled){
-            updateUI(TestResultBean(BLUETOOTH_POSITION,PASSED))
+            blueToothCaseList[0].result = 1
+            updateUI(TestResultBean(BLUETOOTH_POSITION,PASSED,blueToothCaseList))
         }else{
             val enable = adapter.enable()
             if(enable){
-                updateUI(TestResultBean(BLUETOOTH_POSITION,PASSED))
+                blueToothCaseList[0].result = 1
+                updateUI(TestResultBean(BLUETOOTH_POSITION,PASSED,blueToothCaseList))
             }else{
-                updateUI(TestResultBean(BLUETOOTH_POSITION,FAILED))
+                blueToothCaseList[0].result = 0
+                updateUI(TestResultBean(BLUETOOTH_POSITION,FAILED,blueToothCaseList))
             }
         }
 
@@ -441,7 +485,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     //更新UI 界面
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun updateUI(resultBean: TestResultBean){
-        XLog.d("updateUI")
+        XLog.d("updateUI:${resultBean.position}")
         var position = resultBean.position
         var result = resultBean.result
         //-1 是一个特殊的参数  用来显示重置状态的list
@@ -452,12 +496,16 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
         testPlanList[position].planResult = result
         testPlanList[position].clickState = true
-        adapter!!.notifyItemChanged(position)
+        if(resultBean.itemCaseList != null){
+            testPlanList[position].resultItemList = resultBean.itemCaseList!!
+        }
+
         //测试异常不会滑动
         if(result == FAILED && !isAutoMode){
-
+            adapter!!.notifyItemChanged(position)
             return
         }
+        adapter!!.notifyItemChanged(position)
         ryMainList!!.postDelayed(
             Runnable {
                 runOnUiThread(Runnable {
@@ -471,9 +519,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
                     if(isAutoMode){
 
-                        if(position < testPlanList.size-1 ){
+                        if(position < testPlanList.size-1){
                             startAutoTest(position + 1)
-                            XLog.d(" startAutoTest ${position + 1}")
+                            XLog.d(" startAutoTest: ${position + 1}")
+                        }else if(position == testPlanList.size-1){
+                            showTestSummary()
+
                         }
 
                     }
@@ -483,6 +534,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         )
 
 
+
+    }
+
+    private fun showTestSummary() {
+
+        ShowResultActivity.start(this,testPlanList)
 
     }
 
@@ -555,6 +612,14 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
             NFC_POSITION->{
                 checkNFC()
+            }
+
+            TOUCH_POSITION->{
+                checkTouchCount()
+            }
+
+            FINGER_POSITION->{
+                checkFingerPrint()
             }
 
 

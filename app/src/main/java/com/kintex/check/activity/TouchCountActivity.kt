@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.PASSED
 import com.kintex.check.utils.ResultCode.TOUCH_POSITION
@@ -13,7 +14,9 @@ import kotlinx.android.synthetic.main.activity_touch_count.*
 import kotlinx.android.synthetic.main.title_include.*
 
 class TouchCountActivity : BaseActivity() {
-
+    private var resultCaseList  = arrayListOf<TestCase>(
+        TestCase("Multi Touch",49,"Multi Touch","",1,0)
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_touch_count)
@@ -31,22 +34,21 @@ class TouchCountActivity : BaseActivity() {
         tv_titleName.text = "TouchCount Test"
 
         tv_titleDone.setOnClickListener {
-
-            sendResult(TOUCH_POSITION, FAILED)
+            resultCaseList[0].result = 0
+            sendResult(TOUCH_POSITION, FAILED,resultCaseList)
 
         }
 
 
         btn_failed.setOnClickListener {
-
-            sendResult(TOUCH_POSITION, FAILED)
+            resultCaseList[0].result = 0
+            sendResult(TOUCH_POSITION, FAILED,resultCaseList)
 
         }
 
         btn_passed.setOnClickListener {
-
-            sendResult(TOUCH_POSITION, PASSED)
-
+            resultCaseList[0].result = 1
+            sendResult(TOUCH_POSITION, PASSED,resultCaseList)
         }
 
     }

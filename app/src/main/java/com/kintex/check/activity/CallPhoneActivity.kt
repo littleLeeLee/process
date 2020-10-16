@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.utils.ResultCode
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener
 import com.kongzue.dialog.util.BaseDialog
@@ -27,6 +28,11 @@ import javax.xml.parsers.FactoryConfigurationError
 
 class CallPhoneActivity : BaseActivity() {
 
+    private var resultCaseList = arrayListOf<TestCase>(
+        TestCase("Dial",1,"SimReader","",1,0),
+        TestCase("Dial",53,"Dial","",1,0)
+
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_callphone)
@@ -41,8 +47,10 @@ class CallPhoneActivity : BaseActivity() {
         val simState = teleManager!!.simState
         if(simState == TelephonyManager.SIM_STATE_ABSENT || simState == TelephonyManager.SIM_STATE_UNKNOWN){
             tv_simState.text = "没有发现SIM卡"
+            resultCaseList[0].result = 0
         }else{
             tv_simState.text = "SIM卡已插入"
+            resultCaseList[0].result = 1
         }
 
         phoneListener = MyPhoneStateListener()
@@ -59,10 +67,8 @@ class CallPhoneActivity : BaseActivity() {
         }
         tv_titleName.text = "CallPhone Test"
         tv_titleDone.setOnClickListener {
-
-            sendResult(ResultCode.TEST_CALL_POSITION, ResultCode.FAILED)
-            finish()
-
+            resultCaseList[1].result = 0
+            sendResult(ResultCode.TEST_CALL_POSITION, ResultCode.FAILED,resultCaseList)
         }
 
         btn_callPhone.setOnClickListener {
@@ -137,13 +143,15 @@ class CallPhoneActivity : BaseActivity() {
             .setOkButton("是", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                     dialog!!.dismiss()
-                    sendResult(ResultCode.TEST_CALL_POSITION, ResultCode.PASSED)
+                    resultCaseList[1].result = 1
+                    sendResult(ResultCode.TEST_CALL_POSITION, ResultCode.PASSED,resultCaseList)
                     return false
                 }
             }).setCancelButton("否", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                     dialog!!.dismiss()
-                    sendResult(ResultCode.TEST_CALL_POSITION, ResultCode.FAILED)
+                    resultCaseList[1].result = 0
+                    sendResult(ResultCode.TEST_CALL_POSITION, ResultCode.FAILED,resultCaseList)
                     return false
                 }
             })

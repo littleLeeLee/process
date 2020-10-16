@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.utils.MyUtils
 import com.zyao89.view.zloading.ZLoadingDialog
@@ -62,9 +63,9 @@ import java.lang.Exception
         }
     }
 
-     fun sendResult(position:Int,result :Int){
+     fun sendResult(position:Int,result :Int,caseList: ArrayList<TestCase>){
 
-         EventBus.getDefault().post(TestResultBean(position,result))
+         EventBus.getDefault().post(TestResultBean(position,result,caseList))
          finish()
      }
 

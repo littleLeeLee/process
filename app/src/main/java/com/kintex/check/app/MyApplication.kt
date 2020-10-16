@@ -11,11 +11,13 @@ import com.elvishew.xlog.printer.AndroidPrinter
 import com.elvishew.xlog.printer.file.FilePrinter
 import com.kintex.check.BuildConfig
 import com.kongzue.dialog.util.DialogSettings
+import com.tencent.bugly.crashreport.CrashReport
 
 class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        CrashReport.initCrashReport(applicationContext, "b71e843921", true)
         initLog()
         Utils.init(this)
         DialogSettings.isUseBlur = (true)                   //是否开启模糊效果，默认关闭

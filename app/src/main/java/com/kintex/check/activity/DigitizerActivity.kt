@@ -9,13 +9,19 @@ import android.widget.GridLayout
 import android.widget.TextView
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.utils.ResultCode.DIGITIZER_POSITION
+import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.PASSED
 import kotlinx.android.synthetic.main.activity_digitizer.*
 import org.greenrobot.eventbus.EventBus
 
 class DigitizerActivity  : BaseActivity(), View.OnTouchListener {
+
+    private var resultCaseList  = arrayListOf<TestCase>(
+        TestCase("Digitizer",38,"Touch Screen","",1,0)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +36,24 @@ class DigitizerActivity  : BaseActivity(), View.OnTouchListener {
     private var viewList = ArrayList<TextView>()
 
     private fun setView() {
+
+        tv_digitizerFailed.setOnClickListener {
+            resultCaseList[0].result = 0
+            sendResult(DIGITIZER_POSITION, FAILED,resultCaseList)
+
+        }
+
+        tv_failed1.setOnClickListener {
+            resultCaseList[0].result = 0
+            sendResult(DIGITIZER_POSITION, FAILED,resultCaseList)
+
+        }
+
+        tv_failed2.setOnClickListener {
+            resultCaseList[0].result = 0
+            sendResult(DIGITIZER_POSITION, FAILED,resultCaseList)
+
+        }
 
         for( i in 0..15){
             for(j in 0..8){
@@ -73,8 +97,8 @@ class DigitizerActivity  : BaseActivity(), View.OnTouchListener {
     private fun checkCount() {
 
         if(touchCount == 144){
-            EventBus.getDefault().post(TestResultBean(DIGITIZER_POSITION, PASSED))
-            finish()
+            resultCaseList[0].result = 1
+            sendResult(DIGITIZER_POSITION, PASSED,resultCaseList)
         }
 
     }

@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.PASSED
@@ -22,6 +23,9 @@ import org.greenrobot.eventbus.EventBus
 
 class ProximityActivity : BaseActivity() {
 
+    private var resultCaseList  = arrayListOf<TestCase>(
+        TestCase("Proximity Sensor",8,"Proximity Sensor","",1,0)
+    )
     private var firstValue = -1
     private var isFirst = true
     private var sensorManager: SensorManager?=null
@@ -38,10 +42,8 @@ class ProximityActivity : BaseActivity() {
         sensorManager!!.registerListener(proximityLicenser,proximitySensor,SensorManager.SENSOR_DELAY_NORMAL)
 
         tv_titleDone.setOnClickListener {
-
-            EventBus.getDefault().post(TestResultBean(PROXIMITY_POSITION, FAILED))
-            finish()
-
+            resultCaseList[0].result = 0
+            sendResult(PROXIMITY_POSITION, FAILED,resultCaseList)
         }
         tv_titleName.text = "Proximity Sensor"
         tv_titleReset.setOnClickListener {
@@ -84,8 +86,8 @@ class ProximityActivity : BaseActivity() {
                         // showDialog("通过")
                         ToastUtils.showShort("通过")
                         proximity!!.postDelayed(Runnable {
-                            EventBus.getDefault().post(TestResultBean(PROXIMITY_POSITION, PASSED))
-                            finish()
+                            resultCaseList[0].result = 1
+                            sendResult(PROXIMITY_POSITION, PASSED,resultCaseList)
                         },200)
 
                     }

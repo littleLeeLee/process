@@ -8,12 +8,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.kintex.check.R;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.InetAddress;
@@ -42,7 +45,32 @@ public class AdbTestActivity extends Activity {
         setContentView(R.layout.activity_testadb);
         cmd = (TextView) findViewById(R.id.tv_adbResult);
         MySocketServer.startListen(this);
+
     }
+
+    private void startSocket() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                PrintStream out = null;
+                BufferedReader br = null;
+                try {
+                    Socket socket = new Socket(InetAddress.getByName("192.168.0.240"), 10086);
+                    out = new PrintStream(socket.getOutputStream(), true, "UTF8");
+                    br = new BufferedReader(new InputStreamReader(
+                            socket.getInputStream()));
+                    out.println("客户端连接成功！");
+                    out.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
+    }
+
 
     private static class NetState{
 
@@ -69,13 +97,10 @@ public class AdbTestActivity extends Activity {
             mContext = ctx;
             Thread serverSocketListen = new Thread(new MySocketServer());
             serverSocketListen.start();
-
             Log.e(TAG, "-startListen()");
         }
 
-        public static void stopListen() {
 
-        }
 
         @Override
         public void run() {
@@ -103,6 +128,8 @@ public class AdbTestActivity extends Activity {
         }
     }
 
+    static   Scanner in;
+    static PrintStream out;
     static class ConnectionHandle implements Runnable {
         public static final String TAG = "ConnectionHandle:";
         public static final String DELIMITER = "##";
@@ -128,8 +155,8 @@ public class AdbTestActivity extends Activity {
                     InputStream inStream = connectedSocket.getInputStream();
                     OutputStream outStream = connectedSocket.getOutputStream();
 
-                    Scanner in = new Scanner(inStream, "UTF8");
-                    PrintStream out = new PrintStream(outStream, true, "UTF8");
+                     in = new Scanner(inStream, "UTF8");
+                     out = new PrintStream(outStream, true, "UTF8");
                     //PrintWriter out = new PrintWriter(outStream, true);
 
                     //InputStreamReader  reader  = new InputStreamReader(inStream, "UTF8");
@@ -176,5 +203,12 @@ public class AdbTestActivity extends Activity {
             }
             Log.e(TAG, "-run()");
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
     }
 }

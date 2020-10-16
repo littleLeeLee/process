@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.view.View
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.HEADSET_POSITION
@@ -22,10 +23,14 @@ import kotlinx.android.synthetic.main.title_include.*
 
 class HeadSetActivity : BaseActivity() {
 
+    private var resultCaseList  = arrayListOf<TestCase>(
+        TestCase("Headset Port",20,"Headset Port","",1,0),
+        TestCase("Headset Port",18,"Headset-Left","",1,0),
+        TestCase("Headset Port",19,"Headset-Right","",1,0)
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_headset)
-
         setView()
 
     }
@@ -39,8 +44,9 @@ class HeadSetActivity : BaseActivity() {
         }
         tv_titleName.text = "HeadSet Test"
         tv_titleDone.setOnClickListener {
-
-            sendResult(HEADSET_POSITION, FAILED)
+            resultCaseList[1].result = 0
+            resultCaseList[2].result = 0
+            sendResult(HEADSET_POSITION, FAILED,resultCaseList)
             finish()
 
         }
@@ -111,13 +117,18 @@ class HeadSetActivity : BaseActivity() {
             .setOkButton("是", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                     dialog!!.dismiss()
-                    sendResult(ResultCode.HEADSET_POSITION, ResultCode.PASSED)
+                    for (testCase in resultCaseList) {
+                        testCase.result = 1
+                    }
+                    sendResult(ResultCode.HEADSET_POSITION, ResultCode.PASSED,resultCaseList)
                     return false
                 }
             }).setCancelButton("否", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                     dialog!!.dismiss()
-                    sendResult(ResultCode.HEADSET_POSITION, ResultCode.FAILED)
+                    resultCaseList[1].result = 0
+                    resultCaseList[2].result = 0
+                    sendResult(ResultCode.HEADSET_POSITION, ResultCode.FAILED,resultCaseList)
                     return false
                 }
             })
@@ -147,6 +158,7 @@ class HeadSetActivity : BaseActivity() {
                 Intent.ACTION_HEADSET_PLUG->{
                     val state = intent!!.getIntExtra("state", 0)
                     if(state ==1){
+                        resultCaseList[0].result = 1
                         XLog.d("插入")
                         isFirst = true
                         playWithHeadSet()

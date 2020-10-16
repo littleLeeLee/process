@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.View
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.MIC_EAR_POSITION
 import com.kintex.check.utils.ResultCode.PASSED
@@ -22,6 +23,9 @@ import org.greenrobot.eventbus.EventBus
 
 class MicEarActivity  : BaseActivity(){
 
+    private var resultCaseList  = arrayListOf<TestCase>(
+        TestCase("Earpiece",12,"Earpiece","",1,0)
+    )
     private var mediaPlayer : MediaPlayer ?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +35,8 @@ class MicEarActivity  : BaseActivity(){
 
     private fun setView() {
         tv_titleDone.setOnClickListener {
-            sendResult(MIC_EAR_POSITION, FAILED)
-            finish()
+            resultCaseList[0].result = 0
+            sendResult(MIC_EAR_POSITION, FAILED,resultCaseList)
 
         }
         tv_titleName.text = "MIC EAR TEST"
@@ -95,7 +99,8 @@ class MicEarActivity  : BaseActivity(){
                     tv_testMicEar.text = "PASS"
                     tv_testMicEar.setTextColor(Color.GREEN)
                     dialog!!.dismiss()
-                    sendResult(MIC_EAR_POSITION, PASSED)
+                    resultCaseList[0].result = 1
+                    sendResult(MIC_EAR_POSITION, PASSED,resultCaseList)
                     return false
                 }
             }).setCancelButton("否", object : OnDialogButtonClickListener {
@@ -103,7 +108,8 @@ class MicEarActivity  : BaseActivity(){
                     tv_testMicEar.text = "FAIL"
                     tv_testMicEar.setTextColor(Color.GREEN)
                     dialog!!.dismiss()
-                    sendResult(MIC_EAR_POSITION, FAILED)
+                    resultCaseList[0].result = 0
+                    sendResult(MIC_EAR_POSITION, FAILED,resultCaseList)
                     return false
                 }
             })

@@ -11,6 +11,7 @@ import android.os.Bundle
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.FAILED
@@ -28,6 +29,12 @@ import javax.microedition.khronos.opengles.GL10
 
 class AccelerometerActivity : BaseActivity() ,SensorEventListener{
 
+    private var testCaseList = arrayListOf<TestCase>(
+        TestCase("Accelerometer",9,"Accelerometer","",1,0),
+        TestCase("Accelerometer",50,"Light sensor","",1,0),
+        TestCase("Accelerometer",6,"Gyroscope","",1,0),
+        TestCase("Accelerometer",51,"Screen Rotation","",1,0)
+    )
      var sensorManager : SensorManager ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,9 +51,29 @@ class AccelerometerActivity : BaseActivity() ,SensorEventListener{
 
         }
         tv_titleDone.setOnClickListener {
+            if(isAccPassed){
+                testCaseList[0].result = 1
+            }else{
+                testCaseList[0].result = 0
+            }
 
-            EventBus.getDefault().post(TestResultBean(ResultCode.ACCELEROMETER_POSITION, FAILED))
-            finish()
+            if(isLightPassed){
+                testCaseList[1].result = 1
+            }else{
+                testCaseList[1].result = 0
+            }
+            if(isGyrPassed){
+                testCaseList[2].result = 1
+            }else{
+                testCaseList[2].result = 0
+            }
+            if(isScrPassed){
+                testCaseList[3].result = 1
+            }else{
+                testCaseList[3].result = 0
+            }
+
+            sendResult(ResultCode.ACCELEROMETER_POSITION, FAILED,testCaseList)
 
         }
 
@@ -283,9 +310,11 @@ class AccelerometerActivity : BaseActivity() ,SensorEventListener{
     private fun checkPassed() {
 
         if(isGraPassed && isGyrPassed && isAccPassed && isLightPassed && isScrPassed){
-            EventBus.getDefault().post(TestResultBean(ResultCode.ACCELEROMETER_POSITION,PASSED))
-            ToastUtils.showShort("通过")
-            finish()
+            for (testCase in testCaseList) {
+                testCase.result = 1
+
+            }
+            sendResult(ResultCode.ACCELEROMETER_POSITION,PASSED,testCaseList)
         }
 
     }
