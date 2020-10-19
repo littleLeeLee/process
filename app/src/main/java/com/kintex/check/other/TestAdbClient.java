@@ -1,10 +1,15 @@
 package com.kintex.check.other;
 
+import com.xuhao.didi.core.iocore.interfaces.ISendable;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class TestAdbClient {
@@ -17,7 +22,7 @@ public class TestAdbClient {
     public void actionPerformed() {
         // TODO Auto-generated method stub
         Socket socket = null;
-        PrintStream out = null;
+     //   PrintStream out = null;
         BufferedReader br = null;
         try {
             //adb forward tcp:8000 tcp:10086
@@ -25,21 +30,24 @@ public class TestAdbClient {
             socket = new Socket(InetAddress.getByName("127.0.0.1"), 8000);
             socket.setSendBufferSize(1024 *1024 *10 );
             socket.setReceiveBufferSize(1024 *1024 *10 );
-            out = new PrintStream(socket.getOutputStream(), true, "UTF8");
+            OutputStream outputStream = socket.getOutputStream();
+            //    out = new PrintStream(socket.getOutputStream(), true, "UTF8");
             br = new BufferedReader(new InputStreamReader(
                     socket.getInputStream()));
-
+            byte[] parse = parse(json);
 
             String msg;
             Scanner scanner = new Scanner(System.in, "UTF-8");
             msg = br.readLine();
             System.out.println("客户端返回：" + msg);
-            out.println(json);
-            out.flush();
+            outputStream.write(parse);
+            outputStream.flush();
+        //    out.println(json);
+        //    out.flush();
             while(scanner.hasNext()){
                 msg = scanner.nextLine();
-                out.println(json);
-                out.flush();
+          //      out.println(json);
+           //     out.flush();
                 System.out.println("消息已发送：" + msg);
                 if(msg.equals("exit")){
                     return;
@@ -49,9 +57,9 @@ public class TestAdbClient {
             e1.printStackTrace();
         } finally {
             try {
-                if (out != null) {
+                /*if (out != null) {
                     out.close();
-                }
+                }*/
                 if (br != null) {
                     br.close();
                 }
@@ -65,4 +73,15 @@ public class TestAdbClient {
         }
 
     }
+
+
+    public byte[] parse(String content) {
+        byte[] body = content.getBytes(Charset.defaultCharset());
+        ByteBuffer bb = ByteBuffer.allocate(4 + body.length);
+        bb.order(ByteOrder.BIG_ENDIAN);
+        bb.putInt(body.length);
+        bb.put(body);
+        return bb.array();
+    }
+
 }

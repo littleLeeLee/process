@@ -29,6 +29,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class AdbTestActivity extends Activity {
@@ -129,6 +130,7 @@ public class AdbTestActivity extends Activity {
 
                 int connIndex = 0;
                 ServerSocket serverSocket = new ServerSocket(serverListenPort);//, connectionMaxLength, InetAddress.getByName(serverIpString));
+                serverSocket.setReceiveBufferSize(1024*1024*10);
                 Message.obtain(handler, 0, "- address:" + serverSocket.getLocalSocketAddress() + "\n").sendToTarget();
 
                 while (true) {
@@ -172,13 +174,20 @@ public class AdbTestActivity extends Activity {
                     InputStream inStream = connectedSocket.getInputStream();
                     OutputStream outStream = connectedSocket.getOutputStream();
                     Scanner in = new Scanner(inStream, "UTF8");
-
+                    byte[] readBuffer = new byte[1024 * 1024 * 10];
+                    int read = inStream.read(readBuffer);
+                    if(read != -1){
+                        String s = new String(readBuffer, Charset.forName("utf-8"));
+                        Message.obtain(handler, 0, "-第" +connIndex+ "次成功接收消息: " + s + "\n").sendToTarget();
+                    }else {
+                        XLog.d("-11111");
+                    }
                     out = new PrintStream(outStream, true, "UTF8");
                     out.println("客户端连接成功！");
                     out.flush();
                     boolean done = false;
-                    while (!done && in.hasNext()) {
-                        String token = in.next();
+                    while (!done  ) {
+                        /*String token = in.next();
                         stringBuffer.append(token);
                         XLog.d("token" + token);
                         Message.obtain(handler, 0, "-第" +connIndex+ "次成功接收消息: " + token + "\n").sendToTarget();
@@ -186,7 +195,13 @@ public class AdbTestActivity extends Activity {
                         out.flush();
                         if (token.equals("exit")) {
                             done = true;
-                        }
+                        }*/
+                        /*readBuffer = new byte[1024 * 1024 * 10];
+                        read = inStream.read(readBuffer);
+                        if(read != -1){
+                            String s = new String(readBuffer, Charset.forName("utf-8"));
+                            Message.obtain(handler, 0, "-第" +connIndex+ "次成功接收消息: " + s + "\n").sendToTarget();
+                        }*/
                     }
 
                    /* String toString = readFromSocket(inStream);

@@ -70,7 +70,6 @@ dependencies {
     //进度条
     implementation 'com.zyao89:zloading:1.2.0'
     //socket.io-----
-    implementation 'io.socket:socket.io-client:1.0.0'
 
     //公交车
     implementation 'org.greenrobot:eventbus:3.1.1'
@@ -92,10 +91,10 @@ dependencies {
     //对话框
     implementation 'com.kongzue.dialog_v3x:dialog:3.2.4'
     //socket
-    //基础的 OkSocket 功能集成包.您的Socket开发无论是客户端还是Java,都需要此包 (必须集成)
-    implementation 'com.tonystark.android:socket:4.1.0'
-    //如果您需要使用 OkSocketServer 功能在客户端或者Java程序,您还需要依赖下面的Server插件包和上面的一起依赖.
-    implementation 'com.tonystark.android:socket-server:4.1.0'
+    //Basic Socket client functionality
+    implementation 'com.tonystark.android:socket:4.2.3'
+    //If you want to use server functionality, you need to compile the following libraries
+    implementation 'com.tonystark.android:socket-server:4.2.3'
     //bugly
     implementation 'com.tencent.bugly:crashreport:3.2.422'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.471'
