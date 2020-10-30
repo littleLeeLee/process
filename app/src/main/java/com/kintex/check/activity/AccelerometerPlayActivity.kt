@@ -41,7 +41,7 @@ class AccelerometerPlayActivity : Activity() {
     private var mWindowManager: WindowManager? = null
     private var mDisplay: Display? = null
     private var mWakeLock: WakeLock? = null
-    /** Called when the activity is first created.  */
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Get an instance of the SensorManager
@@ -75,11 +75,6 @@ class AccelerometerPlayActivity : Activity() {
 
     override fun onPause() {
         super.onPause()
-        /*
-         * When the activity is paused, we make sure to stop the simulation,
-         * release our sensor resources and wake locks
-         */
-// Stop the simulation
         mSimulationView!!.stopSimulation()
         // and release our wake-lock
         mWakeLock!!.release()
@@ -103,11 +98,6 @@ class AccelerometerPlayActivity : Activity() {
         private var mVerticalBound = 0f
         private val mParticleSystem: ParticleSystem
 
-        /*
-         * Each of our particle holds its previous and current position, its
-         * acceleration. for added realism each particle has its own friction
-         * coefficient.
-         */
         internal inner class Particle : View {
             var mPosX = Math.random().toFloat()
             var mPosY = Math.random().toFloat()
@@ -146,12 +136,7 @@ class AccelerometerPlayActivity : Activity() {
                 mVelY += ay * dT
             }
 
-            /*
-             * Resolving constraints and collisions with the Verlet integrator
-             * can be very simple, we simply need to move a colliding or
-             * constrained particle in such way that the constraint is
-             * satisfied.
-             */
+
             fun resolveCollisionWithBounds() {
                 val xmax = mHorizontalBound
                 val ymax = mVerticalBound
@@ -174,19 +159,14 @@ class AccelerometerPlayActivity : Activity() {
             }
         }
 
-        /*
-         * A particle system is just a collection of particles
-         */
+
         internal inner class ParticleSystem {
             val mBalls =
                 arrayOfNulls<Particle>(
                     5
                 )
 
-            /*
-             * Update the position of each particle in the system using the
-             * Verlet integrator.
-             */
+
             private fun updatePositions(
                 sx: Float,
                 sy: Float,
@@ -205,11 +185,7 @@ class AccelerometerPlayActivity : Activity() {
                 mLastT = timestamp
             }
 
-            /*
-             * Performs one iteration of the simulation. First updating the
-             * position of all the particles and resolving the constraints and
-             * collisions.
-             */
+
             fun update(
                 sx: Float,
                 sy: Float,
@@ -218,12 +194,7 @@ class AccelerometerPlayActivity : Activity() {
                 updatePositions(sx, sy, now)
                 // We do no more than a limited number of iterations
                 val NUM_MAX_ITERATIONS = 10
-                /*
-                 * Resolve collisions, each particle is tested against every
-                 * other particle for collision. If a collision is detected the
-                 * particle is moved away using a virtual spring of infinite
-                 * stiffness.
-                 */
+
                 var more = true
                 val count = mBalls.size
                 var k = 0
@@ -293,13 +264,7 @@ class AccelerometerPlayActivity : Activity() {
             }
         }
 
-        fun startSimulation() { /*
-             * It is not necessary to get accelerometer events at a very high
-             * rate, by using a slower rate (SENSOR_DELAY_UI), we get an
-             * automatic low-pass filter, which "extracts" the gravity component
-             * of the acceleration. As an added benefit, we use less power and
-             * CPU resources.
-             */
+        fun startSimulation() {
             mSensorManager!!.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME)
         }
 

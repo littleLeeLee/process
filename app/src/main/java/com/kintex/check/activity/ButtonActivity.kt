@@ -60,7 +60,7 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
         titleHome!!.text = "Button Test"
         titleBack = findViewById(R.id.tv_titleReset)
         titleBack!!.setOnClickListener(this)
-        titleBack!!.text = "back"
+        titleBack!!.text = "Back"
         titleDone = findViewById(R.id.tv_titleDone)
         titleDone!!.setOnClickListener(this)
 
@@ -130,7 +130,6 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
             }
 
         }
-
 
         return super.onKeyDown(keyCode, event)
 
@@ -216,7 +215,8 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
         TestCase("Buttons",32,"Volume Down Button","",1,0),
         TestCase("Buttons",33,"Volume Up Button","",1,0),
         TestCase("Buttons",35,"Back Button","",1,0),
-        TestCase("Buttons",36,"Menu Button","",1,0)
+        TestCase("Buttons",36,"Menu Button","",1,0),
+        TestCase("Buttons",34,"Flip Switch","",0,0)
     )
 
     private fun finishTest(){

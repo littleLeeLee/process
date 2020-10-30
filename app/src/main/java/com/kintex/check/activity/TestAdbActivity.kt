@@ -7,11 +7,7 @@ import android.util.Log
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
-import com.kintex.check.bean.AdbBean
-import kotlinx.android.synthetic.main.activity_testadb.*
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import java.io.*
 import java.net.ServerSocket
 import java.net.Socket
@@ -56,10 +52,6 @@ class TestAdbActivity : BaseActivity() {
 
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun readMessageFromAdb( adbBean: AdbBean){
-        tv_adbResult.append("\n"+adbBean.resultMessage)
-    }
 
 
      class AndroidServer : Thread() {

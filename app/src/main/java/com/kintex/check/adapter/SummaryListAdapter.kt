@@ -30,7 +30,7 @@ class SummaryListAdapter : RecyclerView.Adapter<SummaryListAdapter.MyViewHolder>
         val testPlan = planList!![position]
 
         holder.name.text = testPlan.planName
-   //     holder.des.text = testPlan.planDescription
+        holder.pic.setImageResource(testPlan.planPic)
 
         when(testPlan.planResult){
 
@@ -45,7 +45,7 @@ class SummaryListAdapter : RecyclerView.Adapter<SummaryListAdapter.MyViewHolder>
             }
             //失败
             2->{
-                holder.notice.setImageResource(R.mipmap.failed)
+                holder.notice.setImageResource(R.mipmap.fail)
             }
 
         }
@@ -81,6 +81,7 @@ class SummaryListAdapter : RecyclerView.Adapter<SummaryListAdapter.MyViewHolder>
         var name= itemView.findViewById<TextView>(R.id.tv_itemMainTitle)
         var des= itemView.findViewById<TextView>(R.id.tv_itemMainDes)
         var notice= itemView.findViewById<ImageView>(R.id.iv_itemMainNotice)
+        var pic= itemView.findViewById<ImageView>(R.id.iv_itemIcon)
         var cardView= itemView.findViewById<CardView>(R.id.item_cardView)
     }
 

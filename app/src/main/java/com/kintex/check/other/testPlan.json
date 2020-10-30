@@ -10,7 +10,7 @@
 
 
 {"action":
-{"name":"start","deviceUDID":"RF8M2191XJV","test_case_list":
+{"name":"start","udid":"RF8M2191XJV","test_case_list":
 [
       {"caseId":1,"enable":1,"caseName":"SimReader","visible":1},
       {"caseId":2,"enable":1,"caseName":"NetWork","visible":1},

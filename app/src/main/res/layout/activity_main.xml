@@ -34,13 +34,13 @@
 
     <TextView
         android:id="@+id/textView2"
+        style="@style/text_blue_16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        style="@style/text_blue_16"
-        android:textColorLink="@color/tvColorMain"
-        android:text="www.kintex.net"
         android:autoLink="web"
+        android:text="www.wireless.Kintex.net"
+        android:textColorLink="@color/tvColorMain"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -61,14 +61,32 @@
         android:id="@+id/iv_start"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/ry_mainList"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
-        app:srcCompat="@mipmap/start" />
+        app:srcCompat="@mipmap/starticon" />
+
+    <TextView
+        android:id="@+id/tv_totalRunTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="04:00"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/iv_start"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <TextView
+        android:id="@+id/tv_currRunTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_start"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

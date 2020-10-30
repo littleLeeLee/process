@@ -15,6 +15,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Random;
 
 //import android.util.Log;
@@ -25,6 +27,7 @@ public class AudioUtils {
     private static final String SDCard = Environment
             .getExternalStorageDirectory().getPath();
     // 音频获取源
+ //   private int audioSource = AudioSource.MIC;
     private int audioSource = AudioSource.MIC;
     // 设置音频采样率，44100是目前的标准，但是某些设备仍然支持22050，16000，11025
     private static int sampleRateInHz = 48000;
@@ -94,7 +97,6 @@ public class AudioUtils {
                         if (bufferSize != AudioRecord.ERROR_BAD_VALUE) {
                             // check if we can instantiate and have a success
                             AudioRecord recorder = new AudioRecord(AudioSource.DEFAULT, rate, channelConfig, audioFormat, bufferSize);
-
                             if (recorder.getState() == AudioRecord.STATE_INITIALIZED)
                                 return recorder;
                         }
@@ -136,7 +138,7 @@ public class AudioUtils {
         @Override
         public void run() {
             writeDateTOFile();// 往文件中写入裸数据，写入的这个文件也是一个临时的文件。最终的能够进行播放的文件还是加上头文件之后的文件
-        //    copyWaveFile(tempAudioPath, wavAudioPath);// 给裸数据加上头文件
+            copyWaveFile(tempAudioPath, wavAudioPath);// 给裸数据加上头文件
         }
     }
 
@@ -164,9 +166,7 @@ public class AudioUtils {
         } catch (Exception e) {
             XLog.d(e);
         }
-        int hz = 0;
         while (isRecord == true) {
-            hz ++;
             if (audioRecord == null) {
                 Log.i("123456", "audioRecord.is null");
             }
@@ -182,7 +182,7 @@ public class AudioUtils {
             if (AudioRecord.ERROR_INVALID_OPERATION != readsize) {
 
                 try {
-
+                        fos.write(shortArr2byteArr(audioData,audioData.length));
                         // 将 buffer 内容取出，进行平方和运算
                         double v = 0;
                         for (short value : audioData) {
@@ -203,10 +203,10 @@ public class AudioUtils {
                         Log.d("wylee", "分贝值 = " + currentVolume + "dB");
 
 
-                   // fos.write(audioData);
+
 
                 } catch (Exception e) {
-
+                    XLog.d(e);
                 }
             }
         }
@@ -226,6 +226,8 @@ public class AudioUtils {
     private void copyWaveFile(String inFilename, String outFilename) {
         FileInputStream in = null;
         FileOutputStream out = null;
+        File outFile = new File(outFilename);
+
         long totalAudioLen = 0;
         long totalDataLen = totalAudioLen + 36;
         long longSampleRate = sampleRateInHz;
@@ -354,6 +356,12 @@ public class AudioUtils {
             dest[i] = (short) (src[i * 2] << 8 | src[2 * i + 1] & 0xff);
         }
         return dest;
+    }
+
+    private byte[] shortArr2byteArr(short[] shortArr, int shortArrLen){
+        byte[] byteArr = new byte[shortArrLen * 2];
+        ByteBuffer.wrap(byteArr).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(shortArr);
+        return byteArr;
     }
 
 }

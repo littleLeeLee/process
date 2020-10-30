@@ -50,7 +50,7 @@ class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MyViewHolder> {
             }
             //失败
             2->{
-                holder.notice.setImageResource(R.mipmap.failed)
+                holder.notice.setImageResource(R.mipmap.fail)
                 holder.des.visibility = View.GONE
                 holder.ryItemList.visibility = View.VISIBLE
                 setFailedView(holder,testPlan)
@@ -60,11 +60,11 @@ class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MyViewHolder> {
         }
 
         if(testPlan.clickState && testPlan.planResult != DEFAULT){
-            holder.cardView.setCardBackgroundColor(mContext!!.resources.getColor(R.color.littleblue,null))
+            holder.cardView.setCardBackgroundColor(mContext!!.resources.getColor(R.color.tested,null))
         }else{
             holder.cardView.setCardBackgroundColor(mContext!!.resources.getColor(R.color.white,null))
         }
-
+        holder.itemIcon.setImageResource(testPlan.planPic)
         holder.itemView.setOnClickListener {
             val layoutPosition = holder.layoutPosition
             itemClickListener?.onItemClick(holder.itemView,layoutPosition)
@@ -101,6 +101,8 @@ class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MyViewHolder> {
         var notice= itemView.findViewById<ImageView>(R.id.iv_itemMainNotice)
         var cardView= itemView.findViewById<CardView>(R.id.item_cardView)
         var ryItemList = itemView.findViewById<RecyclerView>(R.id.ry_itemList)
+        var itemIcon = itemView.findViewById<ImageView>(R.id.iv_itemIcon)
+
     }
 
 

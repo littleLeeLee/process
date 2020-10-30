@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3296DC</color>
-    <color name="colorPrimaryDark">#124071</color>
+    <color name="colorPrimary">#9d86e0</color>
+    <color name="colorPrimaryDark">#9d86e0</color>
     <color name="colorAccent">#fdbd34</color>
     <color name="bgColor">#f5f5f5</color>
     <color name="lineColor">#eeeeee</color>
     <color name="white">#ffffff</color>
+    <color name="littleText">#ff000000</color>
+
     <color name="request">#E4F9F0</color>
     <color name="media">#8841A1</color>
     <color name="textSecondary">#8A000000</color>
@@ -29,7 +31,7 @@
     <color name="pink">#ffc0cb</color><!--粉红色 -->
     <color name="lightpink">#ffb6c1</color><!--亮粉红色 -->
     <color name="orange">#ffa500</color><!--橙色 -->
-    <color name="tvColorMain">#3296DC</color>
+    <color name="tvColorMain">#8c8c8c</color>
     <color name="lightsalmon">#ffa07a</color><!--亮肉色 -->
     <color name="darkorange">#ff8c00</color><!--暗桔黄色 -->
     <color name="coral">#ff7f50</color><!--珊瑚色 -->
@@ -107,6 +109,7 @@
     <color name="lightskyblue">#87cefa</color><!--亮天蓝色 -->
     <color name="skyblue">#87ceeb</color><!--天蓝色 -->
     <color name="littleblue">#ADD8E6</color><!--淡蓝色 -->
+    <color name="tested">#E2D8FF</color><!--淡蓝色 -->
     <color name="skyblue1">#87cee0</color><!--天蓝色 -->
     <color name="gray">#808080</color><!--灰色 -->
     <color name="grey">#808080</color><!--灰色 -->

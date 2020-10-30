@@ -31,6 +31,7 @@ class MicEarActivity  : BaseActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_micear)
         setView()
+        playSound()
     }
 
     private fun setView() {
@@ -49,7 +50,7 @@ class MicEarActivity  : BaseActivity(){
 
 
         tv_testMicEar.setOnClickListener {
-            playSound()
+       //     playSound()
 
         }
 
@@ -94,28 +95,29 @@ class MicEarActivity  : BaseActivity(){
 
         val dialog = MessageDialog.build(this).setTitle("提示")
             .setMessage("请确认听筒能播放清晰明亮的声音")
-            .setOkButton("是", object : OnDialogButtonClickListener {
+        dialog.setOkButton("是", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                     tv_testMicEar.text = "PASS"
                     tv_testMicEar.setTextColor(Color.GREEN)
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     resultCaseList[0].result = 1
                     sendResult(MIC_EAR_POSITION, PASSED,resultCaseList)
                     return false
                 }
-            }).setCancelButton("否", object : OnDialogButtonClickListener {
+            })
+        dialog.setCancelButton("否", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                     tv_testMicEar.text = "FAIL"
                     tv_testMicEar.setTextColor(Color.GREEN)
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     resultCaseList[0].result = 0
                     sendResult(MIC_EAR_POSITION, FAILED,resultCaseList)
                     return false
                 }
             })
-            .setOtherButton("重试", object : OnDialogButtonClickListener {
+        dialog.setOtherButton("重试", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     playSound()
                     return false
                 }

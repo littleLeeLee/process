@@ -10,8 +10,6 @@ import android.os.Bundle
 import android.view.View
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
-import com.kintex.check.bean.AdbBean
-import com.kintex.check.bean.KeyEventBean
 import com.kintex.check.bean.TestCase
 import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.FAILED
@@ -114,27 +112,28 @@ class HeadSetActivity : BaseActivity() {
 
         val dialog = MessageDialog.build(this).setTitle("提示")
             .setMessage("请确认耳机左右声道能听到清晰明亮的声音")
-            .setOkButton("是", object : OnDialogButtonClickListener {
+            dialog.setOkButton("是", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     for (testCase in resultCaseList) {
                         testCase.result = 1
                     }
                     sendResult(ResultCode.HEADSET_POSITION, ResultCode.PASSED,resultCaseList)
                     return false
                 }
-            }).setCancelButton("否", object : OnDialogButtonClickListener {
+            })
+         dialog.setCancelButton("否", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     resultCaseList[1].result = 0
                     resultCaseList[2].result = 0
                     sendResult(ResultCode.HEADSET_POSITION, ResultCode.FAILED,resultCaseList)
                     return false
                 }
             })
-            .setOtherButton("重试", object : OnDialogButtonClickListener {
+            dialog.setOtherButton("重试", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     isFirst = true
                     playWithHeadSet()
                     return false

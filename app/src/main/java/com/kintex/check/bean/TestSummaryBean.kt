@@ -6,7 +6,8 @@ data class TestSummaryBean(
 
 data class Action(
     val name: String,
-    val test_case__list: ArrayList<TestCase>
+    val test_case__list: ArrayList<TestCase>,
+    val udid:String
 )
 
 data class TestCase(

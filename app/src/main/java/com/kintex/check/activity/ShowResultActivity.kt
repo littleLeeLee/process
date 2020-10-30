@@ -7,21 +7,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kintex.check.R
 import com.kintex.check.adapter.SummaryListAdapter
-import com.kintex.check.bean.Action
-import com.kintex.check.bean.TestCase
-import com.kintex.check.bean.TestPlanBean
-import com.kintex.check.bean.TestSummaryBean
+import com.kintex.check.bean.*
+import com.kintex.check.utils.ResultCode.SENDSUMMARY
 import com.kintex.check.view.SmoothLinearLayoutManager
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener
 import com.kongzue.dialog.util.BaseDialog
 import com.kongzue.dialog.v3.MessageDialog
 import kotlinx.android.synthetic.main.activity_showresult.*
+import org.greenrobot.eventbus.EventBus
 
 
 class ShowResultActivity : BaseActivity() {
@@ -29,6 +29,7 @@ class ShowResultActivity : BaseActivity() {
     private val TESTPLAN = "testPlan"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        instance = this
         setContentView(R.layout.activity_showresult)
         if(testResultList == null|| testResultList!!.size == 0){
 
@@ -41,8 +42,8 @@ class ShowResultActivity : BaseActivity() {
 
         tv_recovery.setOnClickListener {
 
-          //  showChooseDialog()
-            AccessibilityActivity.start(this)
+            showChooseDialog()
+         //   AccessibilityActivity.start(this)
 
         }
 
@@ -75,19 +76,16 @@ class ShowResultActivity : BaseActivity() {
             XLog.d("没有测试结果")
             return
         }
-        val testSummaryBean = TestSummaryBean(Action("test_result",testCaseList))
+        val testSummaryBean = TestSummaryBean(Action("test_result",testCaseList,SPUtils.getInstance().getString("UUID")))
 
         val toJson = Gson().toJson(
             testSummaryBean,
             object : TypeToken<TestSummaryBean>() {
             }.type
         )
-
-        /*val toJson = Gson().toJson(
-            testSummaryBean,
-            object : TypeToken<ArrayList<TestCase?>?>() {
-            }.type
-        )*/
+        val testResultBean = TestResultBean(SENDSUMMARY, 0, null)
+        testResultBean.description = toJson
+        EventBus.getDefault().post(testResultBean)
         XLog.d("json:$toJson")
     }
 
@@ -95,17 +93,18 @@ class ShowResultActivity : BaseActivity() {
 
         val dialog = MessageDialog.build(this).setTitle("提示")
             .setMessage("此操作会删除设置上的所有数据，确认擦除数据吗？")
-            .setOkButton("是", object : OnDialogButtonClickListener {
+            dialog.setOkButton("是", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
 
                     wipeData()
 
                     return false
                 }
-            }).setCancelButton("否", object : OnDialogButtonClickListener {
+            })
+            dialog.setCancelButton("否", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     return false
                 }
             })
@@ -148,6 +147,7 @@ class ShowResultActivity : BaseActivity() {
     }
 
     companion object{
+         var instance : ShowResultActivity?=null
         private var testResultList : ArrayList<TestPlanBean> ?=null
         fun start(context: Context,arrayList: ArrayList<TestPlanBean>){
             testResultList = arrayList

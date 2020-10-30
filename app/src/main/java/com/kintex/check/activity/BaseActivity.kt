@@ -11,6 +11,7 @@ import com.kintex.check.R
 import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
 import com.kintex.check.utils.MyUtils
+import com.kintex.check.utils.ResultCode.currentActivity
 import com.zyao89.view.zloading.ZLoadingDialog
 import com.zyao89.view.zloading.Z_TYPE
 import org.greenrobot.eventbus.EventBus
@@ -20,13 +21,13 @@ import java.lang.Exception
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        initDialog()
+        currentActivity = this
+     //   initDialog()
     }
 
 
 
-    var dialog: ZLoadingDialog? = null
+/*    var dialog: ZLoadingDialog? = null
     private fun initDialog() {
         dialog = ZLoadingDialog(this)
         dialog!!.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
@@ -39,9 +40,9 @@ import java.lang.Exception
             .setDialogBackgroundColor(Color.parseColor("#FFFFFF")) // 设置背景色，默认白色
         dialog!!.setCanceledOnTouchOutside(true)
 
-    }
+    }*/
 
-    open fun showDialog(title:String) {
+/*    open fun showDialog(title:String) {
         runOnUiThread {
             try {
                 dialog?.setHintText(title)
@@ -61,10 +62,9 @@ import java.lang.Exception
             }
 
         }
-    }
+    }*/
 
      fun sendResult(position:Int,result :Int,caseList: ArrayList<TestCase>){
-
          EventBus.getDefault().post(TestResultBean(position,result,caseList))
          finish()
      }
@@ -72,8 +72,7 @@ import java.lang.Exception
 
      override fun onDestroy() {
          super.onDestroy()
-         EventBus.getDefault().unregister(this)
-
+         currentActivity = null
      }
 
 

@@ -7,36 +7,27 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.elvishew.xlog.XLog;
 import com.kintex.check.R;
-import com.kintex.check.bean.AdbBean;
-import com.kintex.check.bean.KeyEventBean;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.nio.charset.Charset;
-import java.util.Scanner;
+import java.util.Arrays;
 
 public class AdbTestActivity extends Activity {
-    private static WifiManager wifi;
-    static TextView cmd;
+    private  WifiManager wifi;
+     TextView cmd;
 
-    static Handler handler = new Handler() {
+     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             cmd.append((String) msg.obj);
@@ -51,7 +42,9 @@ public class AdbTestActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_testadb);
         cmd = (TextView) findViewById(R.id.tv_adbResult);
-        MySocketServer.startListen(this);
+        final EditText input = (EditText)findViewById(R.id.et_input);
+        MySocketServer mySocketServer = new MySocketServer();
+        mySocketServer.startListen(this);
         findViewById(R.id.btnSend).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,8 +52,14 @@ public class AdbTestActivity extends Activity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        out.println("哈哈哈");
-                        out.flush();
+                        try {
+                            String trim = input.getText().toString().trim();
+                            outStream.write(trim.getBytes());
+                            outStream.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         XLog.d("send");
                     }
                 }).start();
@@ -68,59 +67,25 @@ public class AdbTestActivity extends Activity {
             }
         });
     }
-
-    private void startSocket() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                PrintStream out = null;
-                BufferedReader br = null;
-                try {
-                    Socket socket = new Socket(InetAddress.getByName("192.168.0.240"), 10086);
-                    out = new PrintStream(socket.getOutputStream(), true, "UTF8");
-                    br = new BufferedReader(new InputStreamReader(
-                            socket.getInputStream()));
-                    out.println("客户端连接成功！");
-                    out.flush();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }).start();
-
-    }
+    OutputStream outStream;
 
 
-    private static class NetState {
 
-        private String intToIp(int ip) {
-            return (ip & 0xFF) + "." + ((ip >> 8) & 0xFF) + "." + ((ip >> 16) & 0xFF) + "."
-                    + ((ip >> 24) & 0xFF);
-        }
 
-        public String GetIPAddress() {
-            String ServerIP = intToIp(wifi.getConnectionInfo().getIpAddress());
-            return ServerIP;
-        }
-    }
+     class MySocketServer implements Runnable {
+        private  final String TAG = "MySocketServer";
+        private  final int serverListenPort = 10086;
 
-    static PrintStream out;
+        private  Context mContext = null;
 
-    static class MySocketServer implements Runnable {
-        private static final String TAG = "MySocketServer";
-        private static final int serverListenPort = 10086;
-
-        private static Context mContext = null;
-
-        public static void startListen(Context ctx) {
+        public  void startListen(Context ctx) {
             Log.e(TAG, "+startListen()");
             cmd.append("- startListen\n");
             mContext = ctx;
             Thread serverSocketListen = new Thread(new MySocketServer());
             serverSocketListen.start();
             Log.e(TAG, "-startListen()");
+
         }
 
 
@@ -137,8 +102,6 @@ public class AdbTestActivity extends Activity {
                     Message.obtain(handler, 0, "- ServerSocket start listene\n").sendToTarget();
                     Socket incoming = serverSocket.accept();
                     XLog.d("accept");
-                 //   Message.obtain(handler, 0, "- Connected a client!connIndex:" + connIndex + " RemoteSocketAddress:" + String.valueOf(incoming.getRemoteSocketAddress()) + "\n").sendToTarget();
-                //    XLog.d("Connected a client!connIndex:" + connIndex + " RemoteSocketAddress:" + String.valueOf(incoming.getRemoteSocketAddress()));
                     Thread connHandle = new Thread(new ConnectionHandle(mContext, incoming, connIndex));
                     connHandle.start();
                     connIndex++;
@@ -149,9 +112,8 @@ public class AdbTestActivity extends Activity {
             }
         }
 
-
-        static class ConnectionHandle implements Runnable {
-            public static final String TAG = "ConnectionHandle:";
+         class ConnectionHandle implements Runnable {
+            public  final String TAG = "ConnectionHandle:";
 
 
             private Context mContext;
@@ -172,41 +134,33 @@ public class AdbTestActivity extends Activity {
                 try {
                     StringBuffer stringBuffer = new StringBuffer();
                     InputStream inStream = connectedSocket.getInputStream();
-                    OutputStream outStream = connectedSocket.getOutputStream();
-                    Scanner in = new Scanner(inStream, "UTF8");
-                    byte[] readBuffer = new byte[1024 * 1024 * 10];
-                    int read = inStream.read(readBuffer);
-                    if(read != -1){
-                        String s = new String(readBuffer, Charset.forName("utf-8"));
-                        Message.obtain(handler, 0, "-第" +connIndex+ "次成功接收消息: " + s + "\n").sendToTarget();
-                    }else {
-                        XLog.d("-11111");
-                    }
-                    out = new PrintStream(outStream, true, "UTF8");
-                    out.println("客户端连接成功！");
-                    out.flush();
-                    boolean done = false;
-                    while (!done  ) {
-                        /*String token = in.next();
-                        stringBuffer.append(token);
-                        XLog.d("token" + token);
-                        Message.obtain(handler, 0, "-第" +connIndex+ "次成功接收消息: " + token + "\n").sendToTarget();
-                        out.println("客户端成功接收：" + token);
-                        out.flush();
-                        if (token.equals("exit")) {
-                            done = true;
-                        }*/
-                        /*readBuffer = new byte[1024 * 1024 * 10];
-                        read = inStream.read(readBuffer);
-                        if(read != -1){
-                            String s = new String(readBuffer, Charset.forName("utf-8"));
-                            Message.obtain(handler, 0, "-第" +connIndex+ "次成功接收消息: " + s + "\n").sendToTarget();
-                        }*/
-                    }
 
-                   /* String toString = readFromSocket(inStream);
-                    XLog.d("stringBuffer:" + toString);*/
-                 //   Message.obtain(handler, 0, "-第" + connIndex + "次成功接收消息: " + toString + "\n").sendToTarget();
+                    outStream = connectedSocket.getOutputStream();
+                    //          Scanner in = new Scanner(inStream);
+
+                    outStream.write(("客户端连接成功" ).getBytes());
+                    outStream.flush();
+                  /*  out = new PrintStream(outStream, true, "UTF8");
+                    out.println("客户端连接成功！");
+                    out.flush();*/
+                    byte[] bytes = new byte[1024 * 20];
+
+                    int temp = 0;
+                    int length =0;
+                    //read 方法会阻塞直到有新的消息过来
+                    while((temp = inStream.read(bytes))!= -1){
+                        String s = new String(bytes);
+                        XLog.d("s"+s);
+                        XLog.d("length :" +temp);
+                        Message.obtain(handler, 0, "-第" +connIndex+++ "次成功接收消息: " + s + "\n").sendToTarget();
+                        Arrays.fill(bytes,(byte)0);
+                        //告诉client 收到了什么消息
+                        if(!TextUtils.isEmpty(s)){
+                            outStream.write(("客户端成功接收：" + s).getBytes());
+                            outStream.flush();
+                        }
+
+                    }
                     connectedSocket.close();
 
                     Thread.sleep(10);
@@ -223,7 +177,7 @@ public class AdbTestActivity extends Activity {
 
 
     /* 从InputStream流中读数据 */
-    public static String readFromSocket(InputStream in) {
+    public  String readFromSocket(InputStream in) {
         try {
 
             int MAX_BUFFER_BYTES = 1024*1024*10;

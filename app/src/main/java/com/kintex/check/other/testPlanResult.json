@@ -46,7 +46,7 @@
           {"caseName":"Home Button","caseId":31,"enable":1, "result": 1,"description": ""},
           {"caseName":"Volume Down Button","caseId":32,"enable":1, "result": 1,"description": ""},
           {"caseName":"Volume Up Button","caseId":33,"enable":1, "result": 1,"description": ""},
-          {"caseName":"Flip Switch","caseId":34,"enable":1, "result": 1,"description": ""},
+          {"caseName":"Flip Switch","caseId":34,"enable":0, "result": 1,"description": ""},
           {"caseName":"Back Button","caseId":35,"enable":1, "result": 1,"description": ""},
           {"caseName":"Menu Button","caseId":36,"enable":1, "result": 1,"description": ""},
           {"caseName":"LCD","caseId":37,"enable":1, "result": 1,"description": ""},

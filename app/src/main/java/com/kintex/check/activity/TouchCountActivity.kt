@@ -53,7 +53,8 @@ class TouchCountActivity : BaseActivity() {
 
     }
 
-    var pointerCount = 0;
+    var pointerCount = 0
+    var hasSend = false
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
         pointerCount  = event!!.pointerCount
@@ -66,7 +67,11 @@ class TouchCountActivity : BaseActivity() {
         runOnUiThread {
 
             tv_fingerCount.text = "数量:$pointerCount"
-
+            if(pointerCount>=2&&!hasSend){
+                hasSend = true
+                resultCaseList[0].result = 1
+                sendResult(TOUCH_POSITION, PASSED,resultCaseList)
+            }
         }
 
         return true

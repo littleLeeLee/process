@@ -140,24 +140,25 @@ class CallPhoneActivity : BaseActivity() {
 
         val dialog = MessageDialog.build(this).setTitle("提示")
             .setMessage("请确认能正常拨打电话")
-            .setOkButton("是", object : OnDialogButtonClickListener {
+            dialog.setOkButton("是", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     resultCaseList[1].result = 1
                     sendResult(ResultCode.TEST_CALL_POSITION, ResultCode.PASSED,resultCaseList)
                     return false
                 }
-            }).setCancelButton("否", object : OnDialogButtonClickListener {
+            })
+            dialog.setCancelButton("否", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     resultCaseList[1].result = 0
                     sendResult(ResultCode.TEST_CALL_POSITION, ResultCode.FAILED,resultCaseList)
                     return false
                 }
             })
-            .setOtherButton("重试", object : OnDialogButtonClickListener {
+                dialog.setOtherButton("重试", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     callPhone()
                     return false
                 }

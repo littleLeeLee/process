@@ -94,8 +94,8 @@ class FingerPrintActivity : BaseActivity() {
                     resultCaseList[0].result = 0
                     sendResult(FINGER_POSITION, FAILED,resultCaseList)
                 }
-            }).build()
-
+            })
+            .build()
         authenticationCallback = MyAuthenticationCallback()
         biometricPrompt!!.authenticate(cancellationSignal!!, mainExecutor,authenticationCallback!!)
     }
@@ -238,6 +238,7 @@ class FingerPrintActivity : BaseActivity() {
         if(isHeightVersion){
 
             heightVersionCheck()
+         //   lowVersionCheck()
 
         }else{
 
@@ -250,17 +251,18 @@ class FingerPrintActivity : BaseActivity() {
 
         val dialog = MessageDialog.build(this).setTitle("提示")
             .setMessage("请先录入一个指纹")
-            .setOkButton("好的", object : OnDialogButtonClickListener {
+        dialog.setOkButton("好的", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     gotoSet()
                     return false
                 }
-            }).setCancelButton("取消", object : OnDialogButtonClickListener {
+            })
+        dialog.setCancelButton("取消", object : OnDialogButtonClickListener {
                 override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                    dialog!!.dismiss()
+                    dialog!!.doDismiss()
                     resultCaseList[0].result = 0
-                    sendResult(ResultCode.FINGER_POSITION, ResultCode.FAILED,resultCaseList)
+                    sendResult(FINGER_POSITION, ResultCode.FAILED,resultCaseList)
                     return false
                 }
             })
