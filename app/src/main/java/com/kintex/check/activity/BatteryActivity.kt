@@ -62,7 +62,7 @@ class BatteryActivity  : BaseActivity() {
 
         btn_passed.setOnClickListener {
             resultCaseList[0].result = 1
-            sendResult(BATTERY_POSITION, FAILED,resultCaseList)
+            sendResult(BATTERY_POSITION, PASSED,resultCaseList)
         }
 
     }

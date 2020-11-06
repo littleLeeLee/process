@@ -26,13 +26,13 @@ object ResultCode {
     var ACCELEROMETER_POSITION = 7
     var CAM_POSITION = 8
     var LCD_POSITION = 9
-    var DIGITIZER_POSITION = 10
-    var TEST_CALL_POSITION = 11
+    var DIGITIZER_POSITION = 1000
+    var TEST_CALL_POSITION = 10
   //  var DEVICE_LOCK_POSITION = 14
-    var BATTERY_POSITION = 12
-    var NFC_POSITION = 13
-    var TOUCH_POSITION = 14
-    var FINGER_POSITION = 15
+    var BATTERY_POSITION = 11
+    var NFC_POSITION = 12
+    var TOUCH_POSITION = 10010
+    var FINGER_POSITION = 13
 
     var currentActivity : BaseActivity ?= null
 }

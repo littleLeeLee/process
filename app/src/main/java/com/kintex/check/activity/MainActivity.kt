@@ -73,7 +73,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         TestPlanBean("Bluetooth", "Turn on your device bluetooth.", R.mipmap.bluetooth, 0),
         TestPlanBean("GPS", "Enable location services to take this test.", R.mipmap.gps, 0),
         TestPlanBean("Vibration", "Device vibration test", R.mipmap.vibration, 0),
-        TestPlanBean("Mic Loud Speaker","Test the mic of this devices with loud speaker.",R.mipmap.micloud, 0),
+        TestPlanBean("Audio Test","Test the mic of this devices with loud speaker.",R.mipmap.micloud, 0),
         //   TestPlanBean("Mic Ear Speaker","Test the mic of this device with ear speaker.", R.mipmap.micear, 0),
         //   TestPlanBean("HeadSet Test", "Test the headSet of this device.", R.mipmap.headset, 0),
         TestPlanBean(
@@ -96,7 +96,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         ),
         //   TestPlanBean("Rear Camera","Take a picture using rear facing cameraDevice. Test Rear Flash.",R.mipmap.wifi,0),
         TestPlanBean("LCD", "Test The LCD Display and Digitizer of the screen.", R.mipmap.lcd, 0),
-        TestPlanBean("Digitizer", "Test the Digitizer of your device.", R.mipmap.digitizer, 0),
+      //  TestPlanBean("Digitizer", "Test the Digitizer of your device.", R.mipmap.digitizer, 0),
         TestPlanBean(
             "Test Call",
             "Voice call and network connectivity test.",
@@ -106,7 +106,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         //   TestPlanBean("Device Lock","FRP And Reactivation Test.",R.mipmap.wifi,0),
         TestPlanBean("Battery", "Battery related information.", R.mipmap.battery, 0),
         TestPlanBean("NFC", "TestNFC.", R.mipmap.nfc, 0),
-        TestPlanBean("TouchCount", "Test TouchCount.", R.mipmap.touchcount, 0),
+     //   TestPlanBean("TouchCount", "Test TouchCount.", R.mipmap.touchcount, 0),
         TestPlanBean("FingerPrint", "Test Fingerprint.", R.mipmap.fingerprint, 0)
     )
 
