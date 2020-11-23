@@ -14,6 +14,8 @@
 
     </style>
 
+    <style name="Ripple"/>
+
     <style name="text_blue_16" parent="@android:style/Widget.TextView">
         <item name="android:textColor">@color/tvColorMain</item>
         <item name="android:textSize">@dimen/tv_textsize_m</item>

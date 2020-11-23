@@ -378,6 +378,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         if (gyroscopeSensor != null) {
+            if(mySensorListener == null){
+                mySensorListener = MySensorListener()
+            }
             sensorManager!!.registerListener(mySensorListener, gyroscopeSensor, 50000)
         }
         try {
@@ -926,11 +929,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                             maxZ = absz
                         }
 
-                        if(isCheckVivrate && maxX > 0.001f && maxX<1f && maxY > 0.0015f &&maxY < 1f&& maxZ > 0.005f && maxZ < 1.2f){
+                        if(isCheckVivrate && maxX > 0.001f && maxX<1f && maxY > 0.0015f &&maxY < 1f&& maxZ > 0.004f && maxZ < 1.2f){
                             isVibPass = true
                             XLog.d("maxValueX:$maxX maxValueY:$maxY maxValueZ:$maxZ")
                         }else{
                             isVibPass = false
+                            XLog.d("maxValueX:$maxX maxValueY:$maxY maxValueZ:$maxZ")
                         }
 
                         if (absx > 1) {
@@ -1108,6 +1112,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         override fun onDestroy() {
             super.onDestroy()
             EventBus.getDefault().unregister(this)
+            stopTimer()
             sensorManager?.unregisterListener(mySensorListener)
             //     System.exit(0)
             unbindService(myConnection!!)

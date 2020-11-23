@@ -10,7 +10,10 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.audioview.AudioActivity
 import com.kintex.check.utils.MyUtils
+import kotlinx.android.synthetic.main.activity_welcome.*
+import kotlinx.android.synthetic.main.newmain.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -19,12 +22,12 @@ class WelcomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_welcome)
-      var version =  findViewById<TextView>(R.id.tv_welVersionNum)
-        version.text = AppUtils.getAppVersionName()
-        version.postDelayed(Runnable {
+        setContentView(R.layout.newmain)
+    //  var version =  findViewById<TextView>(R.id.tv_welVersionNum)
+   //    version.text = AppUtils.getAppVersionName()
+        myProcessView.postDelayed(Runnable {
 
-       MainActivity.start(this)
+       AudioActivity.start(this)
             finish()
         },500)
 

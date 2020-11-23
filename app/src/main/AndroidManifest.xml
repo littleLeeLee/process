@@ -92,6 +92,7 @@
         <activity android:name=".activity.FingerPrintActivity" />
         <activity android:name=".activity.ShowResultActivity" />
         <activity android:name=".activity.AccessibilityActivity" />
+        <activity android:name=".audioview.AudioActivity" />
 
         <receiver android:name=".recevier.KeyEventReceiver" />
         <receiver android:name=".recevier.ScreenReceiver" />
