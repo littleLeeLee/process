@@ -1,50 +1,50 @@
 The target system is: Android - 1 - aarch64
-The host system is: Windows - 10.0.18362 - AMD64
+The host system is: Windows - 10.0.19042 - AMD64
 Determining if the C compiler works passed with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_66fab"
-[1/2] Building C object CMakeFiles/cmTC_66fab.dir/testCCompiler.c.o
-[2/2] Linking C executable cmTC_66fab
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_ca3ce"
+[1/2] Building C object CMakeFiles/cmTC_ca3ce.dir/testCCompiler.c.o
+[2/2] Linking C executable cmTC_ca3ce
 
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_5f27f"
-[1/2] Building C object CMakeFiles/cmTC_5f27f.dir/CMakeCCompilerABI.c.o
-[2/2] Linking C executable cmTC_5f27f
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_8e6ed"
+[1/2] Building C object CMakeFiles/cmTC_8e6ed.dir/CMakeCCompilerABI.c.o
+[2/2] Linking C executable cmTC_8e6ed
 Android (5220042 based on r346389c) clang version 8.0.7 (https://android.googlesource.com/toolchain/clang b55f2d4ebfd35bf643d27dbca1bb228957008617) (https://android.googlesource.com/toolchain/llvm 3c393fe7a7e13b0fba4ac75a01aa683d7a5b11cd) (based on LLVM 8.0.7svn)
 Target: aarch64-none-linux-android21
 Thread model: posix
-InstalledDir: D:\work\AS\sdk-tools-windows-4333796\ndk\20.0.5594570\toolchains\llvm\prebuilt\windows-x86_64\bin
-Found candidate GCC installation: D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android\4.9.x
-Selected GCC installation: D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x
+InstalledDir: D:\studioSdk\ndk\20.0.5594570\toolchains\llvm\prebuilt\windows-x86_64\bin
+Found candidate GCC installation: D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android\4.9.x
+Selected GCC installation: D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x
 Candidate multilib: .;@m64
 Selected multilib: .;@m64
- "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld" --sysroot=D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 -z now -z relro --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_5f27f "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o" "-LD:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64" -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64 -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --exclude-libs libgcc.a --exclude-libs libatomic.a --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack --gc-sections CMakeFiles/cmTC_5f27f.dir/CMakeCCompilerABI.c.o -lgcc -ldl -lc -lgcc -ldl "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o"
+ "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld" --sysroot=D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 -z now -z relro --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_8e6ed "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o" "-LD:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64" -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64 -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --exclude-libs libgcc.a --exclude-libs libatomic.a --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack --gc-sections CMakeFiles/cmTC_8e6ed.dir/CMakeCCompilerABI.c.o -lgcc -ldl -lc -lgcc -ldl "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o"
 
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(aarch64-linux-android-ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_5f27f"]
-  ignore line: [[1/2] Building C object CMakeFiles/cmTC_5f27f.dir/CMakeCCompilerABI.c.o]
-  ignore line: [[2/2] Linking C executable cmTC_5f27f]
+  ignore line: [Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_8e6ed"]
+  ignore line: [[1/2] Building C object CMakeFiles/cmTC_8e6ed.dir/CMakeCCompilerABI.c.o]
+  ignore line: [[2/2] Linking C executable cmTC_8e6ed]
   ignore line: [Android (5220042 based on r346389c) clang version 8.0.7 (https://android.googlesource.com/toolchain/clang b55f2d4ebfd35bf643d27dbca1bb228957008617) (https://android.googlesource.com/toolchain/llvm 3c393fe7a7e13b0fba4ac75a01aa683d7a5b11cd) (based on LLVM 8.0.7svn)]
   ignore line: [Target: aarch64-none-linux-android21]
   ignore line: [Thread model: posix]
-  ignore line: [InstalledDir: D:\work\AS\sdk-tools-windows-4333796\ndk\20.0.5594570\toolchains\llvm\prebuilt\windows-x86_64\bin]
-  ignore line: [Found candidate GCC installation: D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android\4.9.x]
-  ignore line: [Selected GCC installation: D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
+  ignore line: [InstalledDir: D:\studioSdk\ndk\20.0.5594570\toolchains\llvm\prebuilt\windows-x86_64\bin]
+  ignore line: [Found candidate GCC installation: D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android\4.9.x]
+  ignore line: [Selected GCC installation: D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
   ignore line: [Candidate multilib: .]
   ignore line: [@m64]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  link line: [ "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld" --sysroot=D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 -z now -z relro --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_5f27f "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o" "-LD:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64" -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64 -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --exclude-libs libgcc.a --exclude-libs libatomic.a --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack --gc-sections CMakeFiles/cmTC_5f27f.dir/CMakeCCompilerABI.c.o -lgcc -ldl -lc -lgcc -ldl "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o"]
-    arg [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld] ==> ignore
-    arg [--sysroot=D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot] ==> ignore
+  link line: [ "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld" --sysroot=D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 -z now -z relro --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_8e6ed "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o" "-LD:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64" -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64 -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --exclude-libs libgcc.a --exclude-libs libatomic.a --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack --gc-sections CMakeFiles/cmTC_8e6ed.dir/CMakeCCompilerABI.c.o -lgcc -ldl -lc -lgcc -ldl "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o"]
+    arg [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld] ==> ignore
+    arg [--sysroot=D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot] ==> ignore
     arg [-pie] ==> ignore
     arg [-EL] ==> ignore
     arg [--fix-cortex-a53-843419] ==> ignore
@@ -58,15 +58,15 @@ Parsed C implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/system/bin/linker64] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_5f27f] ==> ignore
-    arg [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o] ==> ignore
-    arg [-LD:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64] ==> dir [D:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+    arg [cmTC_8e6ed] ==> ignore
+    arg [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o] ==> ignore
+    arg [-LD:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64] ==> dir [D:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
     arg [--exclude-libs] ==> ignore
     arg [libgcc.a] ==> ignore
     arg [--exclude-libs] ==> ignore
@@ -77,33 +77,33 @@ Parsed C implicit link information from above output:
     arg [--no-undefined] ==> ignore
     arg [-znoexecstack] ==> ignore
     arg [--gc-sections] ==> ignore
-    arg [CMakeFiles/cmTC_5f27f.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_8e6ed.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [-ldl] ==> lib [dl]
     arg [-lc] ==> lib [c]
     arg [-lgcc] ==> lib [gcc]
     arg [-ldl] ==> lib [dl]
-    arg [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o] ==> ignore
-  collapse library dir [D:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/8.0.7/lib/linux/aarch64]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib64]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+    arg [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o] ==> ignore
+  collapse library dir [D:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/8.0.7/lib/linux/aarch64]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib64]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
   implicit libs: [gcc;dl;c;gcc;dl]
-  implicit dirs: [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/8.0.7/lib/linux/aarch64;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib64;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+  implicit dirs: [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/8.0.7/lib/linux/aarch64;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib64;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
   implicit fwks: []
 
 
 
 
 Detecting C [-std=c11] compiler features compiled with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_be785"
-[1/2] Building C object CMakeFiles/cmTC_be785.dir/feature_tests.c.o
-[2/2] Linking C executable cmTC_be785
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_7d521"
+[1/2] Building C object CMakeFiles/cmTC_7d521.dir/feature_tests.c.o
+[2/2] Linking C executable cmTC_7d521
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -113,11 +113,11 @@ Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin
 
 
 Detecting C [-std=c99] compiler features compiled with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_f014b"
-[1/2] Building C object CMakeFiles/cmTC_f014b.dir/feature_tests.c.o
-[2/2] Linking C executable cmTC_f014b
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_360fd"
+[1/2] Building C object CMakeFiles/cmTC_360fd.dir/feature_tests.c.o
+[2/2] Linking C executable cmTC_360fd
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -127,11 +127,11 @@ Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin
 
 
 Detecting C [-std=c90] compiler features compiled with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_754e6"
-[1/2] Building C object CMakeFiles/cmTC_754e6.dir/feature_tests.c.o
-[2/2] Linking C executable cmTC_754e6
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_26cb0"
+[1/2] Building C object CMakeFiles/cmTC_26cb0.dir/feature_tests.c.o
+[2/2] Linking C executable cmTC_26cb0
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -139,50 +139,50 @@ Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin
     Feature record: C_FEATURE:0c_static_assert
     Feature record: C_FEATURE:0c_variadic_macros
 Determining if the CXX compiler works passed with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_6c92d"
-[1/2] Building CXX object CMakeFiles/cmTC_6c92d.dir/testCXXCompiler.cxx.o
-[2/2] Linking CXX executable cmTC_6c92d
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_54d61"
+[1/2] Building CXX object CMakeFiles/cmTC_54d61.dir/testCXXCompiler.cxx.o
+[2/2] Linking CXX executable cmTC_54d61
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_25add"
-[1/2] Building CXX object CMakeFiles/cmTC_25add.dir/CMakeCXXCompilerABI.cpp.o
-[2/2] Linking CXX executable cmTC_25add
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_81630"
+[1/2] Building CXX object CMakeFiles/cmTC_81630.dir/CMakeCXXCompilerABI.cpp.o
+[2/2] Linking CXX executable cmTC_81630
 Android (5220042 based on r346389c) clang version 8.0.7 (https://android.googlesource.com/toolchain/clang b55f2d4ebfd35bf643d27dbca1bb228957008617) (https://android.googlesource.com/toolchain/llvm 3c393fe7a7e13b0fba4ac75a01aa683d7a5b11cd) (based on LLVM 8.0.7svn)
 Target: aarch64-none-linux-android21
 Thread model: posix
-InstalledDir: D:\work\AS\sdk-tools-windows-4333796\ndk\20.0.5594570\toolchains\llvm\prebuilt\windows-x86_64\bin
-Found candidate GCC installation: D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android\4.9.x
-Selected GCC installation: D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x
+InstalledDir: D:\studioSdk\ndk\20.0.5594570\toolchains\llvm\prebuilt\windows-x86_64\bin
+Found candidate GCC installation: D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android\4.9.x
+Selected GCC installation: D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x
 Candidate multilib: .;@m64
 Selected multilib: .;@m64
- "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld" --sysroot=D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 -z now -z relro --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_25add "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o" "-LD:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64" -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64 -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --exclude-libs libgcc.a --exclude-libs libatomic.a --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack --gc-sections CMakeFiles/cmTC_25add.dir/CMakeCXXCompilerABI.cpp.o -lm -lgcc -ldl -lc -lgcc -ldl "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o"
+ "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld" --sysroot=D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 -z now -z relro --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_81630 "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o" "-LD:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64" -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64 -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --exclude-libs libgcc.a --exclude-libs libatomic.a --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack --gc-sections CMakeFiles/cmTC_81630.dir/CMakeCXXCompilerABI.cpp.o -lm -lgcc -ldl -lc -lgcc -ldl "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o"
 
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(aarch64-linux-android-ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_25add"]
-  ignore line: [[1/2] Building CXX object CMakeFiles/cmTC_25add.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [[2/2] Linking CXX executable cmTC_25add]
+  ignore line: [Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_81630"]
+  ignore line: [[1/2] Building CXX object CMakeFiles/cmTC_81630.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [[2/2] Linking CXX executable cmTC_81630]
   ignore line: [Android (5220042 based on r346389c) clang version 8.0.7 (https://android.googlesource.com/toolchain/clang b55f2d4ebfd35bf643d27dbca1bb228957008617) (https://android.googlesource.com/toolchain/llvm 3c393fe7a7e13b0fba4ac75a01aa683d7a5b11cd) (based on LLVM 8.0.7svn)]
   ignore line: [Target: aarch64-none-linux-android21]
   ignore line: [Thread model: posix]
-  ignore line: [InstalledDir: D:\work\AS\sdk-tools-windows-4333796\ndk\20.0.5594570\toolchains\llvm\prebuilt\windows-x86_64\bin]
-  ignore line: [Found candidate GCC installation: D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android\4.9.x]
-  ignore line: [Selected GCC installation: D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
+  ignore line: [InstalledDir: D:\studioSdk\ndk\20.0.5594570\toolchains\llvm\prebuilt\windows-x86_64\bin]
+  ignore line: [Found candidate GCC installation: D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android\4.9.x]
+  ignore line: [Selected GCC installation: D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
   ignore line: [Candidate multilib: .]
   ignore line: [@m64]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  link line: [ "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld" --sysroot=D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 -z now -z relro --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_25add "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o" "-LD:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64" -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64 -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib -LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --exclude-libs libgcc.a --exclude-libs libatomic.a --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack --gc-sections CMakeFiles/cmTC_25add.dir/CMakeCXXCompilerABI.cpp.o -lm -lgcc -ldl -lc -lgcc -ldl "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o"]
-    arg [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld] ==> ignore
-    arg [--sysroot=D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot] ==> ignore
+  link line: [ "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld" --sysroot=D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 -z now -z relro --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_81630 "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o" "-LD:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64" -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64 -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib -LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib --exclude-libs libgcc.a --exclude-libs libatomic.a --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack --gc-sections CMakeFiles/cmTC_81630.dir/CMakeCXXCompilerABI.cpp.o -lm -lgcc -ldl -lc -lgcc -ldl "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o"]
+    arg [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/bin\\ld] ==> ignore
+    arg [--sysroot=D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot] ==> ignore
     arg [-pie] ==> ignore
     arg [-EL] ==> ignore
     arg [--fix-cortex-a53-843419] ==> ignore
@@ -196,15 +196,15 @@ Parsed CXX implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/system/bin/linker64] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_25add] ==> ignore
-    arg [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o] ==> ignore
-    arg [-LD:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64] ==> dir [D:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib]
-    arg [-LD:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+    arg [cmTC_81630] ==> ignore
+    arg [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtbegin_dynamic.o] ==> ignore
+    arg [-LD:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64] ==> dir [D:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib]
+    arg [-LD:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
     arg [--exclude-libs] ==> ignore
     arg [libgcc.a] ==> ignore
     arg [--exclude-libs] ==> ignore
@@ -215,34 +215,34 @@ Parsed CXX implicit link information from above output:
     arg [--no-undefined] ==> ignore
     arg [-znoexecstack] ==> ignore
     arg [--gc-sections] ==> ignore
-    arg [CMakeFiles/cmTC_25add.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_81630.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lm] ==> lib [m]
     arg [-lgcc] ==> lib [gcc]
     arg [-ldl] ==> lib [dl]
     arg [-lc] ==> lib [c]
     arg [-lgcc] ==> lib [gcc]
     arg [-ldl] ==> lib [dl]
-    arg [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o] ==> ignore
-  collapse library dir [D:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/8.0.7/lib/linux/aarch64]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib64]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib]
-  collapse library dir [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+    arg [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21\\crtend_android.o] ==> ignore
+  collapse library dir [D:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\lib64\\clang\\8.0.7\\lib\\linux\\aarch64] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/8.0.7/lib/linux/aarch64]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib/../lib64] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib64]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x/../../../../aarch64-linux-android/lib] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib]
+  collapse library dir [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib] ==> [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
   implicit libs: [m;gcc;dl;c;gcc;dl]
-  implicit dirs: [D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/8.0.7/lib/linux/aarch64;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib64;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
+  implicit dirs: [D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/8.0.7/lib/linux/aarch64;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib64;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib]
   implicit fwks: []
 
 
 
 
 Detecting CXX [-std=c++1z] compiler features compiled with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_50a90"
-[1/2] Building CXX object CMakeFiles/cmTC_50a90.dir/feature_tests.cxx.o
-[2/2] Linking CXX executable cmTC_50a90
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_2cd57"
+[1/2] Building CXX object CMakeFiles/cmTC_2cd57.dir/feature_tests.cxx.o
+[2/2] Linking CXX executable cmTC_2cd57
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -305,11 +305,11 @@ Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin
 
 
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_4328f"
-[1/2] Building CXX object CMakeFiles/cmTC_4328f.dir/feature_tests.cxx.o
-[2/2] Linking CXX executable cmTC_4328f
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_c2096"
+[1/2] Building CXX object CMakeFiles/cmTC_c2096.dir/feature_tests.cxx.o
+[2/2] Linking CXX executable cmTC_c2096
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -372,11 +372,11 @@ Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin
 
 
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_cc2b5"
-[1/2] Building CXX object CMakeFiles/cmTC_cc2b5.dir/feature_tests.cxx.o
-[2/2] Linking CXX executable cmTC_cc2b5
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_cc98d"
+[1/2] Building CXX object CMakeFiles/cmTC_cc98d.dir/feature_tests.cxx.o
+[2/2] Linking CXX executable cmTC_cc98d
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -439,11 +439,11 @@ Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin
 
 
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
-Change Dir: D:/workspace/KintexCheck/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+Change Dir: D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command:"D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_cf93e"
-[1/2] Building CXX object CMakeFiles/cmTC_cf93e.dir/feature_tests.cxx.o
-[2/2] Linking CXX executable cmTC_cf93e
+Run Build Command:"D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe" "cmTC_48ebe"
+[1/2] Building CXX object CMakeFiles/cmTC_48ebe.dir/feature_tests.cxx.o
+[2/2] Linking CXX executable cmTC_48ebe
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers

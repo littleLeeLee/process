@@ -1,48 +1,48 @@
 {
   "stringTable": {
-    "0": "D:/workspace/KintexCheck/noise/.cxx/cmake/debug/x86",
-    "1": "--target=i686-none-linux-android16 --gcc-toolchain=D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dnoise_EXPORTS -I../../../../src/main/native/kissfft -I../../../../src/main/native/kissfft/tools -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC"
+    "0": "D:/workspace/KintexCheck-Android/noise/.cxx/cmake/debug/x86",
+    "1": "--target=i686-none-linux-android16 --gcc-toolchain=D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dnoise_EXPORTS -I../../../../src/main/native/kissfft -I../../../../src/main/native/kissfft/tools -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC"
   },
   "buildFiles": [
-    "D:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\build\\cmake\\android.toolchain.cmake",
-    "D:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\build\\cmake\\platforms.cmake",
-    "D:\\workspace\\KintexCheck\\noise\\CMakeLists.txt"
+    "D:\\studioSdk\\ndk\\20.0.5594570\\build\\cmake\\platforms.cmake",
+    "D:\\workspace\\KintexCheck-Android\\noise\\CMakeLists.txt",
+    "D:\\studioSdk\\ndk\\20.0.5594570\\build\\cmake\\android.toolchain.cmake"
   ],
   "cleanCommands": [
-    "D:\\work\\AS\\sdk-tools-windows-4333796\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\workspace\\KintexCheck\\noise\\.cxx\\cmake\\debug\\x86\" clean"
+    "D:\\studioSdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\workspace\\KintexCheck-Android\\noise\\.cxx\\cmake\\debug\\x86\" clean"
   ],
-  "buildTargetsCommand": "D:\\work\\AS\\sdk-tools-windows-4333796\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\workspace\\KintexCheck\\noise\\.cxx\\cmake\\debug\\x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "buildTargetsCommand": "D:\\studioSdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\workspace\\KintexCheck-Android\\noise\\.cxx\\cmake\\debug\\x86\" {LIST_OF_TARGETS_TO_BUILD}",
   "libraries": {
     "noise-Debug-x86": {
-      "buildCommand": "D:\\work\\AS\\sdk-tools-windows-4333796\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\workspace\\KintexCheck\\noise\\.cxx\\cmake\\debug\\x86\" noise",
+      "buildCommand": "D:\\studioSdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\workspace\\KintexCheck-Android\\noise\\.cxx\\cmake\\debug\\x86\" noise",
       "buildType": "debug",
-      "toolchain": "1526071310",
+      "toolchain": "3448766513",
       "abi": "x86",
       "artifactName": "noise",
       "files": [
         {
-          "src": "D:\\workspace\\KintexCheck\\noise\\src\\main\\native\\noise.c",
+          "src": "D:\\workspace\\KintexCheck-Android\\noise\\src\\main\\native\\noise.c",
           "flagsOrdinal": 1,
           "workingDirectoryOrdinal": 0
         },
         {
-          "src": "D:\\workspace\\KintexCheck\\noise\\src\\main\\native\\kissfft\\kiss_fft.c",
+          "src": "D:\\workspace\\KintexCheck-Android\\noise\\src\\main\\native\\kissfft\\kiss_fft.c",
           "flagsOrdinal": 1,
           "workingDirectoryOrdinal": 0
         },
         {
-          "src": "D:\\workspace\\KintexCheck\\noise\\src\\main\\native\\kissfft\\tools\\kiss_fftr.c",
+          "src": "D:\\workspace\\KintexCheck-Android\\noise\\src\\main\\native\\kissfft\\tools\\kiss_fftr.c",
           "flagsOrdinal": 1,
           "workingDirectoryOrdinal": 0
         }
       ],
       "headers": [],
-      "output": "D:\\workspace\\KintexCheck\\noise\\build\\intermediates\\cmake\\debug\\obj\\x86\\libnoise.so"
+      "output": "D:\\workspace\\KintexCheck-Android\\noise\\build\\intermediates\\cmake\\debug\\obj\\x86\\libnoise.so"
     }
   },
   "toolchains": {
-    "1526071310": {
-      "cCompilerExecutable": "D:\\work\\AS\\sdk-tools-windows-4333796\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe"
+    "3448766513": {
+      "cCompilerExecutable": "D:\\studioSdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe"
     }
   },
   "cFileExtensions": [

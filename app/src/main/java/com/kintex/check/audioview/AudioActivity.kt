@@ -4,11 +4,13 @@ import android.Manifest.permission.RECORD_AUDIO
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
@@ -16,8 +18,8 @@ import android.view.animation.AnimationUtils
 import android.widget.ActionMenuView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.ActionMenuItemView
+import com.elvishew.xlog.XLog
 import com.kintex.check.R
-import com.kintex.check.activity.AccelerometerActivity
 import com.paramsen.noise.Noise
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
@@ -35,11 +37,24 @@ class AudioActivity : AppCompatActivity() {
     val p2 = Profiler("p2")
     val p3 = Profiler("p3")
 
+    private var myLog :FloatArray?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio)
 
         scheduleAbout()
+        printLog.setOnClickListener {
+            /*  var max = 0f
+            for (fl in myLog!!) {
+                if(fl>max){
+                    max = fl
+                }
+        }
+            System.out.println("FFT:"+max)
+        }*/
+            playSound()
+        }
+
     }
 
     override fun onResume() {
@@ -62,7 +77,8 @@ class AudioActivity : AppCompatActivity() {
         val noise = Noise.real(4096)
 
         //AudioView
-        disposable.add(src.observeOn(Schedulers.newThread())
+        disposable
+                .add(src.observeOn(Schedulers.newThread())
                 .doOnNext { p0.next() }
                 .subscribe(audioView::onWindow, { e -> Log.e(TAG, e.message) }))
         //FFTView
@@ -76,11 +92,73 @@ class AudioActivity : AppCompatActivity() {
                 .map { noise.fft(it, FloatArray(4096 + 2)) }
                 .doOnNext { p3.next() }
                 .subscribe({ fft ->
+                    myLog = fft
+                    printLog()
                     fftHeatMapView.onFFT(fft)
                     fftBandView.onFFT(fft)
                 }, { e -> Log.e(TAG, e.message) }))
 
         tip.schedule()
+    }
+
+//    2020-12-01 15:25:49.122 30019-30641/com.kintex.check I/System.out: FFT:2.586552E7
+//    2020-12-01 15:25:49.223 30019-30641/com.kintex.check I/System.out: FFT:3.2201112E7
+//    2020-12-01 15:25:49.303 30019-30641/com.kintex.check I/System.out: FFT:2.7776076E7
+//    2020-12-01 15:25:49.403 30019-30641/com.kintex.check I/System.out: FFT:4.3264296E7
+//    2020-12-01 15:25:49.482 30019-30641/com.kintex.check I/System.out: FFT:2.5847224E7
+//    2020-12-01 15:25:49.594 30019-30641/com.kintex.check I/System.out: FFT:2.69476E7
+//    2020-12-01 15:25:49.673 30019-30641/com.kintex.check I/System.out: FFT:3.7544984E7
+//    2020-12-01 15:25:49.773 30019-30641/com.kintex.check I/System.out: FFT:2.6381238E7
+//    2020-12-01 15:25:49.873 30019-30641/com.kintex.check I/System.out: FFT:1.4538059E7
+
+//    2020-12-01 15:46:53.295 30651-911/com.kintex.check I/System.out: FFT:3.1581788E7
+//    2020-12-01 15:46:53.394 30651-911/com.kintex.check I/System.out: FFT:5.0281688E7
+//    2020-12-01 15:46:53.495 30651-911/com.kintex.check I/System.out: FFT:3.4338776E7
+//    2020-12-01 15:46:53.575 30651-911/com.kintex.check I/System.out: FFT:3.3598016E7
+//    2020-12-01 15:46:53.675 30651-911/com.kintex.check I/System.out: FFT:3.1395574E7
+//    2020-12-01 15:46:53.765 30651-911/com.kintex.check I/System.out: FFT:2.8124628E7
+//    2020-12-01 15:46:53.865 30651-911/com.kintex.check I/System.out: FFT:2.312828E7
+//    2020-12-01 15:46:53.946 30651-911/com.kintex.check I/System.out: FFT:20521628
+
+        fun printLog() {
+            var maxArray = ArrayList<Float>()
+
+
+            for (fl in myLog!!) {
+                if(fl>3.0E7){
+                    maxArray.add(fl)
+                }
+            }
+
+            for (max in maxArray){
+                System.out.println("FFT:"+max)
+            }
+
+
+        }
+    private fun playSound(){
+
+        val openFd = assets.openFd("beep_test.wav")
+        var  mediaPlayer = MediaPlayer()
+        mediaPlayer.setDataSource(openFd.fileDescriptor,openFd.startOffset,openFd.length)
+        mediaPlayer.setOnPreparedListener {
+            XLog.d("OnPrepared")
+            mediaPlayer.start()
+
+        }
+
+        mediaPlayer.setOnErrorListener(object : MediaPlayer.OnErrorListener {
+            override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
+                XLog.d("onError")
+                return true
+            }
+        })
+        mediaPlayer.setOnCompletionListener {
+
+
+        }
+        mediaPlayer.prepare()
+
     }
 
     /**
@@ -130,7 +208,6 @@ class AudioActivity : AppCompatActivity() {
             for (each in window) {
                 if (c + each.size >= 4096)
                     break
-
                 System.arraycopy(each, 0, out, c, each.size)
                 c += each.size - 1
             }
@@ -165,7 +242,7 @@ class AudioActivity : AppCompatActivity() {
         return true
     }
 
-    private fun scheduleAbout() {
+    private fun scheduleAbout() {44444
         container.postDelayed({
             if (!info.showed) {
                 try {

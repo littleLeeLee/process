@@ -1,20 +1,20 @@
-Executable : D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\cmake.exe
+Executable : D:\studioSdk\cmake\3.10.2.4988404\bin\cmake.exe
 arguments : 
--HD:\workspace\KintexCheck\noise
+-HD:\workspace\KintexCheck-Android\noise
 -DCMAKE_BUILD_TYPE=Release
--DCMAKE_TOOLCHAIN_FILE=D:\work\AS\sdk-tools-windows-4333796\ndk\20.0.5594570\build\cmake\android.toolchain.cmake
+-DCMAKE_TOOLCHAIN_FILE=D:\studioSdk\ndk\20.0.5594570\build\cmake\android.toolchain.cmake
 -DANDROID_ABI=x86_64
--DANDROID_NDK=D:\work\AS\sdk-tools-windows-4333796\ndk\20.0.5594570
+-DANDROID_NDK=D:\studioSdk\ndk\20.0.5594570
 -DANDROID_PLATFORM=android-16
 -DCMAKE_ANDROID_ARCH_ABI=x86_64
--DCMAKE_ANDROID_NDK=D:\work\AS\sdk-tools-windows-4333796\ndk\20.0.5594570
+-DCMAKE_ANDROID_NDK=D:\studioSdk\ndk\20.0.5594570
 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
--DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\workspace\KintexCheck\noise\build\intermediates\cmake\release\obj\x86_64
--DCMAKE_MAKE_PROGRAM=D:\work\AS\sdk-tools-windows-4333796\cmake\3.10.2.4988404\bin\ninja.exe
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\workspace\KintexCheck-Android\noise\build\intermediates\cmake\release\obj\x86_64
+-DCMAKE_MAKE_PROGRAM=D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe
 -DCMAKE_SYSTEM_NAME=Android
 -DCMAKE_SYSTEM_VERSION=16
 -DANDROID_STL=none
--BD:\workspace\KintexCheck\noise\.cxx\cmake\release\x86_64
+-BD:\workspace\KintexCheck-Android\noise\.cxx\cmake\release\x86_64
 -GNinja
 jvmArgs : 
 

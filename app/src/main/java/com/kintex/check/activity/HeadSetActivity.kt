@@ -60,7 +60,7 @@ class HeadSetActivity : BaseActivity() {
         audioManager.isSpeakerphoneOn = false
         val streamMaxVolume = audioManager.getStreamMaxVolume(AudioManager.MODE_IN_COMMUNICATION)
         audioManager.setStreamVolume(AudioManager.MODE_IN_COMMUNICATION,streamMaxVolume,1)
-        val openFd = assets.openFd("morse.wav")
+        val openFd = assets.openFd("beep_test.wav")
         mediaPlayer = MediaPlayer()
         mediaPlayer!!.setDataSource(openFd.fileDescriptor,openFd.startOffset,openFd.length)
         mediaPlayer!!.setOnPreparedListener {

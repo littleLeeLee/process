@@ -1,4 +1,4 @@
-set(CMAKE_C_COMPILER "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe")
+set(CMAKE_C_COMPILER "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe")
 set(CMAKE_C_COMPILER_ARG1 "")
 set(CMAKE_C_COMPILER_ID "Clang")
 set(CMAKE_C_COMPILER_VERSION "8.0")
@@ -16,11 +16,11 @@ set(CMAKE_C_SIMULATE_VERSION "")
 
 
 
-set(CMAKE_AR "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android-ar.exe")
+set(CMAKE_AR "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android-ar.exe")
 set(CMAKE_C_COMPILER_AR "CMAKE_C_COMPILER_AR-NOTFOUND")
-set(CMAKE_RANLIB "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android-ranlib.exe")
+set(CMAKE_RANLIB "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android-ranlib.exe")
 set(CMAKE_C_COMPILER_RANLIB "CMAKE_C_COMPILER_RANLIB-NOTFOUND")
-set(CMAKE_LINKER "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android-ld.exe")
+set(CMAKE_LINKER "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android-ld.exe")
 set(CMAKE_COMPILER_IS_GNUCC )
 set(CMAKE_C_COMPILER_LOADED 1)
 set(CMAKE_C_COMPILER_WORKS TRUE)
@@ -69,5 +69,5 @@ endif()
 
 
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "gcc;dl;c;gcc;dl")
-set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/8.0.7/lib/linux/aarch64;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib64;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib;D:/work/AS/sdk-tools-windows-4333796/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib")
+set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/8.0.7/lib/linux/aarch64;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib64;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/aarch64-linux-android/lib;D:/studioSdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib")
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

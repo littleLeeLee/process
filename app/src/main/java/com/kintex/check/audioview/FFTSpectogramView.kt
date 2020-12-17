@@ -68,9 +68,9 @@ class FFTSpectogramView(context: Context, attrs: AttributeSet?) : SimpleSurface(
         var x: Float
         var y: Float
         var band: FloatArray?
-
+        //1500
         val hot = hotThresholds[resolution] ?: 0
-
+     //   System.out.println("hot:$hot")
         for (i in 0 until ffts.size) {
             synchronized(ffts) {
                 band = ffts.elementAtOrNull(i)
@@ -81,9 +81,10 @@ class FFTSpectogramView(context: Context, attrs: AttributeSet?) : SimpleSurface(
             for (j in 0 until resolution) {
                 y = height - (bandWH * j)
                 val mag = band?.get(j) ?: .0f
-
                 paintSpectogram.color = Spectogram.color((mag / hot.toDouble()).coerceAtMost(1.0))
+              //  paintSpectogram.color = Color.BLUE
                 canvas.drawRect(x - fftW, y - bandWH, x, y, paintSpectogram)
+           //     System.out.println("mag:${paintSpectogram.color}")
             }
         }
     }
@@ -134,7 +135,7 @@ class FFTSpectogramView(context: Context, attrs: AttributeSet?) : SimpleSurface(
             val bands = FloatArray(resolution)
             var accum: Float
             var avg = 0f
-
+          //  System.out.println("array:${fft.size}")
             for (i in 0 until resolution) {
                 accum = .0f
 
