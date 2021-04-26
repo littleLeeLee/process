@@ -1,0 +1,2 @@
+ninja: Entering directory `D:\workspace\KintexCheck-Android\noise\.cxx\cmake\debug\x86_64'
+ninja: no work to do.
