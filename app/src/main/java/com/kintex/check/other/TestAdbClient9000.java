@@ -57,6 +57,8 @@ String stop = "{\"action\":{\"name\":\"stop\",\"udid\":\"xxxxx\"}}";
                     outputStream.write(start.getBytes());
                 }else if(msg.equals("222")){
                     outputStream.write(stop.getBytes());
+                }else{
+                    outputStream.write(msg.getBytes());
                 }
                 outputStream.flush();
                 System.out.println("消息已发送：" + msg);

@@ -9,10 +9,7 @@ import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.google.gson.Gson
-import com.kintex.check.bean.ActionCase
-import com.kintex.check.bean.ReceiveAdbBean
-import com.kintex.check.bean.SendAction
-import com.kintex.check.bean.TestResultBean
+import com.kintex.check.bean.*
 import com.kintex.check.utils.ResultCode.START
 import com.kintex.check.utils.ResultCode.STOP
 import org.greenrobot.eventbus.EventBus
@@ -27,7 +24,7 @@ class AdbConnectService : Service() {
     var isRunning = true
     override fun onCreate() {
         super.onCreate()
-        startAdbService()
+     //   startAdbService()
     }
 
     private var socketThread: Thread? = null
@@ -72,6 +69,8 @@ class AdbConnectService : Service() {
                 }
             }).start()
         }
+
+
 
     }
 
@@ -146,7 +145,7 @@ class AdbConnectService : Service() {
                     val gson = Gson()
                     try {
                         val receiveAdbBean =
-                            gson.fromJson<ReceiveAdbBean>(content, ReceiveAdbBean::class.java)
+                            gson.fromJson<NewTestPlanBean>(content, NewTestPlanBean::class.java)
                         if (receiveAdbBean != null) {
 
                             val action = receiveAdbBean.action
@@ -156,27 +155,20 @@ class AdbConnectService : Service() {
                                     XLog.d("negotiation")
                                     //保存UID
                                     SPUtils.getInstance().put("UUID", action.udid)
-                                    val sendAction = SendAction(ActionCase("negotiation", action.udid))
-                                    sendDataToClient(sendAction)
+                                   var adb= ReceiveAdbBean()
+                                    adb.name = action.name
+                                    adb.test_case_list = receiveAdbBean
+                                    EventBus.getDefault().post(adb)
                                     ToastUtils.showShort("negotiation success uuid is ${action.udid}")
                                 }
 
                                 "start" -> {
 
-                                    XLog.d("start")
-                                    var testResultBean = TestResultBean(START, 0, null)
-                                    EventBus.getDefault().post(testResultBean)
-                                    val sendAction = SendAction(ActionCase("test_started", action.udid))
-                                    sendDataToClient(sendAction)
                                     ToastUtils.showShort("Test Start")
                                 }
 
                                 "stop" -> {
-                                    XLog.d("stop")
-                                    var testResultBean = TestResultBean(STOP, 0, null)
-                                    EventBus.getDefault().post(testResultBean)
-                                    val sendAction = SendAction(ActionCase("test_stopped", action.udid))
-                                    sendDataToClient(sendAction)
+
                                     ToastUtils.showShort("Test Stop")
                                 }
 
@@ -204,17 +196,6 @@ class AdbConnectService : Service() {
     }
 
 
-    fun sendDataToClient(sendAction: SendAction) {
-        val sendJson = Gson().toJson(sendAction)
-        if (!TextUtils.isEmpty(sendJson)) {
-            outStream!!.write(sendJson.toByteArray())
-            outStream!!.flush()
-        } else {
-            XLog.d("send json is null")
-        }
-
-
-    }
 
     override fun onDestroy() {
         super.onDestroy()

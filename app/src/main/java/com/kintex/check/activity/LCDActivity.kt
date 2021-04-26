@@ -3,6 +3,10 @@ package com.kintex.check.activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -10,7 +14,7 @@ import android.widget.GridLayout
 import android.widget.TextView
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
-import com.kintex.check.bean.TestCase
+import com.kintex.check.utils.CaseId
 import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.PASSED
@@ -25,11 +29,14 @@ import kotlinx.android.synthetic.main.title_include.*
 
 class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
-    private var resultCaseList  = arrayListOf<TestCase>(
-        TestCase("LCD",37,"LCD","",1,0),
-        TestCase("Digitizer",38,"Touch Screen","",1,0),
-        TestCase("Multi Touch",49,"Multi Touch","",1,0)
-    )
+    private var sensorManager: SensorManager? = null
+    private var lightSensor : Sensor?=null
+    private var  proximitySensor :Sensor?=null
+            private var mySensorListener : MySensorListener?=null
+
+    private var isLcdFinish = false
+    private var isMultiFinish = false
+    private var isTouchFinish = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +48,28 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
         tv_colorView.setOnClickListener(this)
         tv_lcdPass.setOnClickListener(this)
         tv_lcdFail.setOnClickListener(this)
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        lightSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT)
+        proximitySensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_PROXIMITY)
+        mySensorListener = MySensorListener()
+         if (lightSensor != null) {
+            sensorManager!!.registerListener(mySensorListener, lightSensor, 100000)
+        }
+        if(proximitySensor != null){
+            sensorManager!!.registerListener(mySensorListener, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+
+        tv_lightFail.setOnClickListener {
+            isLightFinish = true
+            sendTestResult(FAILED,CaseId.LightSensor.id)
+            checkLcdPass()
+
+        }
+        tv_proFail.setOnClickListener {
+            isProFinish = true
+            sendTestResult(FAILED,CaseId.ProximitySensor.id)
+            checkLcdPass()
+        }
 
     }
 
@@ -52,14 +81,12 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
         when(v!!.id){
 
             R.id.tv_lcdPass->{
-                resultCaseList[0].result = 1
-            //    sendResult(LCD_POSITION, PASSED,resultCaseList)
+                sendTestResult(PASSED,CaseId.Display.id)
                 showDigitizer()
             }
 
             R.id.tv_lcdFail->{
-                resultCaseList[0].result = 0
-             //   sendResult(LCD_POSITION, FAILED,resultCaseList)
+                sendTestResult(FAILED,CaseId.Display.id)
                 showDigitizer()
             }
 
@@ -72,26 +99,28 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
 
     }
+    private fun sendTestResult(result: Int,id: Int) {
+        sendCaseResult(id,result, ResultCode.MANUAL)
+    }
+
     private var viewList = ArrayList<TextView>()
     private fun showDigitizer() {
+        isLcdFinish = true
         view_lcd.visibility = View.GONE
         view_digitizer.visibility = View.VISIBLE
 
         tv_digitizerFailed.setOnClickListener {
-            resultCaseList[1].result = 0
-           // sendResult(ResultCode.DIGITIZER_POSITION, FAILED,resultCaseList)
+            sendTestResult(FAILED,CaseId.TouchPanel.id)
             showTouchCount()
         }
 
         tv_failed1.setOnClickListener {
-            resultCaseList[1].result = 0
-          //  sendResult(ResultCode.DIGITIZER_POSITION, FAILED,resultCaseList)
+            sendTestResult(FAILED,CaseId.TouchPanel.id)
             showTouchCount()
         }
 
         tv_failed2.setOnClickListener {
-            resultCaseList[1].result = 0
-          //  sendResult(ResultCode.DIGITIZER_POSITION, FAILED,resultCaseList)
+            sendTestResult(FAILED,CaseId.TouchPanel.id)
             showTouchCount()
         }
 
@@ -111,30 +140,25 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
     }
 
     private fun showTouchCount() {
-
+        isTouchFinish = true
         view_digitizer.visibility = View.GONE
         view_touch.visibility = View.VISIBLE
 
         tv_titleName.text = "LCD TEST"
 
         tv_titleDone.setOnClickListener {
-            resultCaseList[2].result = 0
-          //  sendResult(ResultCode.LCD_POSITION, FAILED,resultCaseList)
-            checkResult()
+
         }
 
 
         btn_failed.setOnClickListener {
-            resultCaseList[2].result = 0
-          //  sendResult(ResultCode.LCD_POSITION, FAILED,resultCaseList)
-            checkResult()
-
+            isMultiFinish = true
+            sendTestResult(FAILED,CaseId.MultiTouch.id)
         }
 
         btn_passed.setOnClickListener {
-            resultCaseList[2].result = 1
-            checkResult()
-          //  sendResult(ResultCode.LCD_POSITION, ResultCode.PASSED,resultCaseList)
+            isMultiFinish = true
+            sendTestResult(PASSED,CaseId.MultiTouch.id)
         }
 
 
@@ -155,6 +179,8 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                 tv_colorView.setBackgroundColor(Color.GREEN)
             }
             4->{
+                tv_lcdPass.visibility = View.VISIBLE
+                tv_lcdFail.visibility = View.VISIBLE
                 tv_colorView.setBackgroundColor(Color.BLUE)
             }
 
@@ -189,8 +215,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
     private fun checkCount() {
 
         if(touchCount == 91){
-            resultCaseList[1].result = 1
-          //  sendResult(ResultCode.DIGITIZER_POSITION, ResultCode.PASSED,resultCaseList)
+            sendTestResult(PASSED,CaseId.TouchPanel.id)
             showTouchCount()
         }
 
@@ -201,9 +226,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
     var hasSend = false
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
-        pointerCount  = event!!.pointerCount
-        //  XLog.d("pointerCount:$pointerCount action:${event.action}")
-
+        pointerCount  = event.pointerCount
         if(event.action == MotionEvent.ACTION_UP){
             pointerCount  = 0
         }
@@ -213,34 +236,108 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
             tv_fingerCount.text = "数量:$pointerCount"
             if(pointerCount>=2&&!hasSend){
                 hasSend = true
-                resultCaseList[2].result = 1
-                checkResult()
-
+                sendTestResult(PASSED,CaseId.MultiTouch.id)
+                isMultiFinish = true
+                checkSensorPass()
             }
         }
-
         return true
-
-
     }
 
-    var passed = 0
-    private fun checkResult() {
-        for(case in resultCaseList){
-            if(case.result == 1){
-                passed ++
-            }
-
-        }
-        XLog.d("passed:$passed")
-        if(passed == resultCaseList.size){
-            sendResult(ResultCode.LCD_POSITION, PASSED,resultCaseList)
+    private fun checkSensorPass() {
+        if(isLightFinish  && isProFinish){
+            finish()
         }else{
-            sendResult(ResultCode.LCD_POSITION, FAILED,resultCaseList)
+            view_touch.visibility = View.GONE
+            view_sensor.visibility = View.VISIBLE
         }
 
 
     }
+
+    private var isLightFirst = true
+    private var ligFirstX = 0f
+    private var isLightFinish = false
+
+    private var isProFirst = true
+    private var proFirstX = 0f
+    private var isProFinish = false
+
+    inner class MySensorListener : SensorEventListener {
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        }
+        override fun onSensorChanged(event: SensorEvent?) {
+            when(event!!.sensor.type){
+
+                Sensor.TYPE_LIGHT -> {
+                    val light: Float = event.values[0]
+                    runOnUiThread {
+                        tv_lightValue.text = "光线值：$light"
+                    }
+                    if (isLightFirst) {
+                        isLightFirst = false
+                        ligFirstX = light
+                    } else {
+                        if (kotlin.math.abs(light - ligFirstX) > 15) {
+
+                            isLightFinish = true
+                            sensorManager?.unregisterListener(mySensorListener,lightSensor)
+                            sendTestResult(PASSED,CaseId.LightSensor.id)
+                            runOnUiThread {
+                                tv_lightValue.text = "光线值： 通过"
+                            }
+                            checkLcdPass()
+                        }
+                    }
+                }
+               Sensor.TYPE_PROXIMITY->{
+                    var result = event.values[0]
+                   runOnUiThread {
+                       tv_proximityValue.text = "距离值：$result"
+                   }
+                    if(isProFirst){
+                        isProFirst = false
+                        proFirstX = result
+                    }
+
+                    runOnUiThread {
+                        if(result != proFirstX){
+                            isProFinish = true
+                            sendTestResult(PASSED,CaseId.ProximitySensor.id)
+                            checkLcdPass()
+                            sensorManager?.unregisterListener(mySensorListener,proximitySensor)
+                            runOnUiThread {
+                                tv_lightValue.text = "距离值： 通过"
+                            }
+                        }
+                    }
+
+                }
+
+
+            }
+        }
+    }
+
+    private fun checkLcdPass() {
+
+        if(isLcdFinish&& isMultiFinish && isTouchFinish && isLightFinish && isProFinish){
+            finish()
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+            testNext()
+        if(proximitySensor != null){
+            sensorManager?.unregisterListener(mySensorListener,proximitySensor)
+        }
+        if(lightSensor != null){
+            sensorManager?.unregisterListener(mySensorListener,lightSensor)
+        }
+    }
+
 
     companion object{
         fun start(context: Context){

@@ -1,26 +1,26 @@
 package com.kintex.check.activity
 
-import android.content.Context
-import android.content.Intent
-import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.AppUtils
-import com.kintex.check.R
+import com.kintex.check.bean.CaseResultBean
+import com.kintex.check.bean.CheckBean
 import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
-import com.kintex.check.utils.MyUtils
 import com.kintex.check.utils.ResultCode.currentActivity
-import com.zyao89.view.zloading.ZLoadingDialog
-import com.zyao89.view.zloading.Z_TYPE
 import org.greenrobot.eventbus.EventBus
-import java.lang.Exception
 
- open class BaseActivity : AppCompatActivity() {
+
+open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val lp = window.attributes
+        val decorView: View = window.getDecorView()
+        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        hideBottomUIMenu()
         currentActivity = this
      //   initDialog()
     }
@@ -64,16 +64,35 @@ import java.lang.Exception
         }
     }*/
 
+
      fun sendResult(position:Int,result :Int,caseList: ArrayList<TestCase>){
          EventBus.getDefault().post(TestResultBean(position,result,caseList))
          finish()
      }
 
+     fun sendCaseResult(caseId : Int,result :Int,type:Int){
+         EventBus.getDefault().post(CaseResultBean(caseId,result,type))
+     }
+
+    fun testNext(){
+        EventBus.getDefault().post(CheckBean(""))
+    }
 
      override fun onDestroy() {
          super.onDestroy()
          currentActivity = null
      }
 
-
+     private fun hideBottomUIMenu() {
+         //隐藏虚拟按键，并且全屏
+         if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+             var v = window.decorView
+             v.systemUiVisibility = View.GONE
+         } else if (Build.VERSION.SDK_INT >= 19) {
+             //for new api versions.
+             var decorView = getWindow().getDecorView()
+             var uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_FULLSCREEN;
+             decorView.setSystemUiVisibility(uiOptions)
+         }
+     }
 }

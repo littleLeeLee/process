@@ -138,7 +138,7 @@ public class AudioUtils {
         @Override
         public void run() {
             writeDateTOFile();// 往文件中写入裸数据，写入的这个文件也是一个临时的文件。最终的能够进行播放的文件还是加上头文件之后的文件
-        //    copyWaveFile(tempAudioPath, wavAudioPath);// 给裸数据加上头文件
+            copyWaveFile(tempAudioPath, wavAudioPath);// 给裸数据加上头文件
         }
     }
 
@@ -227,6 +227,9 @@ public class AudioUtils {
         FileInputStream in = null;
         FileOutputStream out = null;
         File outFile = new File(outFilename);
+        if(!outFile.exists()){
+            outFile.mkdir();
+        }
 
         long totalAudioLen = 0;
         long totalDataLen = totalAudioLen + 36;

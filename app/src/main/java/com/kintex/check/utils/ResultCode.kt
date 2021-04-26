@@ -5,13 +5,15 @@ import com.kintex.check.activity.BaseActivity
 object ResultCode {
 
     //测试状态码
-    var DEFAULT = 0
+    var DEFAULT = 2
     var PASSED = 1
-    var FAILED = 2
+    var FAILED = 0
     var RESET = -1
     var START = 10086
     var STOP = 10087
     var SENDSUMMARY = 10088
+    var AUTO = 1
+    var MANUAL = 2
 
     //测试项对应的position
     var WIFI_POSITION = 0

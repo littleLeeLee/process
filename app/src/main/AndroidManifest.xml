@@ -38,12 +38,12 @@
     <uses-permission android:name="android.permission.NFC"/>
     <uses-feature android:name="android.hardware.nfc"  android:required="false" />
     <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+
 
     <application
         android:allowBackup="true"
@@ -53,7 +53,9 @@
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
         android:name=".app.MyApplication"
-        android:theme="@style/AppTheme">
+        android:resizeableActivity="false"
+        android:theme="@style/AppTheme"
+        tools:targetApi="n">
         <activity android:name=".activity.MainActivity">
         </activity>
         <activity android:name=".activity.BaseActivity" />
@@ -93,6 +95,7 @@
         <activity android:name=".activity.ShowResultActivity" />
         <activity android:name=".activity.AccessibilityActivity" />
         <activity android:name=".audioview.AudioActivity" />
+        <activity android:name=".activity.AudioTestActivity" />
 
         <receiver android:name=".recevier.KeyEventReceiver" />
         <receiver android:name=".recevier.ScreenReceiver" />

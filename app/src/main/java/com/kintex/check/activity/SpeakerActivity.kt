@@ -205,7 +205,7 @@ class SpeakerActivity : BaseActivity() {
     private var isRecoding = false
 
     private fun initMediaData() {
-        val openFd = assets.openFd("morse.wav")
+        val openFd = assets.openFd("opening.wav")
         if(mediaPlayer != null){
             mediaPlayer!!.reset()
             mediaPlayer!!.release()

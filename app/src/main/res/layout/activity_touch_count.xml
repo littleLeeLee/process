@@ -42,7 +42,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:text="Fail"
-        android:background="@drawable/btn_bg_blue"
+        android:background="@drawable/btn_bg_gray"
         android:textColor="@color/red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -54,7 +54,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="PASS"
-        android:background="@drawable/btn_bg_blue"
+        android:background="@drawable/btn_bg_gray"
         android:textColor="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

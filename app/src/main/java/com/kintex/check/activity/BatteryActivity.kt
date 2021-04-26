@@ -13,6 +13,8 @@ import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.kintex.check.bean.TestCase
+import com.kintex.check.utils.CaseId
+import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.BATTERY_POSITION
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.PASSED
@@ -49,20 +51,18 @@ class BatteryActivity  : BaseActivity() {
         }
 
         tv_titleDone.setOnClickListener {
-            resultCaseList[0].result = 0
-            sendResult(BATTERY_POSITION, FAILED,resultCaseList)
+         finish()
 
         }
 
         btn_failed.setOnClickListener {
-
-            resultCaseList[0].result = 0
-            sendResult(BATTERY_POSITION, FAILED,resultCaseList)
+            sendCaseResult(CaseId.WirelessCharge.id, FAILED, ResultCode.MANUAL)
+            finish()
         }
 
         btn_passed.setOnClickListener {
-            resultCaseList[0].result = 1
-            sendResult(BATTERY_POSITION, PASSED,resultCaseList)
+            sendCaseResult(CaseId.WirelessCharge.id, PASSED, ResultCode.MANUAL)
+            finish()
         }
 
     }
@@ -123,9 +123,12 @@ class BatteryActivity  : BaseActivity() {
                     }
                     BatteryManager.BATTERY_PLUGGED_USB -> {
                         tv_chargeState.text = "电源：USB"
+                        sendCaseResult(CaseId.USBCharge.id, PASSED, ResultCode.MANUAL)
                     }
                     BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
                         tv_chargeState.text = "电源：无线"
+                        sendCaseResult(CaseId.WirelessCharge.id, PASSED, ResultCode.MANUAL)
+                        finish()
                     }
 
                 }
@@ -188,7 +191,7 @@ class BatteryActivity  : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(batteryReceiver)
-
+            testNext()
     }
 
     companion object{

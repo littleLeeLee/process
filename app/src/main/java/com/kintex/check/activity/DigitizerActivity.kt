@@ -11,6 +11,8 @@ import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.kintex.check.bean.TestCase
 import com.kintex.check.bean.TestResultBean
+import com.kintex.check.utils.CaseId
+import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.DIGITIZER_POSITION
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.PASSED
@@ -18,10 +20,6 @@ import kotlinx.android.synthetic.main.activity_digitizer.*
 import org.greenrobot.eventbus.EventBus
 
 class DigitizerActivity  : BaseActivity(), View.OnTouchListener {
-
-    private var resultCaseList  = arrayListOf<TestCase>(
-        TestCase("Digitizer",38,"Touch Screen","",1,0)
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,21 +36,15 @@ class DigitizerActivity  : BaseActivity(), View.OnTouchListener {
     private fun setView() {
 
         tv_digitizerFailed.setOnClickListener {
-            resultCaseList[0].result = 0
-            sendResult(DIGITIZER_POSITION, FAILED,resultCaseList)
-
+            sendTestResult(FAILED)
         }
 
         tv_failed1.setOnClickListener {
-            resultCaseList[0].result = 0
-            sendResult(DIGITIZER_POSITION, FAILED,resultCaseList)
-
+            sendTestResult(FAILED)
         }
 
         tv_failed2.setOnClickListener {
-            resultCaseList[0].result = 0
-            sendResult(DIGITIZER_POSITION, FAILED,resultCaseList)
-
+            sendTestResult(FAILED)
         }
 
         for( i in 0..15){
@@ -71,6 +63,14 @@ class DigitizerActivity  : BaseActivity(), View.OnTouchListener {
         }
 
     }
+
+    private fun sendTestResult(result: Int) {
+        sendCaseResult(result,CaseId.TouchPanel.id, ResultCode.MANUAL)
+        TouchCountActivity.start(this)
+        finish()
+
+    }
+
     private var touchCount =0
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
@@ -82,8 +82,6 @@ class DigitizerActivity  : BaseActivity(), View.OnTouchListener {
                     v!!.background = resources.getDrawable(R.drawable.tv_bg_blue_empty)
                     checkCount()
                 }
-
-
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
@@ -97,12 +95,15 @@ class DigitizerActivity  : BaseActivity(), View.OnTouchListener {
     private fun checkCount() {
 
         if(touchCount == 144){
-            resultCaseList[0].result = 1
-            sendResult(DIGITIZER_POSITION, PASSED,resultCaseList)
+            sendTestResult(PASSED)
         }
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+            testNext()
+    }
     companion object{
         fun start(context: Context){
             XLog.d("start")

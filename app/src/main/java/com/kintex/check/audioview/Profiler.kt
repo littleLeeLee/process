@@ -15,7 +15,7 @@ class Profiler(val tag: String) {
 
         if (System.currentTimeMillis() - time > 1000L) {
             time = System.currentTimeMillis()
-            Log.d(TAG, "===$tag: $count/1000ms")
+         //   Log.d(TAG, "===$tag: $count/1000ms")
             count = 0
         } else {
             ++count
@@ -30,7 +30,7 @@ class Profiler(val tag: String) {
         if (System.currentTimeMillis() - time > 1000L) {
             time = System.currentTimeMillis()
             hashes.forEach { if (it.value > 1) Log.d(TAG, "===$tag: ${it.value}") }
-            Log.d(TAG, "===$tag: $count/1000ms")
+       //     Log.d(TAG, "===$tag: $count/1000ms")
             count = 0
             hashes.clear()
         } else {

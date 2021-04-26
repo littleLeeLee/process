@@ -26,7 +26,7 @@ class AudioView(context: Context, attrs: AttributeSet?) : SimpleSurface(context,
     val bg = Color.parseColor("#39424F")
 
     init {
-        paintAudio.color = Color.parseColor("#23E830")
+        paintAudio.color = Color.parseColor("#dc143c")
         paintAudio.strokeWidth = 0f
         paintAudio.style = Paint.Style.STROKE
     }
@@ -44,7 +44,7 @@ class AudioView(context: Context, attrs: AttributeSet?) : SimpleSurface(context,
 
         canvas.drawColor(bg)
         canvas.drawPath(path, paintAudio)
-        canvas.drawText("AUDIO", 16f.px, 24f.px, paintText)
+      //  canvas.drawText("AUDIO", 16f.px, 24f.px, paintText)
 
         return canvas
     }

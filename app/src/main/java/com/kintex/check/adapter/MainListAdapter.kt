@@ -53,7 +53,7 @@ class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MyViewHolder> {
                 holder.notice.setImageResource(R.mipmap.fail)
                 holder.des.visibility = View.GONE
                 holder.ryItemList.visibility = View.VISIBLE
-                setFailedView(holder,testPlan)
+           //     setFailedView(holder,testPlan)
 
             }
 
@@ -72,19 +72,7 @@ class MainListAdapter : RecyclerView.Adapter<MainListAdapter.MyViewHolder> {
 
     }
 
-    private fun setFailedView(
-        viewHolder: MyViewHolder,
-        testPlan: TestPlanBean
-    ) {
 
-        val resultItemAdapter = ResultItemAdapter(mContext!!, testPlan.resultItemList)
-        viewHolder.ryItemList.layoutManager = LinearLayoutManager(
-            mContext!!,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
-        viewHolder.ryItemList.adapter = resultItemAdapter
-    }
 
     constructor (context: Context, list : ArrayList<TestPlanBean>){
         mContext = context

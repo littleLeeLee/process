@@ -32,11 +32,11 @@ class ShowResultActivity : BaseActivity() {
         instance = this
         setContentView(R.layout.activity_showresult)
         if(testResultList == null|| testResultList!!.size == 0){
-
             XLog.d("？？？？")
         }
         setView()
     }
+
 
     private fun setView() {
 
@@ -67,16 +67,15 @@ class ShowResultActivity : BaseActivity() {
     private fun parseJson(){
         val testCaseList = ArrayList<TestCase>()
         for (testPlanBean in testResultList!!) {
-            if(testPlanBean.resultItemList != null){
-                testCaseList.addAll(testPlanBean.resultItemList)
-            }
+            testCaseList.addAll(testPlanBean.resultItemList)
 
         }
         if(testCaseList.size == 0){
             XLog.d("没有测试结果")
             return
         }
-        val testSummaryBean = TestSummaryBean(Action("test_result",testCaseList,SPUtils.getInstance().getString("UUID")))
+
+        val testSummaryBean = TestSummaryBean(Action("test_result",SPUtils.getInstance().getString("UUID"),testCaseList))
 
         val toJson = Gson().toJson(
             testSummaryBean,

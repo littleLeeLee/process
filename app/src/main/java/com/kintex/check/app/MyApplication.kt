@@ -33,7 +33,7 @@ class MyApplication : Application() {
             .logLevel(if (BuildConfig.DEBUG) LogLevel.ALL  else LogLevel.NONE)
             .tag("MY_TAG")                                         // 指定 TAG，默认为 "Message-LOG"
             .t()                                                   // 允许打印线程信息，默认禁止
-            .st(5)                                                 // 允许打印深度为5的调用栈信息，默认禁止
+            .st(2)                                                 // 允许打印深度为5的调用栈信息，默认禁止
             .b()
 
             // 允许打印日志边框，默认禁止
@@ -41,7 +41,7 @@ class MyApplication : Application() {
                 BlacklistTagsFilterInterceptor(    // 添加黑名单 TAG 过滤器
                     "blacklist1", "blacklist2", "blacklist3")
             )
-            .build()
+                                                                                   .build()
 
         val filePrinter = FilePrinter
             .Builder(Environment.getExternalStorageDirectory().path + "/log/$packageName")

@@ -11,6 +11,7 @@
     <color name="doneColor">#D15E6B</color>
     <color name="mainHeadColor">#4564ED</color>
     <color name="processColor">#8CACF8</color>
+    <color name="titleColor">#E2F5FF</color>
 
     <color name="request">#E4F9F0</color>
     <color name="media">#8841A1</color>

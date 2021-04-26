@@ -10,14 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.widget.ActionMenuView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.menu.ActionMenuItemView
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.paramsen.noise.Noise
@@ -42,7 +35,7 @@ class AudioActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio)
 
-        scheduleAbout()
+     //   scheduleAbout()
         printLog.setOnClickListener {
             /*  var max = 0f
             for (fl in myLog!!) {
@@ -98,7 +91,7 @@ class AudioActivity : AppCompatActivity() {
                     fftBandView.onFFT(fft)
                 }, { e -> Log.e(TAG, e.message) }))
 
-        tip.schedule()
+      //  tip.schedule()
     }
 
 //    2020-12-01 15:25:49.122 30019-30641/com.kintex.check I/System.out: FFT:2.586552E7
@@ -130,9 +123,9 @@ class AudioActivity : AppCompatActivity() {
                 }
             }
 
-            for (max in maxArray){
+          /*  for (max in maxArray){
                 System.out.println("FFT:"+max)
-            }
+            }*/
 
 
         }
@@ -237,34 +230,11 @@ class AudioActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        info.onShow()
+
 
         return true
     }
 
-    private fun scheduleAbout() {44444
-        container.postDelayed({
-            if (!info.showed) {
-                try {
-                    val anim = AnimationUtils.loadAnimation(this, R.anim.nudge).apply {
-                        repeatCount = 3
-                        repeatMode = Animation.REVERSE
-                        duration = 200
-                        interpolator = AccelerateDecelerateInterpolator()
-                        onTerminate { scheduleAbout() }
-                    }
-
-                    (((((container.parent.parent as ViewGroup).getChildAt(1) as ViewGroup) //container
-                            .getChildAt(0) as ViewGroup) //actionbar
-                            .getChildAt(1) as ActionMenuView)
-                            .getChildAt(0) as ActionMenuItemView)
-                            .startAnimation(anim)
-                } catch (e: Exception) {
-                    Log.e(TAG, "Could not animate nudge / ${Log.getStackTraceString(e)}")
-                }
-            }
-        }, 3000)
-    }
 
     companion object{
         fun start(context: Context){

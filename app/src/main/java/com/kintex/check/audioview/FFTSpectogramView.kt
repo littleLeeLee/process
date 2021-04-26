@@ -123,7 +123,7 @@ class FFTSpectogramView(context: Context, attrs: AttributeSet?) : SimpleSurface(
             drawMsg(canvas)
         })
 
-        println("===p4: ${drawTimes.last}")
+    //    println("===p4: ${drawTimes.last}")
 
         while (drawTimes.size > history) drawTimes.removeFirst()
 

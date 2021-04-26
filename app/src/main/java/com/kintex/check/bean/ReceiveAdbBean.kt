@@ -1,19 +1,11 @@
 package com.kintex.check.bean
 
-data class ReceiveAdbBean(
-    val action: ReceiveAction
-)
+ class ReceiveAdbBean{
 
-data class ReceiveAction(
-    val name: String,
-    val udid: String,
-    val test_case_list: List<ReceiveTestCase>
+     var name = ""
+     var type =0
+     var test_case_list : NewTestPlanBean?=null
 
-)
+ }
 
-data class ReceiveTestCase(
-    val caseId: Int,
-    val caseName: String,
-    val enable: Int,
-    val visible: Int
-)
+

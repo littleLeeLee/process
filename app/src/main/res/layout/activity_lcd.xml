@@ -33,6 +33,7 @@
             android:text="Fail"
             android:textColor="@color/red"
             android:textSize="@dimen/tv_textsize_l"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_colorView"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,9 +46,11 @@
             android:text="Pass"
             android:textColor="@color/green"
             android:textSize="@dimen/tv_textsize_l"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tv_colorView"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -162,7 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/btn_bg_blue"
+            android:background="@drawable/btn_bg_gray"
             android:text="Fail"
             android:textColor="@color/red"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -174,7 +177,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/btn_bg_blue"
+            android:background="@drawable/btn_bg_gray"
             android:text="PASS"
             android:textColor="@color/green"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -182,6 +185,74 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_sensor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_proFail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="距离传感器异常"
+            android:textColor="@color/red"
+            android:textSize="@dimen/tv_textsize_l"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lightFail" />
+
+        <TextView
+            android:id="@+id/tv_lightValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="光线值："
+            android:textSize="@dimen/tv_textsize_l"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_proximityValue" />
+
+        <TextView
+            android:id="@+id/tv_proximityValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="距离值："
+            android:textSize="@dimen/tv_textsize_l"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lightNotice" />
+
+        <TextView
+            android:id="@+id/tv_lightNotice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="请把手靠近手机听筒位置"
+            android:textSize="@dimen/tv_textsize_l"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_lightFail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="光线传感器异常"
+            android:textColor="@color/red"
+            android:textSize="@dimen/tv_textsize_l"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lightValue" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

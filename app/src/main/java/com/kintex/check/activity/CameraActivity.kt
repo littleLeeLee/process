@@ -1,12 +1,9 @@
 package com.kintex.check.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.os.Bundle
@@ -16,25 +13,20 @@ import android.util.Size
 import android.view.Surface
 import android.view.TextureView
 import android.view.View
+import android.view.WindowManager
 import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
-import com.kintex.check.adapter.CameraAdapter
-import com.kintex.check.bean.CameraBean
 import com.kintex.check.bean.TestCase
-import com.kintex.check.bean.TestResultBean
+import com.kintex.check.utils.CaseId
+import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.FAILED
-import com.kintex.check.utils.ResultCode.CAM_POSITION
 import com.kintex.check.utils.ResultCode.PASSED
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener
 import com.kongzue.dialog.util.BaseDialog
 import com.kongzue.dialog.v3.MessageDialog
 import kotlinx.android.synthetic.main.activity_camera.*
-import kotlinx.android.synthetic.main.title_include.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class CameraActivity : BaseActivity() {
@@ -52,7 +44,6 @@ class CameraActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
-        include5.setBackgroundColor(Color.TRANSPARENT)
         setView()
         initData()
     }
@@ -68,8 +59,8 @@ class CameraActivity : BaseActivity() {
         super.onResume()
         if (cameraTextureView.isAvailable) {
             XLog.d("isAvailable")
-            if (getCameraSupport("0")) {
-                openCamera("0")
+            if (getCameraSupport(opendId)) {
+                openCamera(opendId)
             } else {
                 XLog.d("相机不支持API2")
             }
@@ -78,41 +69,49 @@ class CameraActivity : BaseActivity() {
     }
 
 
-    private var cameraList = ArrayList<CameraBean>()
     private fun setView() {
 
-        tv_titleReset.text = "Back"
+   /*     tv_titleReset.text = "Back"
         tv_titleName.text = "Camera Test"
         tv_titleReset.setOnClickListener {
             finish()
         }
         tv_titleDone.setOnClickListener {
-            for (k in cameraList.indices) {
-
-                if (cameraList[k].cameraState == "Pass") {
-                    resultCaseList[k].result = 1
-                } else {
-                    resultCaseList[k].result = 0
-                }
-
-            }
-            sendResult(CAM_POSITION, FAILED, resultCaseList)
-
-        }
+           finish()
+        }*/
 
         tv_cameraPassed.setOnClickListener {
 
-            editState("Pass")
+            if(opendId == "0"){
+                sendCaseResult(CaseId.FrontCamera.id, PASSED, ResultCode.MANUAL)
+                closeCamera()
+                openCamera("1")
+            }else if(opendId == "1"){
+                sendCaseResult(CaseId.RearCamera.id, PASSED, ResultCode.MANUAL)
+              //  closeCamera()
+              //  openCamera(cameraList[index].cameraId)
+                showFlashDialog()
+            }
 
         }
 
         tv_cameraFailed.setOnClickListener {
-            editState("Fail")
+            if(opendId == "0"){
+                sendCaseResult(CaseId.FrontCamera.id, FAILED, ResultCode.MANUAL)
+                closeCamera()
+                openCamera("1")
+            }else if(opendId == "1"){
+                sendCaseResult(CaseId.RearCamera.id, FAILED, ResultCode.MANUAL)
+                //  closeCamera()
+                //  openCamera(cameraList[index].cameraId)
+                showFlashDialog()
+            }
 
         }
 
-        val cameraIdList = cameraManager.cameraIdList
+        cameraTextureView.surfaceTextureListener = TextureListener()
 
+  /*      val cameraIdList = cameraManager.cameraIdList
         var deviceIdList = ArrayList<String>()
         deviceIdList.addAll(cameraIdList)
 
@@ -141,106 +140,14 @@ class CameraActivity : BaseActivity() {
                     }
 
                 }
-                      cameraList.add(CameraBean(device, "UnKnown", ""))
-            }
-
-        }
-        //最后一个是闪光灯-1  闪光灯 改为全亮
-/*        deviceIdList.add("Flash")
-        cameraList.add(CameraBean("Flash","UnKnown",""))*/
-        resultCaseList.add(TestCase("Camera", 25, "Flash", "", 1, 0))
-        val cameraAdapter = CameraAdapter(this, deviceIdList, cameraManager)
-
-        cameraRecyclerView.layoutManager =
-            GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-
-        cameraAdapter.setOnItemClickListener(object : CameraAdapter.onItemClickListener {
-            @SuppressLint("SetTextI18n")
-            override fun onItemClick(view: View, position: Int) {
-                //显示当前ID的结果
-                //   tv_currentId.text = cameraList[position].cameraId + "："+cameraList[position].cameraState
-
-                /*  if(position == deviceIdList.size-1){
-                      isFlashPressed = true
-                      //闪光灯
-                      isFlashOpen = !isFlashOpen
-                     var currid = openedCamera!!.id
-                      closeCamera()
-                      openCamera(currid)
-
-                  }else{*/
-                /*    isFlashPressed = false
-                    isFlashOpen = false
-                    if(openedCamera!!.id != deviceIdList[position]){
-
-                        closeCamera()
-                        openCamera(deviceIdList[position])
-
-                    }*/
-                //    }
-
 
             }
-        })
-        cameraRecyclerView.adapter = cameraAdapter
 
-        cameraTextureView.surfaceTextureListener = TextureListener()
-        tv_currentId.text = "0：UnKnown"
+        }*/
+
 
     }
 
-    private var touchCount = 0
-    private fun editState(state: String) {
-        if (state == "Pass") {
-            resultCaseList[touchCount].result = 1
-        } else if (state == "Fail") {
-            resultCaseList[touchCount].result = 0
-        }
-        touchCount++
-
-        var stateCount = cameraList.size
-        var passCount = 0
-
-        for (cameraBean in cameraList) {
-
-            if (cameraBean.cameraId == openedCamera!!.id) {
-                cameraBean.cameraState = state
-            }
-            if (cameraBean.cameraState != "UnKnown") {
-                stateCount--
-            }
-
-            if (cameraBean.cameraState == "Pass") {
-                passCount++
-            }
-
-
-        }
-        tv_currentId.text = openedCamera!!.id + "：" + state
-
-
-        if (stateCount == 0) {
-            showFlashDialog()
-        }
-
-
-        var index = 0
-        for (k in cameraList.indices) {
-
-            if (cameraList[k].cameraId == openedCamera!!.id) {
-                index = k
-            }
-        }
-
-        if (index != cameraList.size - 1) {
-            index += 1
-            closeCamera()
-            openCamera(cameraList[index].cameraId)
-            XLog.d("openCamera$index")
-        }
-
-
-    }
 
     private fun showFlashDialog() {
         val dialog = MessageDialog.build(this)
@@ -249,27 +156,15 @@ class CameraActivity : BaseActivity() {
         dialog.setOkButton("是", object : OnDialogButtonClickListener {
             override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
                 dialog!!.doDismiss()
-                resultCaseList[resultCaseList.size - 1].result = 1
-                var count =0
-                for (result in resultCaseList){
-                    if(result.result == 1){
-                        count++
-                    }
-                }
-                if(count == resultCaseList.size){
-                    sendResult(CAM_POSITION, PASSED, resultCaseList)
-                }else{
-                    sendResult(CAM_POSITION, FAILED, resultCaseList)
-                }
-
+                sendCaseResult(CaseId.Flash.id, PASSED, ResultCode.MANUAL)
+                finish()
                 return false
             }
         })
         dialog.setCancelButton("否", object : OnDialogButtonClickListener {
             override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
-                dialog!!.doDismiss()
-                resultCaseList[resultCaseList.size - 1].result = 0
-                sendResult(CAM_POSITION, FAILED, resultCaseList)
+                sendCaseResult(CaseId.Flash.id, FAILED, ResultCode.MANUAL)
+                finish()
                 return false
             }
         })
@@ -304,7 +199,10 @@ class CameraActivity : BaseActivity() {
             XLog.d("onSurfaceTextureAvailable")
             previewTexture = surface
             if (getCameraSupport("0")) {
-                previeSize = Size(width, height)
+
+
+                previeSize = Size(width, width * 16/9)
+                XLog.d(previeSize)
                 //surface 可见的时候打开相机 按照surface 的宽度显示预览
                 openCamera("0")
             } else {
@@ -345,12 +243,13 @@ class CameraActivity : BaseActivity() {
 
     private var openedCamera: CameraDevice? = null
     private var previeSize: Size? = null
+    private var opendId = "0"
 
     inner class CameraStateCallback : CameraDevice.StateCallback() {
         override fun onOpened(camera: CameraDevice) {
             XLog.d("opened")
             openedCamera = camera
-
+            opendId = camera.id
             //获取目标摄像头可支持的预览分辨率
             getPreviewSize(camera.id)
             createPreviewSession()
@@ -500,6 +399,10 @@ class CameraActivity : BaseActivity() {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+            testNext()
+    }
     companion object {
         fun start(context: Context) {
             XLog.d("start")

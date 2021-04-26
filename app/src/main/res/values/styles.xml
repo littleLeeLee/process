@@ -1,12 +1,11 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:windowBackground">@color/bgColor</item>
         <item name="actionBarSize">48dp</item>
         <item name="windowActionBar">false</item>
@@ -20,8 +19,6 @@
         <item name="android:textColor">@color/tvColorMain</item>
         <item name="android:textSize">@dimen/tv_textsize_m</item>
     </style>
-
-
     <style name="text_blue_20" parent="@android:style/Widget.TextView">
         <item name="android:textColor">@color/tvColorMain</item>
         <item name="android:textSize">@dimen/tv_textsize_l</item>

@@ -50,14 +50,14 @@ class MyProcessView : View {
 
         whiteRectPaint = Paint()
         whiteRectPaint!!.style = Paint.Style.FILL
-        whiteRectPaint!!.strokeWidth = 4f
+        whiteRectPaint!!.strokeWidth = 8f
         whiteRectPaint!!.color = Color.WHITE
         whiteRectPaint!!.isAntiAlias = true
         whiteRectPaint!!.isDither = true
     }
 
-    private var strokeWidth = 12f
-    private var rectStrokeWidth = 2f
+    private var strokeWidth = 24f
+
 
     private var startX = strokeWidth/2
     private var startY = strokeWidth/2
@@ -90,7 +90,7 @@ class MyProcessView : View {
         val oval1 = RectF(
             left,top ,right , bottom
         )
-        XLog.d("width:$trueWidth height:$trueHeight left:$left top:$top right:$right bottom:$bottom ")
+  //      XLog.d("width:$trueWidth height:$trueHeight left:$left top:$top right:$right bottom:$bottom ")
     //    canvas.drawArc(oval1,0f,360f,false,whiteRectPaint!!)
 
 

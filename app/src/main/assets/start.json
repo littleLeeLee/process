@@ -1,0 +1,87 @@
+{
+  "action": {
+    "name": "start",
+    "udid" : "xxxx",
+    "operations":[
+      {"testTypeName":"AutomaticTesting","types":[
+        {"name":"Connection","typeItems":[
+          {"caseName":"SimReader","caseId":1,"enable":1,"visible": 1},
+          {"caseName":"WiFi","caseId":3,"enable":1,"visible": 0},
+          {"caseName":"GPS","caseId":4,"enable":1,"visible": 0},
+          {"caseName":"BlueTooth","caseId":5,"enable":1,"visible": 0}
+        ]},
+        {"name":"Sensor","typeItems":[
+          {"caseName":"Gyroscope","caseId":6,"enable":1,"visible": 0},
+          {"caseName":"Accelerometer","caseId":9,"enable":1,"visible": 2},
+          {"caseName":"Magnetometer","caseId":53,"enable":1,"visible": 2}
+        ]},
+
+        {"name":"Secure","typeItems":[
+          {"caseName":"Fingerprint Sensor","caseId":28,"enable":1, "visible": 2},
+          {"caseName":"Face ID","caseId":29,"enable":1, "visible": 2}
+        ]}
+      ]},
+
+      {"testTypeName":"Manual Test","types":[
+        {"name":"Screen Test","typeItems":[
+          {"caseName":"Touch Panel","caseId":38,"enable":1, "visible": 1},
+          {"caseName":"Multi Touch","caseId":52,"enable":1, "visible": 1},
+          {"caseName":"Display","caseId":37,"enable":1, "visible": 1},
+          {"caseName":"Proximity Sensor","caseId":8,"enable":1,"visible": 1},
+          {"caseName":"LightSensor","caseId":54,"enable":1,"visible": 1},
+          {"caseName":"NFC","caseId":50,"enable":1,"visible": 2}
+        ]},
+
+        {"name":"Camera Test","typeItems":[
+          {"caseName":"Front Camera","caseId":23,"enable":1, "visible": 1},
+          {"caseName":"Rear Camera","caseId":24,"enable":1, "visible": 1},
+          {"caseName":"Flash","caseId":25,"enable":1, "visible": 1}
+        ]},
+        {"name":"Audio Test","typeItems":[
+          {"caseName":"Loud Speaker","caseId":11,"enable":1, "visible": 1},
+          {"caseName":"Ear Speaker","caseId":12,"enable":1, "visible": 1},
+          {"caseName":"Bottom Microphone","caseId":15,"enable":1, "visible": 1},
+          {"caseName":"Video Microphone","caseId":16,"enable":1, "visible": 1},
+          {"caseName":"Front Microphone","caseId":17,"enable":1, "visible": 1}
+        ]},
+        {"name":"Spen Test","typeItems":[
+          {"caseName":"Spen Verify","caseId":61,"enable":1, "visible": 1},
+          {"caseName":"Spen Back Button","caseId":62,"enable":1, "visible": 1},
+          {"caseName":"Spen Hover","caseId":63,"enable":1, "visible": 1},
+          {"caseName":"Spen Menu Button","caseId":64,"enable":1, "visible": 1},
+          {"caseName":"Spen Remove","caseId":65,"enable":1, "visible": 1}
+        ]}
+
+      ]},
+      {"testTypeName":"Semi-Automatic","types":[
+        {"name":"Battery","typeItems":[
+          {"caseName":"USB Charge","caseId":46,"enable":1, "visible": 0},
+          {"caseName":"Wireless Charge","caseId":47,"enable":1, "visible": 1}
+        ]},
+        {"name":"Headset","typeItems":[
+          {"caseName":"Headset-Left","caseId":18,"enable":1, "visible": 0},
+          {"caseName":"Headset-Right","caseId":19,"enable":1, "visible": 0},
+          {"caseName":"Headset Port","caseId":20,"enable":1, "visible": 1}
+        ]}
+      ]},
+
+      {"testTypeName":"Manual Check","types":[
+        {"name":"Cosmetics","typeItems":[
+          {"caseName":"LCD Quality","caseId":1024,"enable":1,"visible": 1},
+          {"caseName":"Frame Quality","caseId":1025,"enable":1,"visible": 1},
+          {"caseName":"Back  Quality","caseId":1026,"enable":1,"visible": 0},
+          {"caseName":"FT Quality","caseId":1027,"enable":1,"visible": 0}
+        ]},
+        {"name":"Notes","typeItems":[
+          {"caseName":"LCD gap","caseId":1028,"enable":1,"visible": 1},
+          {"caseName":"Cut the hand","caseId":1029,"enable":1,"visible": 1}
+        ]}
+      ]}
+
+
+
+
+
+    ]
+  }
+}

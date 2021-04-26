@@ -1,0 +1,37 @@
+package com.kintex.check.utils
+
+enum class CaseId(var id : Int) {
+    WIFI(3),
+    BlueTooth(5),
+    GPS(4),
+    SimReader(1),
+    Gyroscope(6),
+    Accelerometer(9),
+    NFC(50),
+    Magnetometer(53),
+    TouchPanel(38),
+    MultiTouch(52),
+    Display(37),
+    ProximitySensor(8),
+    LightSensor(54),
+    PowerButton(30),
+    HomeButton(31),
+    VolumeDownButton(32),
+    VolumeUpButton(33),
+    SilenceButton(34),
+    Vibration(45),
+    FrontCamera(23),
+    RearCamera(24),
+    Flash(25),
+    LoudSpeaker(11),
+    EarSpeaker(12),
+    BottomMicrophone(15),
+    VideoMicrophone(16),
+    FrontMicrophone(17),
+    WirelessCharge(47),
+    USBCharge(46),
+    HeadsetPort(20),
+    HeadsetRight(19),
+    HeadsetLeft(18)
+
+}
