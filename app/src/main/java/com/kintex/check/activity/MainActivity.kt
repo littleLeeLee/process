@@ -207,7 +207,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
             btn_done->{
 
-                TestAdbActivity.start(this)
+             //   TestAdbActivity.start(this)
                 val arrayList = ArrayList<TestCase>()
                 for (case in caseList){
 
@@ -228,6 +228,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         }.type
                 )
                 Log.d("111",toJson)
+                mBinder?.testFinish(toJson)
             }
 
 
