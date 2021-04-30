@@ -24,7 +24,7 @@ class AdbConnectService : Service() {
     var isRunning = true
     override fun onCreate() {
         super.onCreate()
-     //   startAdbService()
+        startAdbService()
     }
 
     private var socketThread: Thread? = null
