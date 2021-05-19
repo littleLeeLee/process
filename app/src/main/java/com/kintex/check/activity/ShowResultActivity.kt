@@ -75,7 +75,7 @@ class ShowResultActivity : BaseActivity() {
             return
         }
 
-        val testSummaryBean = TestSummaryBean(Action("test_result",SPUtils.getInstance().getString("UUID"),testCaseList))
+        val testSummaryBean = TestSummaryBean(Action("test_inprogress",SPUtils.getInstance().getString("UUID")),testCaseList)
 
         val toJson = Gson().toJson(
             testSummaryBean,

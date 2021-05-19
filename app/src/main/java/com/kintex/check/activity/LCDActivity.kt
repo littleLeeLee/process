@@ -1,5 +1,6 @@
 package com.kintex.check.activity
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -7,14 +8,21 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.nfc.FormatException
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
 import android.widget.GridLayout
 import android.widget.TextView
+import com.blankj.utilcode.util.SPUtils
 import com.elvishew.xlog.XLog
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.kintex.check.R
+
 import com.kintex.check.utils.CaseId
+import com.kintex.check.utils.NfcUtils
 import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.PASSED
@@ -26,6 +34,8 @@ import kotlinx.android.synthetic.main.activity_lcd.tv_failed1
 import kotlinx.android.synthetic.main.activity_lcd.tv_failed2
 import kotlinx.android.synthetic.main.activity_lcd.viewGridView
 import kotlinx.android.synthetic.main.title_include.*
+import java.io.IOException
+import java.io.UnsupportedEncodingException
 
 class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
@@ -40,6 +50,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val nfcUtils = NfcUtils(this)
         val decorView = window.decorView
         val uiOptions = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_FULLSCREEN)
@@ -70,7 +81,18 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
             sendTestResult(FAILED,CaseId.ProximitySensor.id)
             checkLcdPass()
         }
+        showChoosePrint()
+    }
 
+    private  var isNFCFinsh = false
+    var dialog : AlertDialog ?=null
+    private fun showChoosePrint() {
+        dialog = AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("提示").setCancelable(false).setMessage("请把手机靠近NFC设备")
+                .setPositiveButton("失败") { dialog, which ->
+                    isNFCFinsh = true
+                    sendTestResult(PASSED, CaseId.NFC.id)
+                }.show()
     }
 
 
@@ -135,6 +157,47 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                 viewList.add(textView)
                 viewGridView.addView(textView,params)
             }
+        }
+
+    }
+
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        readWrite(intent)
+    }
+    //读取NFC卡id
+    private fun readWrite(intent: Intent?) {
+
+        try {
+            // 检测卡的id
+            val id = NfcUtils.readNFCId(intent)
+            // NfcUtils中获取卡中数据的方法
+            val result = NfcUtils.readNFCFromTag(intent)
+            XLog.d( "id:$id")
+            if(!TextUtils.isEmpty(id)){
+                dialog?.dismiss()
+                isNFCFinsh = true
+                sendTestResult(PASSED,CaseId.NFC.id)
+                try {
+                    if (NfcUtils.mNfcAdapter != null) {
+                        NfcUtils.mNfcAdapter.disableForegroundDispatch(this)
+                        NfcUtils.mNfcAdapter = null
+                    }
+                }catch ( e :java.lang.Exception){
+                    dialog?.dismiss()
+                    isNFCFinsh = true
+                }
+
+            }
+            // 往卡中写数据
+            val data = "1这是写入的数据2"
+            //   NfcUtils.writeNFCToTag(this, data, intent)
+        } catch (e: Exception) {
+            dialog?.dismiss()
+            isNFCFinsh = true
+            sendTestResult(PASSED,CaseId.NFC.id)
+            e.printStackTrace()
         }
 
     }
@@ -321,15 +384,39 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
     private fun checkLcdPass() {
 
-        if(isLcdFinish&& isMultiFinish && isTouchFinish && isLightFinish && isProFinish){
+        if(isLcdFinish&& isMultiFinish && isTouchFinish && isLightFinish && isProFinish && isNFCFinsh){
             finish()
         }
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        //设定intentfilter和tech-list。如果两个都为null就代表优先接收任何形式的TAG action。也就是说系统会主动发TAG intent。
+        if (NfcUtils.mNfcAdapter != null) {
+            NfcUtils.mNfcAdapter.enableForegroundDispatch(
+                    this,
+                    NfcUtils.mPendingIntent,
+                    NfcUtils.mIntentFilter,
+                    NfcUtils.mTechList
+            )
+        }
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (NfcUtils.mNfcAdapter != null) {
+            NfcUtils.mNfcAdapter.disableForegroundDispatch(this);
+        }
+
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
             testNext()
+        NfcUtils.mNfcAdapter = null
         if(proximitySensor != null){
             sensorManager?.unregisterListener(mySensorListener,proximitySensor)
         }

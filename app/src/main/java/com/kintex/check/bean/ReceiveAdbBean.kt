@@ -4,8 +4,13 @@ package com.kintex.check.bean
 
      var name = ""
      var type =0
-     var test_case_list : NewTestPlanBean?=null
+     var contentStr : String =""
 
+     constructor(name: String, type: Int, contentStr: String) {
+         this.name = name
+         this.type = type
+         this.contentStr = contentStr
+     }
  }
 
 

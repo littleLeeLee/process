@@ -278,13 +278,13 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
 
     }
     private var resultCaseList = arrayListOf<TestCase>(
-        TestCase("Buttons",30,"Power Button","",1,0),
-        TestCase("Buttons",31,"Home Button","",1,0),
-        TestCase("Buttons",32,"Volume Down Button","",1,0),
-        TestCase("Buttons",33,"Volume Up Button","",1,0),
-        TestCase("Buttons",35,"Back Button","",1,0),
-        TestCase("Buttons",36,"Menu Button","",1,0),
-        TestCase("Buttons",34,"Flip Switch","",0,0)
+        TestCase(30,"Power Button","",1,0),
+        TestCase(31,"Home Button","",1,0),
+        TestCase(32,"Volume Down Button","",1,0),
+        TestCase(33,"Volume Up Button","",1,0),
+        TestCase(35,"Back Button","",1,0),
+        TestCase(36,"Menu Button","",1,0),
+        TestCase(34,"Flip Switch","",0,0)
     )
 
     private fun finishTest(){

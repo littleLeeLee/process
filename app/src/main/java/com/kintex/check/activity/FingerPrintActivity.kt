@@ -39,7 +39,7 @@ import javax.crypto.SecretKey
 class FingerPrintActivity : BaseActivity() {
 
     private var resultCaseList = arrayListOf<TestCase>(
-        TestCase("Fingerprint Sensor",27,"Fingerprint","",1,0)
+        TestCase(27,"Fingerprint","",1,0)
     )
     private var biometricPrompt : BiometricPrompt ?= null
     private var authenticationCallback : MyAuthenticationCallback ?=null

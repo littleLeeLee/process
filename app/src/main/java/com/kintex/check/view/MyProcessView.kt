@@ -115,7 +115,7 @@ class MyProcessView : View {
     private var currentProcess : Float = 0f
     fun updateProcess(){
         currentProcess += (260f / 120f)
-        XLog.d("currentProcess:$currentProcess")
+
         invalidate()
     }
 

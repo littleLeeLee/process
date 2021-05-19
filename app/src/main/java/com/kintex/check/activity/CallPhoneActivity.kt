@@ -29,8 +29,8 @@ import javax.xml.parsers.FactoryConfigurationError
 class CallPhoneActivity : BaseActivity() {
 
     private var resultCaseList = arrayListOf<TestCase>(
-        TestCase("Dial",1,"SimReader","",1,0),
-        TestCase("Dial",53,"Dial","",1,0)
+        TestCase(1,"SimReader","",1,0),
+        TestCase(53,"Dial","",1,0)
 
     )
     override fun onCreate(savedInstanceState: Bundle?) {

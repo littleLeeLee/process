@@ -49,7 +49,7 @@ class AdbConnectService : Service() {
         }
 
         fun testFinish(description: String) {
-
+            XLog.d("send data:$description")
             Thread(Runnable {
                 if(!TextUtils.isEmpty(description)){
                     outStream?.write(description.toByteArray())
@@ -142,46 +142,13 @@ class AdbConnectService : Service() {
                 println("content:$content")
                 //告诉client 收到了什么消息
                 if (!TextUtils.isEmpty(content)) {
-                    val gson = Gson()
-                    try {
-                        val receiveAdbBean =
-                            gson.fromJson<NewTestPlanBean>(content, NewTestPlanBean::class.java)
-                        if (receiveAdbBean != null) {
 
-                            val action = receiveAdbBean.action
-                            when (action.name) {
+                    if(content.contains("negotiation")){
+                    EventBus.getDefault().post(ReceiveAdbBean("negotiation",0,content))
+                    }else if(content.contains("get_result")){
+                        EventBus.getDefault().post(ReceiveAdbBean("get_result",0,content))
+                    }else if(content.contains("send_case_result")){
 
-                                "negotiation" -> {
-                                    XLog.d("negotiation")
-                                    //保存UID
-                                    SPUtils.getInstance().put("UUID", action.udid)
-                                   var adb= ReceiveAdbBean()
-                                    adb.name = action.name
-                                    adb.test_case_list = receiveAdbBean
-                                    EventBus.getDefault().post(adb)
-                                    ToastUtils.showShort("negotiation success uuid is ${action.udid}")
-                                }
-
-                                "start" -> {
-
-                                    ToastUtils.showShort("Test Start")
-                                }
-
-                                "stop" -> {
-
-                                    ToastUtils.showShort("Test Stop")
-                                }
-
-
-                            }
-
-                        } else {
-                            XLog.d("parse json = null ")
-                        }
-
-
-                    } catch (e: java.lang.Exception) {
-                        XLog.d("parse json $e")
                     }
 
                 } else {

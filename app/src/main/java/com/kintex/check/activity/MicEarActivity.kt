@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.EventBus
 class MicEarActivity  : BaseActivity(){
 
     private var resultCaseList  = arrayListOf<TestCase>(
-        TestCase("Earpiece",12,"Earpiece","",1,0)
+        TestCase(12,"Earpiece","",1,0)
     )
     private var mediaPlayer : MediaPlayer ?=null
     override fun onCreate(savedInstanceState: Bundle?) {

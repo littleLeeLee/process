@@ -18,7 +18,7 @@ data class Operation(
 data class CaseType(
         val typeId :Int =0,
         val name: String,
-        val typeItems: List<TypeItem>?,
+        val typeItems: List<TypeItem>,
         var state : Int ? = 2
 )
 

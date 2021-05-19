@@ -2,6 +2,7 @@ package com.kintex.check.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.bluetooth.BluetoothManager
 import android.content.ComponentName
 import android.content.Context
@@ -19,10 +20,10 @@ import android.nfc.FormatException
 import android.os.*
 import android.telephony.TelephonyManager
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -42,7 +43,6 @@ import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.PASSED
 import com.oubowu.stickyitemdecoration.DividerHelper
 import com.tbruyelle.rxpermissions2.RxPermissions
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.newmain.*
 import kotlinx.android.synthetic.main.title_include.*
 import org.greenrobot.eventbus.EventBus
@@ -57,6 +57,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
         setContentView(R.layout.newmain)
+        tv_version.text = "K-Check v${AppUtils.getAppVersionName()}"
         startAdbService()
         btn_reset.setOnClickListener(this)
         btn_done.setOnClickListener(this)
@@ -70,11 +71,13 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private var autoTestCount = 0
     private var manualTestCount = 0
+    private var totalCount = 0
 
     private var caseList =  ArrayList<CaseType>()
     private fun getJsonData(testData : NewTestPlanBean) {
         caseList = ArrayList()
         val operations = testData.action.operations
+        SPUtils.getInstance().put("UUID",testData.action.udid)
         if(operations.isNotEmpty()){
             for ( k in  operations.indices ){
                 val autoCaseType = CaseType(0-1-k, operations[k].testTypeName, ArrayList(), DEFAULT)
@@ -86,16 +89,23 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     manualTestCount += operations[k].types.size
                     caseList.addAll(operations[k].types)
                 }
+                for (j in operations[k].types.indices){
+                    XLog.d("size: ${operations[k].types[j].typeItems.size}")
+                    totalCount += operations[k].types[j].typeItems.size
+                }
             }
         }
 
-        XLog.d("caselist"+caseList.size)
+        XLog.d("totalCount : $totalCount")
         setDataToView(caseList)
 
     }
     private var mainListAdapter: NewMainListAdapter ?=null
     private fun setDataToView(caseList: java.util.ArrayList<CaseType>) {
-
+        if(mainListAdapter != null){
+            mainListAdapter = null
+          //  ry_mainTestList.removeAllViews()
+        }
         mainListAdapter = NewMainListAdapter(this, caseList)
         val linearLayoutManager =
                 LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -191,7 +201,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
             btn_reset -> {
                 resetTest()
-                mBinder!!.testProcess("{\"action\":{\"name\":\"print_label\",\"udid\":\"xxxxx\",\"print\":\"0\"}}")
+                mBinder
+             //   mBinder!!.testProcess("{\"action\":{\"name\":\"print_label\",\"udid\":\"xxxxx\",\"print\":\"0\"}}")
             }
 
             tv_titleDone -> {
@@ -208,27 +219,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             btn_done->{
 
              //   TestAdbActivity.start(this)
-                val arrayList = ArrayList<TestCase>()
-                for (case in caseList){
+                sendFinishData()
 
-                    if(case.typeItems!= null){
-                        for (item in case.typeItems){
-                         var testCase =   TestCase("",item.caseId,item.caseName,item.description ?: "",item.enable,item.result ?: 2)
-                            arrayList.add(testCase)
-                       //   Log.d("111", item.toString())
-                        }
-                    }
-
-
-                }
-                val testSummaryBean = TestSummaryBean(Action("test_result",SPUtils.getInstance().getString("UUID"),arrayList))
-                val toJson = Gson().toJson(
-                        testSummaryBean,
-                        object : TypeToken<TestSummaryBean>() {
-                        }.type
-                )
-                Log.d("111",toJson)
-                mBinder?.testFinish(toJson)
             }
 
 
@@ -257,7 +249,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     fun connectService(receive: ReceiveAdbBean) {
         when(receive.name){
             "negotiation"->{
-                getJsonData(receive.test_case_list!!)
+              var plan =  Gson().fromJson(receive.contentStr,NewTestPlanBean::class.java)
+                getJsonData(plan)
+            }
+
+            "get_result"->{
+                sendFinishData()
             }
 
         }
@@ -292,10 +289,50 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 find.description = caseResultBean.dis
             }
 
+            XLog.d(" ID:${find.caseId}")
+
+            checkResult()
+
         }
 
 
     }
+    @Synchronized
+    private fun checkResult() {
+        var testCount =0
+        for ( k in  caseList.indices ){
+
+            for (find in caseList[k].typeItems){
+                if(find.caseId == 1024 || find.caseId ==1025|| find.caseId ==1026|| find.caseId ==1027 || find.caseId ==1028 || find.caseId ==1029){
+
+                    if(!TextUtils.isEmpty(find.description) ){
+                        testCount++
+                   }
+
+                }else{
+                 //   XLog.d("result:${find.result}")
+                    if(find.result == PASSED || find.result == FAILED){
+                        testCount++
+                    }
+
+                }
+
+            }
+        }
+        XLog.d("total:$testCount ")
+        if(testCount == totalCount){
+            XLog.d("total test finish")
+            runOnUiThread {
+                ToastUtils.showShort("测试完成")
+                tv_start.text = "Start"
+                sendFinishData()
+                stopTimer()
+                showChoosePrint()
+            }
+
+        }
+    }
+
     var isAutoTest = false
     //自动跳转下一个测试
     @Synchronized
@@ -308,8 +345,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 getTestItem(currentAutoTestPosition)
             }else{
                 XLog.d("autoTest test finish")
-                tv_start.text = "Start"
-                stopTimer()
+
             }
         }
 
@@ -317,8 +353,33 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     }
 
+    private fun sendFinishData() {
 
-        //发送进度信息
+        val arrayList = ArrayList<TestCase>()
+        for (case in caseList){
+
+            if(case.typeItems!= null){
+                for (item in case.typeItems){
+                    var testCase =   TestCase(item.caseId,item.caseName,item.description ?: "",item.enable,item.result ?: 2)
+                    arrayList.add(testCase)
+                    //   Log.d("111", item.toString())
+                }
+            }
+
+
+        }
+        val testSummaryBean = TestSummaryBean(Action("test_inprogress",SPUtils.getInstance().getString("UUID")),arrayList)
+        val toJson = Gson().toJson(
+                testSummaryBean,
+                object : TypeToken<TestSummaryBean>() {
+                }.type
+        )
+        mBinder?.testFinish(toJson)
+
+    }
+
+
+    //发送进度信息
         private fun sendProcessData(itemCaseList: ArrayList<TestCase>) {
             val arrayList = ArrayList<Param>()
             for (testCase in itemCaseList) {
@@ -426,6 +487,31 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             sensorManager!!.registerListener(mySensorListener, rotationSensor, 100000)
         }
 
+    }
+
+
+    private fun showChoosePrint() {
+        AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("提示").setCancelable(false).setMessage("是否打印标签")
+                .setPositiveButton("打印") { dialog, which ->
+                    var print = PrintBean(PrintAction("print_label","1",SPUtils.getInstance().getString("UUID")))
+                    val toJson = Gson().toJson(
+                            print,
+                            object : TypeToken<PrintBean>() {
+                            }.type
+                    )
+                mBinder?.testFinish(toJson)
+
+                }.setNegativeButton("取消") { dialog, which ->
+                    var print = PrintBean(PrintAction("print_label","0",SPUtils.getInstance().getString("UUID")))
+                    val toJson = Gson().toJson(
+                            print,
+                            object : TypeToken<PrintBean>() {
+                            }.type
+                    )
+                    mBinder?.testFinish(toJson)
+
+                }.show()
     }
 
 
@@ -692,55 +778,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     }
 
-    private fun checkNFC() {
-        val nfcUtils = NfcUtils(this)
-        if (NfcUtils.mNfcAdapter != null) {
-            NfcUtils.mNfcAdapter.enableForegroundDispatch(
-                    this,
-                    NfcUtils.mPendingIntent,
-                    NfcUtils.mIntentFilter,
-                    NfcUtils.mTechList
-            )
-        }
 
-    }
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        readWrite(intent);
-    }
-    //读取NFC卡id
-    private fun readWrite(intent: Intent?) {
-
-        try {
-            // 检测卡的id
-            val id = NfcUtils.readNFCId(intent)
-            // NfcUtils中获取卡中数据的方法
-            val result = NfcUtils.readNFCFromTag(intent)
-            XLog.d( "id:$id")
-            if(!TextUtils.isEmpty(id)){
-                updateCaseResult(CaseResultBean(CaseId.NFC.id, PASSED,AUTO))
-                try {
-                    if (NfcUtils.mNfcAdapter != null) {
-                        NfcUtils.mNfcAdapter.disableForegroundDispatch(this)
-                        NfcUtils.mNfcAdapter = null
-                    }
-                }catch ( e :java.lang.Exception){
-
-                }
-
-            }
-            // 往卡中写数据
-            val data = "1这是写入的数据2"
-            //   NfcUtils.writeNFCToTag(this, data, intent)
-        } catch (e: UnsupportedEncodingException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: FormatException) {
-            e.printStackTrace()
-        }
-
-    }
     private var currentPosition = 0
 
     private var gyrFirstX = 0f

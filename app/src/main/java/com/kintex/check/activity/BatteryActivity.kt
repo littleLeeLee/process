@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.title_include.*
 class BatteryActivity  : BaseActivity() {
 
     private var resultCaseList = arrayListOf<TestCase>(
-        TestCase("BatteryHealth",52,"BatteryHealth","",1,0)
+        TestCase(52,"BatteryHealth","",1,0)
     )
     private var batteryReceiver : BatteryReceiver ?= null
 

@@ -31,13 +31,13 @@ import kotlin.random.Random
 class SpeakerActivity : BaseActivity() {
 
     private var resultCaseList  = arrayListOf<TestCase>(
-        TestCase("Loud Speaker",11,"Loud Speaker","",1,0),
-        TestCase("Loud Speaker",15,"Microphone","",1,0),
-        TestCase("Loud Speaker",16,"Video Microphone","",1,0),
-        TestCase("Earpiece",12,"Earpiece","",1,0),
-        TestCase("Headset Port",20,"Headset Port","",1,0),
-        TestCase("Headset Port",18,"Headset-Left","",1,0),
-        TestCase("Headset Port",19,"Headset-Right","",1,0)
+        TestCase(11,"Loud Speaker","",1,0),
+        TestCase(15,"Microphone","",1,0),
+        TestCase(16,"Video Microphone","",1,0),
+        TestCase(12,"Earpiece","",1,0),
+        TestCase(20,"Headset Port","",1,0),
+        TestCase(18,"Headset-Left","",1,0),
+        TestCase(19,"Headset-Right","",1,0)
     )
     private var mediaPlayer : MediaPlayer ?=null
     private var isComplete = false

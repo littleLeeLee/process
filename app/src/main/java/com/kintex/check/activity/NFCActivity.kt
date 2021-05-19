@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException
 
 class NFCActivity : BaseActivity() {
     private var resultCaseList  = arrayListOf<TestCase>(
-        TestCase("NFC",48,"NFC","",1,0)
+        TestCase(48,"NFC","",1,0)
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

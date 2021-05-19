@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.EventBus
 class ProximityActivity : BaseActivity() {
 
     private var resultCaseList  = arrayListOf<TestCase>(
-        TestCase("Proximity Sensor",8,"Proximity Sensor","",1,0)
+        TestCase(8,"Proximity Sensor","",1,0)
     )
     private var firstValue = -1
     private var isFirst = true

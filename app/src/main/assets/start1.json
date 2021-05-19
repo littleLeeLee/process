@@ -14,6 +14,11 @@
           {"caseName":"Gyroscope","caseId":6,"enable":1,"visible": 0},
           {"caseName":"Accelerometer","caseId":9,"enable":1,"visible": 2},
           {"caseName":"Magnetometer","caseId":53,"enable":1,"visible": 2}
+        ]},
+
+        {"name":"Secure","typeItems":[
+          {"caseName":"Fingerprint Sensor","caseId":28,"enable":1, "visible": 2},
+          {"caseName":"Face ID","caseId":29,"enable":1, "visible": 2}
         ]}
       ]},
 
@@ -38,6 +43,13 @@
           {"caseName":"Bottom Microphone","caseId":15,"enable":1, "visible": 1},
           {"caseName":"Video Microphone","caseId":16,"enable":1, "visible": 1},
           {"caseName":"Front Microphone","caseId":17,"enable":1, "visible": 1}
+        ]},
+        {"name":"Spen Test","typeItems":[
+          {"caseName":"Spen Verify","caseId":61,"enable":1, "visible": 1},
+          {"caseName":"Spen Back Button","caseId":62,"enable":1, "visible": 1},
+          {"caseName":"Spen Hover","caseId":63,"enable":1, "visible": 1},
+          {"caseName":"Spen Menu Button","caseId":64,"enable":1, "visible": 1},
+          {"caseName":"Spen Remove","caseId":65,"enable":1, "visible": 1}
         ]}
 
       ]},

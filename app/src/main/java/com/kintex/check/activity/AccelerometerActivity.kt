@@ -30,10 +30,10 @@ import javax.microedition.khronos.opengles.GL10
 class AccelerometerActivity : BaseActivity() ,SensorEventListener{
 
     private var testCaseList = arrayListOf<TestCase>(
-        TestCase("Accelerometer",9,"Accelerometer","",1,0),
-        TestCase("Accelerometer",50,"Light sensor","",1,0),
-        TestCase("Accelerometer",6,"Gyroscope","",1,0),
-        TestCase("Accelerometer",51,"Screen Rotation","",1,0)
+        TestCase(9,"Accelerometer","",1,0),
+        TestCase(50,"Light sensor","",1,0),
+        TestCase(6,"Gyroscope","",1,0),
+        TestCase(51,"Screen Rotation","",1,0)
     )
      var sensorManager : SensorManager ?= null
 
