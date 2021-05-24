@@ -16,7 +16,6 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.LocationManager
-import android.nfc.FormatException
 import android.os.*
 import android.telephony.TelephonyManager
 import android.text.TextUtils
@@ -48,8 +47,7 @@ import kotlinx.android.synthetic.main.title_include.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.io.IOException
-import java.io.UnsupportedEncodingException
+
 
 class MainActivity : BaseActivity(), View.OnClickListener {
 
@@ -75,8 +73,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private var caseList =  ArrayList<CaseType>()
     private fun getJsonData(testData : NewTestPlanBean) {
+
+        totalCount = 0
         caseList = ArrayList()
         val operations = testData.action.operations
+
         SPUtils.getInstance().put("UUID",testData.action.udid)
         if(operations.isNotEmpty()){
             for ( k in  operations.indices ){
@@ -96,20 +97,50 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
         }
 
-        XLog.d("totalCount : $totalCount")
+        XLog.d("totalCount : $totalCount caselist:${caseList.size}")
         setDataToView(caseList)
 
     }
+
+    private fun showTestingDialog(plan: NewTestPlanBean) {
+
+        AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("提示").setCancelable(false).setMessage("本地已有测试记录，是否覆盖")
+                .setPositiveButton("是") { dialog, which ->
+                    SPUtils.getInstance().clear()
+                    getJsonData(plan)
+                }.setNegativeButton("否") { dialog, which ->
+
+                }.show()
+
+    }
+
     private var mainListAdapter: NewMainListAdapter ?=null
     private fun setDataToView(caseList: java.util.ArrayList<CaseType>) {
         if(mainListAdapter != null){
             mainListAdapter = null
           //  ry_mainTestList.removeAllViews()
         }
+        for (case in caseList){
+            for (item in case.typeItems){
+                when(item.caseId){
+
+                    1024,1025,1026,1027,1028,1029->{
+                        item.description =  SPUtils.getInstance().getString(""+item.caseId)
+                    }
+                    else ->{
+                        item.result =  SPUtils.getInstance().getInt(""+item.caseId,2)
+                    }
+
+                }
+
+                XLog.d("result:"+ item.result)
+            }
+        }
         mainListAdapter = NewMainListAdapter(this, caseList)
         val linearLayoutManager =
                 LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        ry_mainTestList.setItemViewCacheSize(20)
+        ry_mainTestList.setItemViewCacheSize(40)
         ry_mainTestList.layoutManager = linearLayoutManager
         ry_mainTestList.adapter = mainListAdapter
         mainListAdapter!!.setOnItemClickListener(object : NewMainListAdapter.onItemClickListener {
@@ -124,6 +155,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     @Synchronized
     private fun getTestItem(position: Int) {
+        ry_mainTestList.scrollToPosition(position)
         val typeItems = caseList[position].typeItems
         when(caseList[position].name){
             "Connection"->{
@@ -201,26 +233,22 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
             btn_reset -> {
                 resetTest()
-                mBinder
+            //    mBinder
              //   mBinder!!.testProcess("{\"action\":{\"name\":\"print_label\",\"udid\":\"xxxxx\",\"print\":\"0\"}}")
             }
 
-            tv_titleDone -> {
-              //  showTestSummary()
-
-            }
 
             tv_start->{
-
+                myProcessView.setProcess(0f)
                 startBackgroundTest()
              //   AudioActivity.start(this)
             }
 
             btn_done->{
 
-             //   TestAdbActivity.start(this)
+             //  TestAdbActivity.start(this)
                 sendFinishData()
-
+                stopTimer()
             }
 
 
@@ -249,8 +277,18 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     fun connectService(receive: ReceiveAdbBean) {
         when(receive.name){
             "negotiation"->{
-              var plan =  Gson().fromJson(receive.contentStr,NewTestPlanBean::class.java)
-                getJsonData(plan)
+                var plan =  Gson().fromJson(receive.contentStr,NewTestPlanBean::class.java)
+                if(isAutoTest){
+                    showTestingDialog(plan)
+                }else{
+                    if(SPUtils.getInstance().getInt("result",0) == 1024){
+                        showTestingDialog(plan)
+                    }else{
+                        getJsonData(plan)
+                    }
+
+                }
+
             }
 
             "get_result"->{
@@ -284,19 +322,27 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 runOnUiThread {
                     mainListAdapter!!.notifyDataSetChanged()
                 }
+                SPUtils.getInstance().put(""+caseResultBean.caseId,caseResultBean.result)
             }else{
                 XLog.d("caseResultBeanID${caseResultBean.dis}")
                 find.description = caseResultBean.dis
+                SPUtils.getInstance().put(""+caseResultBean.caseId,caseResultBean.dis)
             }
 
             XLog.d(" ID:${find.caseId}")
-
+            saveResult()
             checkResult()
+
 
         }
 
 
     }
+    //保存数据到本地
+    private fun saveResult() {
+        SPUtils.getInstance().put("result",1024)
+    }
+
     @Synchronized
     private fun checkResult() {
         var testCount =0
@@ -320,6 +366,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
         }
         XLog.d("total:$testCount ")
+        ToastUtils.showShort("count: $totalCount total:$testCount ")
         if(testCount == totalCount){
             XLog.d("total test finish")
             runOnUiThread {
@@ -345,7 +392,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 getTestItem(currentAutoTestPosition)
             }else{
                 XLog.d("autoTest test finish")
-
+                runOnUiThread {
+                    ry_mainTestList.scrollToPosition(caseList.size-1)
+                }
             }
         }
 
@@ -501,7 +550,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                             }.type
                     )
                 mBinder?.testFinish(toJson)
-
+                    isAutoTest = false
                 }.setNegativeButton("取消") { dialog, which ->
                     var print = PrintBean(PrintAction("print_label","0",SPUtils.getInstance().getString("UUID")))
                     val toJson = Gson().toJson(
@@ -510,7 +559,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                             }.type
                     )
                     mBinder?.testFinish(toJson)
-
+                    isAutoTest = false
                 }.show()
     }
 
@@ -796,9 +845,20 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         //stopTimer()
         for (caseType in caseList){
             for (case in caseType.typeItems!!){
-                case.result = DEFAULT
+                when(case.caseId){
+                    1024,1025,1026,1027,1028,1029->{
+                        case.description =  ""
+                    }
+                    else ->{
+                        case.result = DEFAULT
+                    }
+                }
+
             }
         }
+        SPUtils.getInstance().clear()
+        myProcessView.setProcess(0f)
+        stopTimer()
         mainListAdapter?.notifyDataSetChanged()
     }
 

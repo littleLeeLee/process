@@ -27,6 +27,13 @@
           {"caseName":"NFC","caseId":50,"enable":1,"visible": 2}
         ]},
 
+        {"name":"Button","typeItems":[
+          {"caseName":"Power Button","caseId":30,"enable":1, "visible": 1},
+          {"caseName":"Volume Down Button","caseId":32,"enable":1, "visible": 1},
+          {"caseName":"Volume Up Button","caseId":33,"enable":1, "visible": 1},
+          {"caseName":"Vibration","caseId":45,"enable":1, "visible": 1}
+        ]},
+
         {"name":"Camera Test","typeItems":[
           {"caseName":"Front Camera","caseId":23,"enable":1, "visible": 1},
           {"caseName":"Rear Camera","caseId":24,"enable":1, "visible": 1},

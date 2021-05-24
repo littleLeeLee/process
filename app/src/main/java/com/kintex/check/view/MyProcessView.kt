@@ -120,8 +120,8 @@ class MyProcessView : View {
     }
 
     private var MAXPROCESS = 0
-    fun setMaxProcess(max : Int){
-        MAXPROCESS = max
+    fun setProcess(max : Float){
+        currentProcess = max
     }
 
 

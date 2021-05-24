@@ -111,6 +111,7 @@ class AdbConnectService : Service() {
                     val inStream = connectedSocket.getInputStream()
                     outStream = connectedSocket.getOutputStream()
                     //          Scanner in = new Scanner(inStream);
+                    ToastUtils.showShort("连接成功")
                     outStream?.write("客户端连接成功".toByteArray())
                     outStream?.flush()
 

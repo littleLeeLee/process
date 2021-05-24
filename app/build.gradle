@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-def getVersionCode(){
+def getVersionCodex(){
 
-        def cmd = 'git rev-list HEAD --|count'
-        return cmd.execute().text.trim().toInteger();
+    def cmd = 'git rev-list HEAD --count'
+    return cmd.execute().text.trim().toInteger()
 
 }
 
 //根据GIT的TAG来获取name
-def gitVersionName() {
+def gitVersionTag() {
     def cmd = 'git describe --tags'
     def version = cmd.execute().text.trim()
 
@@ -37,8 +37,8 @@ android {
         applicationId "com.kintex.check"
         minSdkVersion 23
         targetSdkVersion 23
-        versionCode getVersionCode()
-        versionName getVersionName()
+        versionCode getVersionCodex()
+        versionName gitVersionTag()
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

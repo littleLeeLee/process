@@ -80,7 +80,8 @@ class ResultItemAdapter : RecyclerView.Adapter<ResultItemAdapter.MyViewHolder> {
     }
 
     @SuppressLint("WrongConstant")
-    private fun setList(holder: MyViewHolder, testPlan: TypeItem) {
+    private fun
+            setList(holder: MyViewHolder, testPlan: TypeItem) {
         val list = ArrayList<CheckBean>()
         when(testPlan.caseId){
 
@@ -94,6 +95,9 @@ class ResultItemAdapter : RecyclerView.Adapter<ResultItemAdapter.MyViewHolder> {
                 for( i in list.indices){
                     val radioButton = LayoutInflater.from(mContext!!).inflate(R.layout.item_radio, null) as RadioButton
                     radioButton.text = list[i].name
+                    if(testPlan.description == list[i].name){
+                        radioButton.isChecked = true
+                    }
                     holder.quailtyList.addView(radioButton)
                 }
                 holder.quailtyList.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
@@ -111,9 +115,15 @@ class ResultItemAdapter : RecyclerView.Adapter<ResultItemAdapter.MyViewHolder> {
             1028,1029->{
                 val radioButton = LayoutInflater.from(mContext!!).inflate(R.layout.item_radio, null) as RadioButton
                 radioButton.text = mContext!!.resources.getString(R.string.Failed)
+                if(testPlan.description ==  radioButton.text){
+                    radioButton.isChecked = true
+                }
                 holder.quailtyList.addView(radioButton)
                 val radioButton1 = LayoutInflater.from(mContext!!).inflate(R.layout.item_radio, null) as RadioButton
                 radioButton1.text = mContext!!.resources.getString(R.string.Passed)
+                if(testPlan.description ==  radioButton1.text){
+                    radioButton.isChecked = true
+                }
                 holder.quailtyList.addView(radioButton1)
                 holder.quailtyList.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
                     override fun onCheckedChanged(group: RadioGroup, checkedId: Int) {
