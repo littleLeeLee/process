@@ -15,9 +15,10 @@ import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.kintex.check.bean.KeyEventBean
 import com.kintex.check.bean.TestCase
-import com.kintex.check.bean.TestResultBean
 import com.kintex.check.recevier.KeyEventReceiver
 import com.kintex.check.recevier.ScreenReceiver
+import com.kintex.check.recevier.ScreenShotFileObserver
+import com.kintex.check.recevier.ScreenShotFileObserverManager
 import com.kintex.check.utils.CaseId
 import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.BUTTON_POSITION
@@ -213,7 +214,8 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
         vibrator = getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
         try {
           //  val patter = longArrayOf(200, 600, 200, 600,200, 600,200, 600,200, 600)
-            vibrator!!.vibrate(1000 * 60)
+            val pattern = longArrayOf(500, 1000, 500, 1000)
+            vibrator!!.vibrate(pattern,3)
             showVibratorDialog()
         } catch (e: Exception) {
             XLog.d(e)
@@ -295,8 +297,38 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
             sendResult(BUTTON_POSITION, PASSED,resultCaseList)
         }
     }
+    override fun onStart() {
+        super.onStart()
+        ScreenShotFileObserverManager.registerScreenShotFileObserver(object :
+                ScreenShotFileObserver.ScreenShotLister {
+            override fun finshScreenShot(path: String?) {
 
+                XLog.d("finshScreenShot path = $path")
+                runOnUiThread {
+                    isVolumeDownTest = true
+                    tv_volunDown.setTextColor(resources.getColor(R.color.green))
+                    tv_volunDown.text = "PASS"
+                    sendCaseResult(CaseId.VolumeDownButton.id, PASSED, ResultCode.MANUAL)
+                    hasFinishTest()
 
+                    tv_power.setTextColor(resources.getColor(R.color.green))
+                    tv_power.text = "PASS"
+                    isPowerTest = true
+                    sendCaseResult(CaseId.PowerButton.id, PASSED, ResultCode.MANUAL)
+                    hasFinishTest()
+                }
+
+            }
+
+            override fun beganScreenShot(path: String?) {
+                XLog.d("beganScreenShot path = $path")
+            }
+        })
+    }
+    override fun onStop() {
+        super.onStop()
+        ScreenShotFileObserverManager.unregisteScreenShotFileObserver()
+    }
 
     private fun reSetView(){
 

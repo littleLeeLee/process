@@ -13,7 +13,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
-import com.paramsen.noise.Noise
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Function
@@ -53,8 +52,8 @@ class AudioActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (requestAudio() && disposable.size() == 0)
-            start()
+       /* if (requestAudio() && disposable.size() == 0)
+            start()*/
     }
 
     override fun onStop() {
@@ -65,7 +64,7 @@ class AudioActivity : AppCompatActivity() {
     /**
      * Subscribe to microphone
      */
-    private fun start() {
+  /*  private fun start() {
         val src = AudioSource().stream()
         val noise = Noise.real(4096)
 
@@ -92,7 +91,7 @@ class AudioActivity : AppCompatActivity() {
                 }, { e -> Log.e(TAG, e.message) }))
 
       //  tip.schedule()
-    }
+    }*/
 
 //    2020-12-01 15:25:49.122 30019-30641/com.kintex.check I/System.out: FFT:2.586552E7
 //    2020-12-01 15:25:49.223 30019-30641/com.kintex.check I/System.out: FFT:3.2201112E7
@@ -220,8 +219,8 @@ class AudioActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (grantResults[0] == PERMISSION_GRANTED)
-            start()
+      /*  if (grantResults[0] == PERMISSION_GRANTED)
+            start()*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

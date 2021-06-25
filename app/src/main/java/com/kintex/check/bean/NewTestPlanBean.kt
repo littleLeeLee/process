@@ -17,16 +17,17 @@ data class Operation(
 
 data class CaseType(
         val typeId :Int =0,
-        val name: String,
+        var name: String,
         val typeItems: List<TypeItem>,
         var state : Int ? = 2
 )
 
 data class TypeItem(
         val caseId: Int,
-        val caseName: String,
+        var caseName: String,
         val enable: Int,
         var visible: Int,
         var result : Int ?= 2,
+        var desName :String,
         var description : String ?= ""
 )

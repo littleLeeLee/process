@@ -8,18 +8,16 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.nfc.FormatException
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
 import android.widget.GridLayout
 import android.widget.TextView
-import com.blankj.utilcode.util.SPUtils
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.elvishew.xlog.XLog
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.kintex.check.R
+import com.kintex.check.bean.CaseType
 
 import com.kintex.check.utils.CaseId
 import com.kintex.check.utils.NfcUtils
@@ -34,8 +32,6 @@ import kotlinx.android.synthetic.main.activity_lcd.tv_failed1
 import kotlinx.android.synthetic.main.activity_lcd.tv_failed2
 import kotlinx.android.synthetic.main.activity_lcd.viewGridView
 import kotlinx.android.synthetic.main.title_include.*
-import java.io.IOException
-import java.io.UnsupportedEncodingException
 
 class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
@@ -44,55 +40,146 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
     private var  proximitySensor :Sensor?=null
             private var mySensorListener : MySensorListener?=null
 
-    private var isLcdFinish = false
-    private var isMultiFinish = false
-    private var isTouchFinish = false
 
+    private var currentPositon = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val nfcUtils = NfcUtils(this)
         val decorView = window.decorView
         val uiOptions = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_FULLSCREEN)
         decorView.systemUiVisibility = uiOptions
         setContentView(R.layout.activity_lcd)
-        tv_colorView.setOnClickListener(this)
-        tv_lcdPass.setOnClickListener(this)
-        tv_lcdFail.setOnClickListener(this)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        lightSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT)
-        proximitySensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_PROXIMITY)
         mySensorListener = MySensorListener()
-         if (lightSensor != null) {
-            sensorManager!!.registerListener(mySensorListener, lightSensor, 100000)
-        }
-        if(proximitySensor != null){
-            sensorManager!!.registerListener(mySensorListener, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL)
+        prepareCase()
+        startCaseTest(currentPositon)
+
+    }
+
+    private fun startCaseTest(currentPositon: Int) {
+        val typeItem = caseType!!.typeItems[currentPositon]
+        when(typeItem.caseId){
+
+            CaseId.NFC.id->{
+                showNFCDialog()
+            }
+
+            CaseId.MultiTouch.id->{
+                showTouchCount()
+            }
+
+            CaseId.TouchPanel.id->{
+                showDigitizer()
+            }
+
+            CaseId.Display.id->{
+                showColorView()
+            }
+
+            CaseId.ProximitySensor.id , CaseId.LightSensor.id->{
+               checkSensorPass()
+            }
+
         }
 
-        tv_lightFail.setOnClickListener {
-            isLightFinish = true
-            sendTestResult(FAILED,CaseId.LightSensor.id)
-            checkLcdPass()
 
+    }
+
+    private fun showColorView() {
+
+        view_lcd.visibility = View.VISIBLE
+
+    }
+
+    private fun prepareCase() {
+        //NFC
+        var hasNFC =  caseType!!.typeItems.find {
+            it.caseId == CaseId.NFC.id
         }
-        tv_proFail.setOnClickListener {
-            isProFinish = true
-            sendTestResult(FAILED,CaseId.ProximitySensor.id)
-            checkLcdPass()
+        if(hasNFC != null){
+            val nfcUtils = NfcUtils(this)
         }
-        showChoosePrint()
+        //距离感应器
+        var hasProx = caseType!!.typeItems.find {
+            it.caseId == CaseId.ProximitySensor.id
+        }
+        if(hasProx != null){
+            proximitySensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_PROXIMITY)
+            if(proximitySensor != null){
+                sensorManager!!.registerListener(mySensorListener, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL)
+            }
+        }
+        //光线感应器
+        var hasLight = caseType!!.typeItems.find {
+            it.caseId == CaseId.LightSensor.id
+        }
+        if(hasLight != null){
+            lightSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT)
+            if (lightSensor != null) {
+                sensorManager!!.registerListener(mySensorListener, lightSensor, 100000)
+                tv_lightFail.setOnClickListener {
+                    isLightFinish = true
+                    sendTestResult(FAILED,CaseId.LightSensor.id)
+                    if(isProFinish){
+                        doNext(view_sensor)
+                    }
+
+                }
+                tv_proFail.setOnClickListener {
+                    isProFinish = true
+                    sendTestResult(FAILED,CaseId.ProximitySensor.id)
+                    if(isLightFinish){
+                        doNext(view_sensor)
+                    }
+                }
+            }
+        }
+        //红绿蓝
+        var hasDisplay = caseType!!.typeItems.find {
+            it.caseId == CaseId.Display.id
+        }
+        if(hasDisplay != null){
+            tv_colorView.setOnClickListener(this)
+            tv_lcdPass.setOnClickListener(this)
+            tv_lcdFail.setOnClickListener(this)
+        }
+        //多点触控
+        var hasMultiTouch = caseType!!.typeItems.find {
+            it.caseId == CaseId.MultiTouch.id
+        }
+        //滑屏幕
+        var hasTouchPanel =  caseType!!.typeItems.find {
+            it.caseId == CaseId.TouchPanel.id
+        }
+
+
     }
 
     private  var isNFCFinsh = false
     var dialog : AlertDialog ?=null
-    private fun showChoosePrint() {
+    private fun showNFCDialog() {
         dialog = AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("提示").setCancelable(false).setMessage("请把手机靠近NFC设备")
                 .setPositiveButton("失败") { dialog, which ->
                     isNFCFinsh = true
                     sendTestResult(PASSED, CaseId.NFC.id)
+                    doNext(null)
                 }.show()
+    }
+
+    private fun doNext(view: View?) {
+        view?.visibility = View.GONE
+        if(view?.id == R.id.view_sensor){
+            currentPositon+=2
+        }else{
+            currentPositon++
+        }
+
+        if( currentPositon== caseType!!.typeItems.size){
+            finish()
+        }else{
+            startCaseTest(currentPositon)
+        }
     }
 
 
@@ -104,12 +191,12 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
             R.id.tv_lcdPass->{
                 sendTestResult(PASSED,CaseId.Display.id)
-                showDigitizer()
+                doNext(view_lcd)
             }
 
             R.id.tv_lcdFail->{
                 sendTestResult(FAILED,CaseId.Display.id)
-                showDigitizer()
+                doNext(view_lcd)
             }
 
             R.id.tv_colorView->{
@@ -127,23 +214,21 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
     private var viewList = ArrayList<TextView>()
     private fun showDigitizer() {
-        isLcdFinish = true
-        view_lcd.visibility = View.GONE
         view_digitizer.visibility = View.VISIBLE
 
         tv_digitizerFailed.setOnClickListener {
             sendTestResult(FAILED,CaseId.TouchPanel.id)
-            showTouchCount()
+            doNext(view_digitizer)
         }
 
         tv_failed1.setOnClickListener {
             sendTestResult(FAILED,CaseId.TouchPanel.id)
-            showTouchCount()
+            doNext(view_digitizer)
         }
 
         tv_failed2.setOnClickListener {
             sendTestResult(FAILED,CaseId.TouchPanel.id)
-            showTouchCount()
+            doNext(view_digitizer)
         }
 
         for( i in 0..12){
@@ -179,6 +264,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                 dialog?.dismiss()
                 isNFCFinsh = true
                 sendTestResult(PASSED,CaseId.NFC.id)
+                doNext(null)
                 try {
                     if (NfcUtils.mNfcAdapter != null) {
                         NfcUtils.mNfcAdapter.disableForegroundDispatch(this)
@@ -197,31 +283,26 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
             dialog?.dismiss()
             isNFCFinsh = true
             sendTestResult(PASSED,CaseId.NFC.id)
+            doNext(null)
             e.printStackTrace()
         }
 
     }
 
     private fun showTouchCount() {
-        isTouchFinish = true
-        view_digitizer.visibility = View.GONE
+     //   view_digitizer.visibility = View.GONE
         view_touch.visibility = View.VISIBLE
-
         tv_titleName.text = "LCD TEST"
 
-        tv_titleDone.setOnClickListener {
-
-        }
-
-
         btn_failed.setOnClickListener {
-            isMultiFinish = true
             sendTestResult(FAILED,CaseId.MultiTouch.id)
+            doNext(view_touch)
+
         }
 
         btn_passed.setOnClickListener {
-            isMultiFinish = true
             sendTestResult(PASSED,CaseId.MultiTouch.id)
+            doNext(view_touch)
         }
 
 
@@ -233,18 +314,18 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
             //
             1->{
-                tv_colorView.setBackgroundColor(Color.BLACK)
+                tv_colorView.setBackgroundColor(Color.GREEN)
             }
             2->{
                 tv_colorView.setBackgroundColor(Color.RED)
             }
             3->{
-                tv_colorView.setBackgroundColor(Color.GREEN)
+                tv_colorView.setBackgroundColor(Color.BLACK)
             }
             4->{
                 tv_lcdPass.visibility = View.VISIBLE
                 tv_lcdFail.visibility = View.VISIBLE
-                tv_colorView.setBackgroundColor(Color.BLUE)
+                tv_colorView.setBackgroundColor(Color.WHITE)
             }
 
 
@@ -279,7 +360,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
         if(touchCount == 91){
             sendTestResult(PASSED,CaseId.TouchPanel.id)
-            showTouchCount()
+            doNext(view_digitizer)
         }
 
     }
@@ -300,8 +381,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
             if(pointerCount>=2&&!hasSend){
                 hasSend = true
                 sendTestResult(PASSED,CaseId.MultiTouch.id)
-                isMultiFinish = true
-                checkSensorPass()
+                doNext(view_touch)
             }
         }
         return true
@@ -309,9 +389,8 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
     private fun checkSensorPass() {
         if(isLightFinish  && isProFinish){
-            finish()
+           doNext(view_sensor)
         }else{
-            view_touch.visibility = View.GONE
             view_sensor.visibility = View.VISIBLE
         }
 
@@ -349,7 +428,6 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                             runOnUiThread {
                                 tv_lightValue.text = "光线值： 通过"
                             }
-                            checkLcdPass()
                         }
                     }
                 }
@@ -367,7 +445,6 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                         if(result != proFirstX){
                             isProFinish = true
                             sendTestResult(PASSED,CaseId.ProximitySensor.id)
-                            checkLcdPass()
                             sensorManager?.unregisterListener(mySensorListener,proximitySensor)
                             runOnUiThread {
                                 tv_lightValue.text = "距离值： 通过"
@@ -382,13 +459,6 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
         }
     }
 
-    private fun checkLcdPass() {
-
-        if(isLcdFinish&& isMultiFinish && isTouchFinish && isLightFinish && isProFinish && isNFCFinsh){
-            finish()
-        }
-
-    }
 
     override fun onResume() {
         super.onResume()
@@ -427,7 +497,9 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
 
     companion object{
-        fun start(context: Context){
+        var caseType : CaseType ?=null
+        fun start(context: Context, caseType: CaseType?){
+            this.caseType = caseType
             context.startActivity(Intent(context,LCDActivity::class.java))
         }
     }

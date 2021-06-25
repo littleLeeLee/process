@@ -55,13 +55,17 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
         setContentView(R.layout.newmain)
-        tv_version.text = "K-Check v${AppUtils.getAppVersionName()}"
+        tv_version.text = "K-Check ${AppUtils.getAppVersionName()}"
         startAdbService()
         btn_reset.setOnClickListener(this)
         btn_done.setOnClickListener(this)
         tv_start.setOnClickListener(this)
         checkPermission()
-        val strFromAssets = MyUtils.getStrFromAssets(this, "start.json")
+        var strFromAssets = SPUtils.getInstance().getString("json")
+        if(TextUtils.isEmpty(strFromAssets)){
+            strFromAssets = MyUtils.getStrFromAssets(this, "start.json")
+        }
+        XLog.d("json = $strFromAssets")
         val gson = Gson()
         val testData = gson.fromJson(strFromAssets, NewTestPlanBean::class.java)
         getJsonData(testData)
@@ -81,23 +85,41 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         SPUtils.getInstance().put("UUID",testData.action.udid)
         if(operations.isNotEmpty()){
             for ( k in  operations.indices ){
-                val autoCaseType = CaseType(0-1-k, operations[k].testTypeName, ArrayList(), DEFAULT)
-                caseList.add(autoCaseType)
-                if(operations[k].testTypeName == "AutomaticTesting"){
-                    autoTestCount = operations[k].types.size
-                    caseList.addAll(operations[k].types)
-                }else{
-                    manualTestCount += operations[k].types.size
-                    caseList.addAll(operations[k].types)
+                val resId = IDUtils.getResId(operations[k].testTypeName, R.string::class.java)
+               XLog.d("operations[k].testTypeName:${operations[k].testTypeName}")
+                 val autoCaseType = CaseType(0-1-k,resources.getString(resId) , ArrayList(), DEFAULT)
+                 caseList.add(autoCaseType)
+                for (type in  operations[k].types){
+                    var typeId =  IDUtils.getResId(type.name,R.string::class.java)
+                    if(typeId != -1){
+                        type.name = getString(typeId)
+                    }
+
+                    for (case in type.typeItems){
+                        case.desName = case.caseName
+                        var caseId =  IDUtils.getResId(case.caseName,R.string::class.java)
+                        if(caseId != -1){
+                            case.caseName = getString(caseId)
+                        }
+
+                    }
                 }
-                for (j in operations[k].types.indices){
-                    XLog.d("size: ${operations[k].types[j].typeItems.size}")
-                    totalCount += operations[k].types[j].typeItems.size
-                }
+                 if(operations[k].testTypeName == "AutomaticTesting"){
+                     autoTestCount = operations[k].types.size
+                     caseList.addAll(operations[k].types)
+                 }else{
+                     manualTestCount += operations[k].types.size
+                     caseList.addAll(operations[k].types)
+                 }
+                 for (j in operations[k].types.indices){
+                     XLog.d("size: ${operations[k].types[j].typeItems.size}")
+                     totalCount += operations[k].types[j].typeItems.size
+                 }
             }
         }
 
-        XLog.d("totalCount : $totalCount caselist:${caseList.size}")
+        XLog.d("totalCount : $totalCount autoCount : ${autoTestCount }caselist:${caseList.size}")
+        ToastUtils.showShort("totalCount : $totalCount caselist:${caseList.size}")
         setDataToView(caseList)
 
     }
@@ -134,7 +156,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
                 }
 
-                XLog.d("result:"+ item.result)
+            //    XLog.d("result:"+ item.result)
             }
         }
         mainListAdapter = NewMainListAdapter(this, caseList)
@@ -155,10 +177,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     @Synchronized
     private fun getTestItem(position: Int) {
+        XLog.d("position:$position")
         ry_mainTestList.scrollToPosition(position)
         val typeItems = caseList[position].typeItems
         when(caseList[position].name){
-            "Connection"->{
+            getString(R.string.Connection)->{
                 for (caseItem in typeItems!!){
                     when(caseItem.caseId){
                         CaseId.WIFI.id->{
@@ -176,7 +199,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
-            "Sensor"->{
+            getString(R.string.Sensor)->{
                 getAllSensor()
             //    checkNFC()
             }
@@ -184,16 +207,16 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
             }
 
-            "Screen Test"->{
-               LCDActivity.start(this)
+            getString(R.string.ScreenTest)->{
+               LCDActivity.start(this,caseList[position])
             }
-            "Button"->{
+            getString(R.string.Button)->{
                 ButtonActivity.start(this)
             }
-            "Camera Test"->{
+            getString(R.string.CameraTest)->{
                 CameraActivity.start(this)
             }
-            "Audio Test"->{
+            getString(R.string.AudioTest)->{
                AudioTestActivity.start(this )
               //  SpeakerActivity.start(this)
             }
@@ -203,11 +226,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 }
             }
 
-            "Battery"->{
+            getString(R.string.Battery)->{
                 BatteryActivity.start(this)
             }
 
-            "Headset"->{
+            getString(R.string.Headset)->{
                 HeadSetActivity.start(this)
             }
 
@@ -284,6 +307,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     if(SPUtils.getInstance().getInt("result",0) == 1024){
                         showTestingDialog(plan)
                     }else{
+                        SPUtils.getInstance().put("json",receive.contentStr)
                         getJsonData(plan)
                     }
 
@@ -403,13 +427,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun sendFinishData() {
-
         val arrayList = ArrayList<TestCase>()
         for (case in caseList){
 
             if(case.typeItems!= null){
                 for (item in case.typeItems){
-                    var testCase =   TestCase(item.caseId,item.caseName,item.description ?: "",item.enable,item.result ?: 2)
+                    var testCase =   TestCase(item.caseId,item.desName,item.description ?: "",item.enable,item.result ?: 2)
                     arrayList.add(testCase)
                     //   Log.d("111", item.toString())
                 }
@@ -424,7 +447,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 }.type
         )
         mBinder?.testFinish(toJson)
-
+        ToastUtils.showShort("已发送完成json")
     }
 
 
@@ -551,6 +574,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     )
                 mBinder?.testFinish(toJson)
                     isAutoTest = false
+                    ToastUtils.showShort("已发送打印json 1")
                 }.setNegativeButton("取消") { dialog, which ->
                     var print = PrintBean(PrintAction("print_label","0",SPUtils.getInstance().getString("UUID")))
                     val toJson = Gson().toJson(
@@ -560,6 +584,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     )
                     mBinder?.testFinish(toJson)
                     isAutoTest = false
+                    ToastUtils.showShort("已发送打印json 0")
                 }.show()
     }
 

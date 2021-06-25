@@ -34,4 +34,24 @@ object MyUtils {
         return null
     }
 
+
+    /**
+     * 根据字符串获取资源ID
+     *
+     * @param variableName
+     * @param c
+     * @return
+     */
+    fun getResId(variableName : String ,  c:Class<Any>) :Int{
+        try {
+            var idField = c.getDeclaredField(variableName)
+            return idField.getInt(idField)
+        } catch ( e :Exception) {
+            e.printStackTrace()
+            return -1
+        }
+    }
+
+
+
 }

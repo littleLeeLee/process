@@ -1,7 +1,0 @@
-# ninja log v5
-0	7	0	clean	55459ec048364d79
-1	8	0	clean	55459ec048364d79
-22	737	641478537	CMakeFiles/noise.dir/src/main/native/kissfft/tools/kiss_fftr.c.o	d8d811a2f967b2a6
-1	758	641478537	CMakeFiles/noise.dir/src/main/native/noise.c.o	38ad43bd552738f7
-10	763	641478537	CMakeFiles/noise.dir/src/main/native/kissfft/kiss_fft.c.o	7d2c988a9147ba32
-764	1237	641478538	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libnoise.so	79b8e9c4461a740b

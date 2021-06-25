@@ -17,7 +17,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-    //    CrashReport.initCrashReport(applicationContext, "b71e843921", true)
+        CrashReport.initCrashReport(applicationContext, "b71e843921", true)
         initLog()
         Utils.init(this)
         DialogSettings.isUseBlur = (true)                   //是否开启模糊效果，默认关闭

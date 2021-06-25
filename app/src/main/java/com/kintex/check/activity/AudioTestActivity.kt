@@ -18,7 +18,6 @@ import com.kintex.check.utils.NewAudioUtils
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.MANUAL
 import com.kintex.check.utils.ResultCode.PASSED
-import com.paramsen.noise.Noise
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_audiotest.*
@@ -362,7 +361,6 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
 
     private fun start() {
         val src = AudioSource().stream()
-        val noise = Noise.real(4096)
         //AudioView
         disposable
                 .add(src.observeOn(Schedulers.newThread())

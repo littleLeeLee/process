@@ -1,4 +1,3 @@
 include ':library'
-include ':noise'
 rootProject.name='KintexCheck'
 include ':app'

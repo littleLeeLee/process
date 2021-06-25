@@ -1,7 +1,0 @@
-Executable : D:\studioSdk\cmake\3.10.2.4988404\bin\ninja.exe
-arguments : 
--C
-D:\workspace\KintexCheck-Android\noise\.cxx\cmake\debug\armeabi-v7a
-noise
-jvmArgs : 
-

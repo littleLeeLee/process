@@ -55,11 +55,11 @@ class ResultItemAdapter : RecyclerView.Adapter<ResultItemAdapter.MyViewHolder> {
             holder.des.visibility = View.VISIBLE
             when (testPlan.result) {
                 ResultCode.PASSED -> {
-                    holder.des.text = "Passed"
+                    holder.des.text = mContext!!.getString(R.string.Passed)
                     holder.des.setTextColor(mContext!!.getColor(R.color.restColor))
                 }
                 ResultCode.FAILED -> {
-                    holder.des.text = "Failed"
+                    holder.des.text = mContext!!.getString(R.string.Failed)
                     holder.des.setTextColor(mContext!!.getColor(R.color.red))
                 }
                 else -> {

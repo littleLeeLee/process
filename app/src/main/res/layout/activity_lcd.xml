@@ -10,7 +10,7 @@
         android:id="@+id/view_lcd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,7 +19,7 @@
             android:id="@+id/tv_colorView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/white"
+            android:background="@color/blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -195,26 +195,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <Button
             android:id="@+id/tv_proFail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="距离传感器异常"
+            android:layout_marginEnd="24dp"
+            android:text="失败"
             android:textColor="@color/red"
             android:textSize="@dimen/tv_textsize_l"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_proximityValue"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_lightFail" />
+            app:layout_constraintTop_toTopOf="@+id/tv_proximityValue" />
 
         <TextView
             android:id="@+id/tv_lightValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:text="光线值："
             android:textSize="@dimen/tv_textsize_l"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_proximityValue" />
 
@@ -222,10 +222,10 @@
             android:id="@+id/tv_proximityValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:text="距离值："
             android:textSize="@dimen/tv_textsize_l"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_lightNotice" />
 
@@ -241,17 +241,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <Button
             android:id="@+id/tv_lightFail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="光线传感器异常"
+            android:layout_marginEnd="24dp"
+            android:text="失败"
             android:textColor="@color/red"
             android:textSize="@dimen/tv_textsize_l"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_lightValue"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_lightValue" />
+            app:layout_constraintTop_toTopOf="@+id/tv_lightValue" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
-import com.elvishew.xlog.XLog
 import com.kintex.check.R
-import com.kintex.check.bean.TestCase
+import com.kintex.check.bean.CaseType
 import com.kintex.check.utils.CaseId
 import com.kintex.check.utils.ResultCode
 import com.kintex.check.utils.ResultCode.FAILED
 import com.kintex.check.utils.ResultCode.PASSED
-import com.kintex.check.utils.ResultCode.TOUCH_POSITION
 import kotlinx.android.synthetic.main.activity_touch_count.*
 import kotlinx.android.synthetic.main.title_include.*
 
@@ -51,7 +49,7 @@ class TouchCountActivity : BaseActivity() {
 
     private fun sendTestResult(result: Int) {
         sendCaseResult(result, CaseId.MultiTouch.id, ResultCode.MANUAL)
-        LCDActivity.start(this)
+        LCDActivity.start(this,null)
         finish()
     }
 
