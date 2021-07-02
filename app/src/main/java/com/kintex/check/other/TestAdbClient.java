@@ -30,6 +30,15 @@ String stop = "{\"action\":{\"name\":\"stop\",\"udid\":\"xxxxx\"}}";
             char[] newValue = (char[])value.get(word);
             newValue[0] = 'b';
             System.out.println(word);
+            String[] s={"111","222","333"};
+            for (int i = 0; i < s.length; i++) {
+                System.out.println(s[i]);
+            }
+            s[0] = "2222";
+            for (int i = 0; i < s.length; i++) {
+                System.out.println(s[i]);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

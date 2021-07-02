@@ -12,7 +12,6 @@ import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.kintex.check.audioview.AudioSource
 import com.kintex.check.audioview.Profiler
-import com.kintex.check.utils.AudioUtils
 import com.kintex.check.utils.CaseId
 import com.kintex.check.utils.NewAudioUtils
 import com.kintex.check.utils.ResultCode.FAILED
@@ -21,10 +20,7 @@ import com.kintex.check.utils.ResultCode.PASSED
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_audiotest.*
-import kotlinx.android.synthetic.main.activity_speaker.*
 import java.io.File
-import java.lang.Exception
-import kotlin.random.Random
 
 class AudioTestActivity : BaseActivity(), View.OnClickListener {
 
@@ -136,7 +132,7 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
     private var audioUtils: NewAudioUtils?=null
     private var isRecoding = false
     private fun startRecorder() {
-        audioUtils = NewAudioUtils("0",48000)
+        audioUtils = NewAudioUtils("0",16000)
         isRecoding =  audioUtils!! .startRecord("/sdcard/save/test.wav")
       //  XLog.d("isRecoding:$isRecoding")
     }
@@ -147,7 +143,7 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun sendResultData(result : Int) {
-
+        stopPlayer()
         when (currentTest) {
             0 -> {
                 if(result == PASSED){
@@ -159,7 +155,6 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
                 }
                 sendCaseResult(CaseId.LoudSpeaker.id,result, MANUAL)
                 currentTest++
-                stopPlayer()
                 btn_play.visibility = View.VISIBLE
                 tv_resultState.visibility = View.INVISIBLE
                 tv_bottomMicState.text = resources.getString(R.string.Testing)
@@ -232,12 +227,11 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
                 }
                 mediaPlayer!!.reset()
                 mediaPlayer!!.release()
+                mediaPlayer = null
             }
         }catch (e:Exception){
-
+            XLog.d(e)
         }
-
-
     }
 
     private fun playEarSound() {
@@ -369,7 +363,6 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
                         }
                         .subscribe(shouAudio::onWindow) { e -> Log.e(TAG, e.message) })
 
-
     }
 
     companion object{
@@ -383,4 +376,24 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
         super.onStop()
         stopPlayer()
     }
+
+/*    meidHEX = transformSerial(4545454544545454,10,16 ,10, 8, 6);
+
+    protected fun transformSerial(n: CharSequence, srcBase: Int, dstBase: Int, p1Width: Int, p1Padding: Int, p2Padding: Int): String? {
+        val p1: String = lPad(java.lang.Long.toString(4545454544545454.toString().substring(0, 10).toLong(10), 16), 8, "0")
+        val p2: String = lPad(java.lang.Long.toString(4545454544545454.toString().substring(10).toLong(10), 16), 6, "0")
+        val c = p1 + p2
+        return c.toUpperCase()
+    }
+
+    *//* @function lPad
+     * @return String
+     * Returns a left padded string for DEC/HEX Conversion
+     *//*
+    protected fun lPad(s: String, len: Int, p: String): String? {
+        return if (s.length >= len) {
+            s
+        } else lPad(p + s, len, p)
+    }*/
+
 }
