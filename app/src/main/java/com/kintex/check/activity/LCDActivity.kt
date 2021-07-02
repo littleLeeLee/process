@@ -427,6 +427,9 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                             sendTestResult(PASSED,CaseId.LightSensor.id)
                             runOnUiThread {
                                 tv_lightValue.text = "光线值： 通过"
+                                if(isProFinish){
+                                    doNext(view_sensor)
+                                }
                             }
                         }
                     }
@@ -440,7 +443,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                         isProFirst = false
                         proFirstX = result
                     }
-
+                   XLog.d("proFirstX:$proFirstX, result$result")
                     runOnUiThread {
                         if(result != proFirstX){
                             isProFinish = true
@@ -448,6 +451,9 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                             sensorManager?.unregisterListener(mySensorListener,proximitySensor)
                             runOnUiThread {
                                 tv_lightValue.text = "距离值： 通过"
+                                if(isLightFinish){
+                                    doNext(view_sensor)
+                                }
                             }
                         }
                     }
