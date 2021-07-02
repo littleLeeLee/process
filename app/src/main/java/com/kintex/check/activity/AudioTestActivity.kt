@@ -132,6 +132,7 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
     private var audioUtils: NewAudioUtils?=null
     private var isRecoding = false
     private fun startRecorder() {
+        stop()
         audioUtils = NewAudioUtils("0",16000)
         isRecoding =  audioUtils!! .startRecord("/sdcard/save/test.wav")
       //  XLog.d("isRecoding:$isRecoding")
@@ -273,7 +274,9 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
 
 
     private fun playRecoderSound(){
-
+        if(!isAdd){
+            start()
+        }
         val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioManager.isSpeakerphoneOn = true
         audioManager.mode = AudioManager.MODE_NORMAL
@@ -309,7 +312,9 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
 
 
     private fun playSound(){
-
+        if(!isAdd){
+            start()
+        }
         val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioManager.isSpeakerphoneOn = true
         val streamMaxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
@@ -350,9 +355,9 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
         val file = File(path)
         if (!file.exists())
             file.mkdirs()
-        start()
     }
 
+    private var isAdd = false
     private fun start() {
         val src = AudioSource().stream()
         //AudioView
@@ -362,6 +367,14 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
 
                         }
                         .subscribe(shouAudio::onWindow) { e -> Log.e(TAG, e.message) })
+        isAdd = true
+
+    }
+
+    fun stop(){
+
+        disposable.clear()
+        isAdd= false
 
     }
 
