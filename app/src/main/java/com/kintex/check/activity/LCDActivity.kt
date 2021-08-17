@@ -132,6 +132,16 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                         doNext(view_sensor)
                     }
                 }
+
+                btn_proPass.setOnClickListener {
+
+                    isProFinish = true
+                    sendTestResult(PASSED,CaseId.ProximitySensor.id)
+                    if(isLightFinish){
+                        doNext(view_sensor)
+                    }
+
+                }
             }
         }
         //红绿蓝

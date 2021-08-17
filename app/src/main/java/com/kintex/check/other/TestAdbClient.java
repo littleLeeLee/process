@@ -23,6 +23,7 @@ String negotiation = "{\"action\":{\"name\":\"negotiation\",\"udid\":\"xxxx\",\"
 String stop = "{\"action\":{\"name\":\"stop\",\"udid\":\"xxxxx\"}}";
     public static void main(String[] args) {
 
+
         try {
             String word = "abcd";
             Field value = String.class.getDeclaredField("value");

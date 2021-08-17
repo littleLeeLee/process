@@ -28,7 +28,7 @@ String stop = "{\"action\":{\"name\":\"stop\",\"udid\":\"xxxxx\"}}";
         try {
 //adb forward tcp:8000 tcp:10086
 //"127.0.0.1", 8000
-            socket = new Socket(InetAddress.getByName("127.0.0.1"), 9000);
+            socket = new Socket(InetAddress.getByName("127.0.0.1"), 10086);
             socket.setSendBufferSize(1024 * 10);
             socket.setReceiveBufferSize(1024 * 10);
             OutputStream outputStream = socket.getOutputStream();
