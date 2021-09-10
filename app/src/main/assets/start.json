@@ -58,25 +58,7 @@
           {"caseName":"Headset-Right","caseId":19,"enable":1, "visible": 0},
           {"caseName":"Headset Port","caseId":20,"enable":1, "visible": 1}
         ]}
-      ]},
-
-      {"testTypeName":"Manual Check","types":[
-        {"name":"Cosmetics","typeItems":[
-          {"caseName":"LCD Quality","caseId":1024,"enable":1,"visible": 1},
-          {"caseName":"Frame Quality","caseId":1025,"enable":1,"visible": 1},
-          {"caseName":"Back  Quality","caseId":1026,"enable":1,"visible": 0},
-          {"caseName":"FT Quality","caseId":1027,"enable":1,"visible": 0}
-        ]},
-        {"name":"Notes","typeItems":[
-          {"caseName":"LCD gap","caseId":1028,"enable":1,"visible": 1},
-          {"caseName":"Cut the hand","caseId":1029,"enable":1,"visible": 1}
-        ]}
       ]}
-
-
-
-
-
     ]
   }
 }
