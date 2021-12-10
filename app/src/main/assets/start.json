@@ -40,7 +40,7 @@
           {"caseName":"Flash","caseId":25,"enable":1, "visible": 1}
         ]},
         {"name":"Audio Test","typeItems":[
-          {"caseName":"Loud Speaker","caseId":11,"enable":1, "visible": 1},
+          {"caseName":"Mic Loud Speaker","caseId":11,"enable":1, "visible": 1},
           {"caseName":"Ear Speaker","caseId":12,"enable":1, "visible": 1},
           {"caseName":"Bottom Microphone","caseId":15,"enable":1, "visible": 1},
           {"caseName":"Video Microphone","caseId":16,"enable":1, "visible": 1},

@@ -218,7 +218,6 @@ class SpeakerActivity : BaseActivity() {
             isPrepared = true
             startRecorder()
             mediaPlayer!!.start()
-
         }
 
         mediaPlayer!!.setOnCompletionListener {

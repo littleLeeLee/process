@@ -40,6 +40,11 @@ String stop = "{\"action\":{\"name\":\"stop\",\"udid\":\"xxxxx\"}}";
                 System.out.println(s[i]);
             }
 
+            String txt = "\nhkhkkjkhk\n";
+           // txt = txt.trim();
+            System.out.print(txt);
+            txt = txt.trim();
+            System.out.print(txt);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,7 +59,7 @@ String stop = "{\"action\":{\"name\":\"stop\",\"udid\":\"xxxxx\"}}";
         try {
 //adb forward tcp:8000 tcp:10086  //65535
 //"127.0.0.1", 8000
-            socket = new Socket(InetAddress.getByName("192.168.1.250"), 8088);
+            socket = new Socket(InetAddress.getByName("127.0.0.1"), 8000);
 
             socket.setSendBufferSize(1024 * 10);
             socket.setReceiveBufferSize(1024 * 10);

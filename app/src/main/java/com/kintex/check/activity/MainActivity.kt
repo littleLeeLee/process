@@ -4,10 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.bluetooth.BluetoothManager
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -20,6 +17,7 @@ import android.os.*
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.view.View
+import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.AppUtils
@@ -104,13 +102,16 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
                     }
                 }
+                //自动测试列表
                  if(operations[k].testTypeName == "AutomaticTesting"){
                      autoTestCount = operations[k].types.size
                      caseList.addAll(operations[k].types)
                  }else{
+                     //手动测试列表
                      manualTestCount += operations[k].types.size
                      caseList.addAll(operations[k].types)
                  }
+                //总数量
                  for (j in operations[k].types.indices){
                      XLog.d("size: ${operations[k].types[j].typeItems.size}")
                      totalCount += operations[k].types[j].typeItems.size
@@ -118,7 +119,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
         }
 
-        XLog.d("totalCount : $totalCount autoCount : ${autoTestCount }caselist:${caseList.size}")
+        XLog.d("totalCount : $totalCount autoCount : $autoTestCount caselist:${caseList.size}")
         ToastUtils.showShort("totalCount : $totalCount caselist:${caseList.size}")
         setDataToView(caseList)
 
@@ -178,8 +179,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     @Synchronized
     private fun getTestItem(position: Int) {
         XLog.d("position:$position")
-        ry_mainTestList.scrollToPosition(position)
+        runOnUiThread {
+            ry_mainTestList.scrollToPosition(position)
+        }
         val typeItems = caseList[position].typeItems
+        XLog.d("nextName = ${caseList[position].name}")
         when(caseList[position].name){
             getString(R.string.Connection)->{
                 for (caseItem in typeItems!!){
@@ -262,6 +266,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
 
             tv_start->{
+                resetData()
                 myProcessView.setProcess(0f)
                 startBackgroundTest()
              //   AudioActivity.start(this)
@@ -398,7 +403,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 tv_start.text = "Start"
                 sendFinishData()
                 stopTimer()
-                showChoosePrint()
+                if(!isShowing){
+                    showChoosePrint()
+                }
             }
 
         }
@@ -412,7 +419,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         if(isAutoTest){
             currentAutoTestPosition ++
             XLog.d("currentAutoTestPosition:$currentAutoTestPosition")
-            if( currentAutoTestPosition<= (autoTestCount + manualTestCount +1)){
+            if( currentAutoTestPosition<caseList.size){
                 getTestItem(currentAutoTestPosition)
             }else{
                 XLog.d("autoTest test finish")
@@ -545,10 +552,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
 
         if (accelerometerSensor != null) {
+            XLog.d("accelerometerSensor")
             sensorManager!!.registerListener(mySensorListener, accelerometerSensor, 1000000)
         }
 
         if (gyroscopeSensor != null) {
+            XLog.d("gyroscopeSensor")
             sensorManager!!.registerListener(mySensorListener, gyroscopeSensor, 50000)
         }
 
@@ -556,12 +565,13 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             sensorManager!!.registerListener(mySensorListener, lightSensor, 100000)
         }*/
         if (rotationSensor != null) {
+            XLog.d("rotationSensor")
             sensorManager!!.registerListener(mySensorListener, rotationSensor, 100000)
         }
 
     }
 
-
+    private var isShowing = false
     private fun showChoosePrint() {
         AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("提示").setCancelable(false).setMessage("是否打印标签")
@@ -585,7 +595,15 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     mBinder?.testFinish(toJson)
                     isAutoTest = false
                     ToastUtils.showShort("已发送打印json 0")
-                }.show()
+                }
+                .setOnDismissListener (object : DialogInterface.OnDismissListener{
+                    override fun onDismiss(dialog: DialogInterface?) {
+                        isShowing = false
+                    }
+
+                })
+                .show()
+                isShowing = true
     }
 
 
@@ -609,8 +627,30 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private var isScrX = false
     private var isScrY = false
     private var isScrZ = false
-    private var ligFirstX = 0f
 
+
+    fun resetData(){
+         isAccPassed = false
+         isGyrPassed = false
+         isScrPassed = false
+         isAccFirst = true
+         isScrFirst = true
+         isGyrX = false
+         isGyrY = false
+         isGyrZ = false
+         accFirstX = 0f
+         accFirstY = 0f
+         accFirstZ = 0f
+         isAccX = false
+         isAccY = false
+         isAccZ = false
+         scrFirstX = 0f
+         scrFirstY = 0f
+         scrFirstZ = 0f
+         isScrX = false
+         isScrY = false
+         isScrZ = false
+    }
     inner class MySensorListener : SensorEventListener {
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         }
@@ -656,7 +696,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                             isGyrZ = true
                         }
                         isGyrPassed = isGyrX && isGyrY && isGyrZ
-                     //   XLog.d("isGyrPassed:$isGyrPassed")
+                        XLog.d("isGyrPassed:$isGyrPassed")
                         if (isGyrPassed) {
                             sensorManager?.unregisterListener(this,gyroscopeSensor)
                             updateCaseResult(CaseResultBean(CaseId.Gyroscope.id, PASSED, AUTO))
@@ -689,7 +729,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                             isAccZ = true
                         }
                         isAccPassed = isAccX && isAccY && isAccZ
-                   //     XLog.d("isAccPassed:$isAccPassed")
+                       XLog.d("isAccPassed:$isAccPassed")
                         if (isAccPassed) {
                             sensorManager?.unregisterListener(this,accelerometerSensor)
                             updateCaseResult(CaseResultBean(CaseId.Accelerometer.id, PASSED,AUTO))
@@ -745,7 +785,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                             isScrZ = true
                         }
                         isScrPassed = isScrX && isScrY && isScrZ
-                       // XLog.d("isScrPassed:$isScrPassed")
+                        XLog.d("isScrPassed:$isScrPassed")
                         if (isScrPassed) {
                             sensorManager?.unregisterListener(this,rotationSensor)
                             updateCaseResult(CaseResultBean(CaseId.Magnetometer.id, PASSED,AUTO))
@@ -885,6 +925,17 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         myProcessView.setProcess(0f)
         stopTimer()
         mainListAdapter?.notifyDataSetChanged()
+        tv_start.text = "Start"
+        tv_time.text = "00:00"
+        if(sensorManager!=null){
+            if(mySensorListener !=null){
+                XLog.d("unregisterListener")
+                sensorManager!!.unregisterListener(mySensorListener)
+                mySensorListener = null
+            }
+            sensorManager = null
+        }
+        resetData()
     }
 
 

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 //import android.util.Log;
 
-//音频工具类，现在用的是audiorecoder，但是mediarecoder也可用于录音，但是就是操作较简单，所以不能够对录音后的文件进行处理了
+//音频工具类，现在用的是audiorecoder，但是mediarecoder也可用于录音，但是就是操作较简单，所以不能够对录音后的文件进行处理了h
 public class NewAudioUtils {
     //获得sdcard路径
     private static final String SDCard = Environment
@@ -86,6 +86,7 @@ public class NewAudioUtils {
 
                         if (bufferSize != AudioRecord.ERROR_BAD_VALUE) {
                             // check if we can instantiate and have a success
+
                             AudioRecord recorder = new AudioRecord(AudioSource.DEFAULT, rate, channelConfig, audioFormat, bufferSize);
 
                             if (recorder.getState() == AudioRecord.STATE_INITIALIZED)
@@ -134,8 +135,7 @@ public class NewAudioUtils {
 
     /**
      * 这里将数据写入文件，但是并不能播放，因为AudioRecord获得的音频是原始的裸音频，
-     * 如果需要播放就必须加入一些格式或者编码的头信息。但是这样的好处就是你可以对音频的 裸数据进行处理，比如你要做一个爱说话的TOM
-     * 猫在这里就进行音频的处理，然后重新封装 所以说这样得到的音频比较容易做一些音频的处理。
+     * 如果需要播放就必须加入一些格式或者编码的头信息。但是这样的好处就是你可以对音频的 裸数据进行处理
      */
     private void writeDateTOFile() {
         // new一个byte数组用来存一些字节数据，大小为缓冲区大小

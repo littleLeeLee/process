@@ -122,6 +122,7 @@ class MyProcessView : View {
     private var MAXPROCESS = 0
     fun setProcess(max : Float){
         currentProcess = max
+        invalidate()
     }
 
 

@@ -41,7 +41,6 @@ class BatteryActivity  : BaseActivity() {
 
     private fun setView() {
 
-
         tv_titleName.text = "Battery Test"
         tv_titleReset.text = "Back"
         tv_titleReset.setOnClickListener {

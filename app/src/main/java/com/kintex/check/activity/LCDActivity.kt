@@ -35,10 +35,10 @@ import kotlinx.android.synthetic.main.title_include.*
 
 class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
-    private var sensorManager: SensorManager? = null
+    private var sensorManager : SensorManager? = null
     private var lightSensor : Sensor?=null
-    private var  proximitySensor :Sensor?=null
-            private var mySensorListener : MySensorListener?=null
+    private var  proximitySensor : Sensor?=null
+    private var mySensorListener : MySensorListener?=null
 
 
     private var currentPositon = 0
@@ -103,6 +103,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
         var hasProx = caseType!!.typeItems.find {
             it.caseId == CaseId.ProximitySensor.id
         }
+        XLog.d("hasProx:$hasProx")
         if(hasProx != null){
             proximitySensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_PROXIMITY)
             if(proximitySensor != null){
@@ -113,6 +114,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
         var hasLight = caseType!!.typeItems.find {
             it.caseId == CaseId.LightSensor.id
         }
+        XLog.d("hasLight:$hasLight")
         if(hasLight != null){
             lightSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT)
             if (lightSensor != null) {
