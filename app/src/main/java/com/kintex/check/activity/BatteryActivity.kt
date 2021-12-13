@@ -7,11 +7,13 @@ import android.content.Intent
 import android.content.Intent.ACTION_BATTERY_CHANGED
 import android.content.IntentFilter
 import android.os.BatteryManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.CaseType
 import com.kintex.check.bean.TestCase
 import com.kintex.check.utils.CaseId
 import com.kintex.check.utils.ResultCode
@@ -23,19 +25,31 @@ import kotlinx.android.synthetic.main.title_include.*
 
 class BatteryActivity  : BaseActivity() {
 
-    private var resultCaseList = arrayListOf<TestCase>(
-        TestCase(52,"BatteryHealth","",1,0)
-    )
+
     private var batteryReceiver : BatteryReceiver ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_battery)
+        val hasTypes = caseType!!.typeItems.find {
+            it.caseId == CaseId.WirelessCharge.id
+        }
+        if(hasTypes!=null){
+            hasWill = true
+        }
+        XLog.d("WILL =$hasWill")
+
         batteryReceiver = BatteryReceiver()
         val intentFilter = IntentFilter(ACTION_BATTERY_CHANGED)
         registerReceiver(batteryReceiver,intentFilter)
         getTotalBattery()
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val locales = resources.configuration.locales
+            for (i in 0 until locales.size()){
+                val language = locales[i].language
+                XLog.d("language:$language")
+            }
+        }
         setView()
     }
 
@@ -55,17 +69,25 @@ class BatteryActivity  : BaseActivity() {
         }
 
         btn_failed.setOnClickListener {
-            sendCaseResult(CaseId.WirelessCharge.id, FAILED, ResultCode.MANUAL)
+           if(hasWill){
+
+                   sendCaseResult(CaseId.WirelessCharge.id, FAILED, ResultCode.MANUAL)
+                   sendCaseResult(CaseId.USBCharge.id, FAILED, ResultCode.MANUAL)
+
+           }else{
+               sendCaseResult(CaseId.USBCharge.id, FAILED, ResultCode.MANUAL)
+           }
             finish()
         }
 
         btn_passed.setOnClickListener {
-            sendCaseResult(CaseId.WirelessCharge.id, PASSED, ResultCode.MANUAL)
-            finish()
         }
 
     }
 
+    private var isUsbPass = false
+    private var isWillPass = false
+    private var hasWill = false
 
     inner class BatteryReceiver : BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -122,12 +144,13 @@ class BatteryActivity  : BaseActivity() {
                     }
                     BatteryManager.BATTERY_PLUGGED_USB -> {
                         tv_chargeState.text = "电源：USB"
-                        sendCaseResult(CaseId.USBCharge.id, PASSED, ResultCode.MANUAL)
+                        isUsbPass = true
+                        checkPass()
                     }
                     BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
                         tv_chargeState.text = "电源：无线"
-                        sendCaseResult(CaseId.WirelessCharge.id, PASSED, ResultCode.MANUAL)
-                        finish()
+                        isWillPass = true
+                        checkPass()
                     }
 
                 }
@@ -166,7 +189,21 @@ class BatteryActivity  : BaseActivity() {
             }
 
         }
+    }
 
+    fun checkPass(){
+        if(hasWill){
+            if(isUsbPass && isWillPass){
+                sendCaseResult(CaseId.WirelessCharge.id, PASSED, ResultCode.MANUAL)
+                sendCaseResult(CaseId.USBCharge.id, PASSED, ResultCode.MANUAL)
+                finish()
+            }
+        }else{
+            if(isUsbPass){
+                sendCaseResult(CaseId.USBCharge.id, PASSED, ResultCode.MANUAL)
+                finish()
+            }
+        }
 
     }
 
@@ -174,9 +211,7 @@ class BatteryActivity  : BaseActivity() {
         var POWER_PROFILE_CLASS ="com.android.internal.os.PowerProfile";
 
         try {
-
            var mPowerProfile = Class.forName(POWER_PROFILE_CLASS).getConstructor(Context::class.java).newInstance(this)
-
             var batteryCapacity =  Class.forName(POWER_PROFILE_CLASS).getMethod("getBatteryCapacity").invoke(mPowerProfile)as Double
             tv_total.text = "电池容量：$batteryCapacity mAh"
         }catch ( e :Exception) {
@@ -194,7 +229,9 @@ class BatteryActivity  : BaseActivity() {
     }
 
     companion object{
-        fun start(context: Context){
+        var caseType : CaseType?=null
+        fun start(context: Context,caseType: CaseType?){
+            this.caseType = caseType
             XLog.d("start")
             context.startActivity(Intent(context,BatteryActivity::class.java))
         }

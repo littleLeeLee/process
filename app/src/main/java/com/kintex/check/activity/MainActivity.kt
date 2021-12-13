@@ -231,7 +231,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
 
             getString(R.string.Battery)->{
-                BatteryActivity.start(this)
+                BatteryActivity.start(this,caseList[position])
             }
 
             getString(R.string.Headset)->{
