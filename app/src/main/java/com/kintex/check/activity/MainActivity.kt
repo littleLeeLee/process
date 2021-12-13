@@ -120,7 +120,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
 
         XLog.d("totalCount : $totalCount autoCount : $autoTestCount caselist:${caseList.size}")
-        ToastUtils.showShort("totalCount : $totalCount caselist:${caseList.size}")
+     //   ToastUtils.showShort("totalCount : $totalCount caselist:${caseList.size}")
         setDataToView(caseList)
 
     }
@@ -168,7 +168,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         ry_mainTestList.adapter = mainListAdapter
         mainListAdapter!!.setOnItemClickListener(object : NewMainListAdapter.onItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                ToastUtils.showShort("position:$position"+caseList[position].name)
+              //  ToastUtils.showShort("position:$position"+caseList[position].name)
                 getTestItem(position)
             }
         })
@@ -395,7 +395,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
         }
         XLog.d("total:$testCount ")
-        ToastUtils.showShort("count: $totalCount total:$testCount ")
+    //    ToastUtils.showShort("count: $totalCount total:$testCount ")
         if(testCount == totalCount){
             XLog.d("total test finish")
             runOnUiThread {
@@ -403,14 +403,16 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 tv_start.text = "Start"
                 sendFinishData()
                 stopTimer()
-                if(!isShowing){
-                    showChoosePrint()
+                if(isFirst){
+                   showChoosePrint()
                 }
+
             }
 
         }
     }
 
+    private var  isFirst = true
     var isAutoTest = false
     //自动跳转下一个测试
     @Synchronized
@@ -454,7 +456,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 }.type
         )
         mBinder?.testFinish(toJson)
-        ToastUtils.showShort("已发送完成json")
+     //   ToastUtils.showShort("已发送完成json")
     }
 
 
@@ -571,7 +573,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     }
 
-    private var isShowing = false
     private fun showChoosePrint() {
         AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("提示").setCancelable(false).setMessage("是否打印标签")
@@ -584,7 +585,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     )
                 mBinder?.testFinish(toJson)
                     isAutoTest = false
-                    ToastUtils.showShort("已发送打印json 1")
+                //    ToastUtils.showShort("已发送打印json 1")
                 }.setNegativeButton("取消") { dialog, which ->
                     var print = PrintBean(PrintAction("print_label","0",SPUtils.getInstance().getString("UUID")))
                     val toJson = Gson().toJson(
@@ -594,16 +595,14 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     )
                     mBinder?.testFinish(toJson)
                     isAutoTest = false
-                    ToastUtils.showShort("已发送打印json 0")
+            //        ToastUtils.showShort("已发送打印json 0")
                 }
                 .setOnDismissListener (object : DialogInterface.OnDismissListener{
                     override fun onDismiss(dialog: DialogInterface?) {
-                        isShowing = false
                     }
-
                 })
                 .show()
-                isShowing = true
+                isFirst = false
     }
 
 
@@ -650,6 +649,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
          isScrX = false
          isScrY = false
          isScrZ = false
+        isFirst = true
     }
     inner class MySensorListener : SensorEventListener {
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -957,8 +957,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     //检测wifi
     private fun checkWifi() {
-
-
         if (NetworkUtils.isWifiAvailable()) {
         } else {
             NetworkUtils.setWifiEnabled(true)

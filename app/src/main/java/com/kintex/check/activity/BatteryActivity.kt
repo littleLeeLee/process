@@ -36,9 +36,13 @@ class BatteryActivity  : BaseActivity() {
         }
         if(hasTypes!=null){
             hasWill = true
+            tv_wrlless.text = "未测试"
+        }else{
+            tv_wrlless.text = "不支持"
+            tv_wrlless.setTextColor(resources.getColor(R.color.red))
         }
-        XLog.d("WILL =$hasWill")
 
+        XLog.d("WILL =$hasWill")
         batteryReceiver = BatteryReceiver()
         val intentFilter = IntentFilter(ACTION_BATTERY_CHANGED)
         registerReceiver(batteryReceiver,intentFilter)
@@ -70,14 +74,33 @@ class BatteryActivity  : BaseActivity() {
 
         btn_failed.setOnClickListener {
            if(hasWill){
-
-                   sendCaseResult(CaseId.WirelessCharge.id, FAILED, ResultCode.MANUAL)
+               if(!isUsbTest && !isWillTest){
                    sendCaseResult(CaseId.USBCharge.id, FAILED, ResultCode.MANUAL)
+                   isUsbTest = true
+                   tv_usbresult.text = "fail"
+                   tv_usbresult.setTextColor(resources.getColor(R.color.red))
+               }else if(isUsbTest && !isWillTest){
+                   isWillTest = true
+                   tv_wrlless.text = "fail"
+                   tv_wrlless.setTextColor(resources.getColor(R.color.red))
+                   sendCaseResult(CaseId.WirelessCharge.id, FAILED, ResultCode.MANUAL)
+                   finish()
+               }else if(!isUsbTest && isWillTest){
+                   isUsbTest = true
+                   tv_usbresult.text = "fail"
+                   tv_usbresult.setTextColor(resources.getColor(R.color.red))
+                   sendCaseResult(CaseId.USBCharge.id, FAILED, ResultCode.MANUAL)
+                   finish()
+               }
 
            }else{
+               isUsbTest = true
+               tv_usbresult.text = "fail"
+               tv_usbresult.setTextColor(resources.getColor(R.color.red))
                sendCaseResult(CaseId.USBCharge.id, FAILED, ResultCode.MANUAL)
+               finish()
            }
-            finish()
+
         }
 
         btn_passed.setOnClickListener {
@@ -87,6 +110,8 @@ class BatteryActivity  : BaseActivity() {
 
     private var isUsbPass = false
     private var isWillPass = false
+    private var isWillTest = false
+    private var isUsbTest = false
     private var hasWill = false
 
     inner class BatteryReceiver : BroadcastReceiver(){
@@ -141,15 +166,39 @@ class BatteryActivity  : BaseActivity() {
                 when (pluged) {
                     BatteryManager.BATTERY_PLUGGED_AC -> {
                         tv_chargeState.text = "电源：充电器"
-                    }
-                    BatteryManager.BATTERY_PLUGGED_USB -> {
-                        tv_chargeState.text = "电源：USB"
+                        runOnUiThread {
+                            isUsbTest = true
+                            tv_usbresult.text = "pass"
+                            tv_usbresult.setTextColor(resources.getColor(R.color.green))
+                        }
                         isUsbPass = true
                         checkPass()
                     }
+                    BatteryManager.BATTERY_PLUGGED_USB -> {
+                        isUsbTest = true
+                        tv_chargeState.text = "电源：USB"
+                        isUsbPass = true
+                        runOnUiThread {
+                            tv_usbresult.text = "pass"
+                            tv_usbresult.setTextColor(resources.getColor(R.color.green))
+                        }
+                        checkPass()
+                    }
                     BatteryManager.BATTERY_PLUGGED_WIRELESS -> {
+                        isWillTest = true
                         tv_chargeState.text = "电源：无线"
                         isWillPass = true
+                        runOnUiThread {
+                            if(isUsbTest){
+                                tv_wrlless.text = "pass"
+                                tv_wrlless.setTextColor(resources.getColor(R.color.green))
+                                finish()
+                            }else{
+                                tv_wrlless.text = "pass"
+                                tv_wrlless.setTextColor(resources.getColor(R.color.green))
+                            }
+
+                        }
                         checkPass()
                     }
 

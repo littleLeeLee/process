@@ -69,7 +69,6 @@ class HeadSetActivity : BaseActivity() {
         when(caseID){
             CaseId.HeadsetPort.id->{
                 if(result == PASSED){
-
                     btn_headPassed.isEnabled = true
                     tv_headSetResult.text = resources.getString(R.string.Passed)
                     tv_headSetResult.setTextColor(resources.getColor(R.color.restColor))
@@ -77,6 +76,7 @@ class HeadSetActivity : BaseActivity() {
                     sendCaseResult(CaseId.HeadsetPort.id, PASSED,ResultCode.MANUAL)
                     if(!isPlaying){
                         playWithHeadSet()
+                        XLog.d("playWithHeadSet")
                     }
                     currentTest = CaseId.HeadsetRight.id
 
@@ -129,25 +129,27 @@ class HeadSetActivity : BaseActivity() {
         val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioManager.isSpeakerphoneOn = false
         val streamMaxVolume = audioManager.getStreamMaxVolume(AudioManager.MODE_IN_COMMUNICATION)
-        audioManager.setStreamVolume(AudioManager.MODE_IN_COMMUNICATION,(streamMaxVolume * 0.7).toInt(),1)
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,(streamMaxVolume * 0.7).toInt(),1)
         val openFd = assets.openFd("opening.wav")
         mediaPlayer = MediaPlayer()
         mediaPlayer!!.setDataSource(openFd.fileDescriptor,openFd.startOffset,openFd.length)
         mediaPlayer!!.setOnPreparedListener {
+            mediaPlayer!!.setVolume(0f,1f)
             mediaPlayer!!.start()
             isPlaying = true
+            XLog.d("start")
         }
 
         mediaPlayer!!.setOnErrorListener(object : MediaPlayer.OnErrorListener {
             override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
+                ToastUtils.showShort("播放声音异常")
                 XLog.d("onError")
                 return true
             }
         })
         mediaPlayer!!.setOnCompletionListener {
-
+            XLog.d("OnComplet")
         }
-       mediaPlayer!!.setVolume(0f,1f)
         mediaPlayer!!.prepare()
 
     }
@@ -164,9 +166,10 @@ class HeadSetActivity : BaseActivity() {
                     val state = intent!!.getIntExtra("state", 0)
                     if(state ==1){
                     //    ToastUtils.showShort("耳机插入")
-                        sendReslutData(PASSED,CaseId.HeadsetPort.id)
                         XLog.d("插入")
-                        Toast.makeText(this@HeadSetActivity,"插入",Toast.LENGTH_SHORT).show()
+                        sendReslutData(PASSED,CaseId.HeadsetPort.id)
+
+                    //    Toast.makeText(this@HeadSetActivity,"插入",Toast.LENGTH_SHORT).show()
                     }else if(state == 0){
                         btn_headPassed.isEnabled = false
                         isPlaying = false
@@ -189,7 +192,8 @@ class HeadSetActivity : BaseActivity() {
         super.onDestroy()
         unregisterReceiver(headReceiver)
         try {
-                testNext()
+            isPlaying = false
+            testNext()
             mediaPlayer?.stop()
             mediaPlayer?.release()
             mediaPlayer = null

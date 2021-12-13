@@ -18,6 +18,24 @@
       ]},
 
       {"testTypeName":"Manual Test","types":[
+        {"name":"Audio Test","typeItems":[
+          {"caseName":"LoudSpeaker","caseId":11,"enable":1, "visible": 1},
+          {"caseName":"Ear Speaker","caseId":12,"enable":1, "visible": 1},
+          {"caseName":"Bottom Microphone","caseId":15,"enable":1, "visible": 1},
+          {"caseName":"Video Microphone","caseId":16,"enable":1, "visible": 1},
+          {"caseName":"Front Microphone","caseId":17,"enable":1, "visible": 1}
+        ]},
+        {"name":"Button","typeItems":[
+          {"caseName":"Power Button","caseId":30,"enable":1, "visible": 1},
+          {"caseName":"Volume Down Button","caseId":32,"enable":1, "visible": 1},
+          {"caseName":"Volume Up Button","caseId":33,"enable":1, "visible": 1},
+          {"caseName":"Vibration","caseId":45,"enable":1, "visible": 1}
+        ]},
+        {"name":"Camera Test","typeItems":[
+          {"caseName":"Front Camera","caseId":23,"enable":1, "visible": 1},
+          {"caseName":"Rear Camera","caseId":24,"enable":1, "visible": 1},
+          {"caseName":"Flash","caseId":25,"enable":1, "visible": 1}
+        ]},
         {"name":"Screen Test","typeItems":[
           {"caseName":"Touch Panel","caseId":38,"enable":1, "visible": 1},
           {"caseName":"Multi Touch","caseId":52,"enable":1, "visible": 1},
@@ -25,28 +43,7 @@
           {"caseName":"Proximity Sensor","caseId":8,"enable":1,"visible": 1},
           {"caseName":"LightSensor","caseId":54,"enable":1,"visible": 1},
           {"caseName":"NFC","caseId":50,"enable":1,"visible": 2}
-        ]},
-
-        {"name":"Button","typeItems":[
-          {"caseName":"Power Button","caseId":30,"enable":1, "visible": 1},
-          {"caseName":"Volume Down Button","caseId":32,"enable":1, "visible": 1},
-          {"caseName":"Volume Up Button","caseId":33,"enable":1, "visible": 1},
-          {"caseName":"Vibration","caseId":45,"enable":1, "visible": 1}
-        ]},
-
-        {"name":"Camera Test","typeItems":[
-          {"caseName":"Front Camera","caseId":23,"enable":1, "visible": 1},
-          {"caseName":"Rear Camera","caseId":24,"enable":1, "visible": 1},
-          {"caseName":"Flash","caseId":25,"enable":1, "visible": 1}
-        ]},
-        {"name":"Audio Test","typeItems":[
-          {"caseName":"Mic Loud Speaker","caseId":11,"enable":1, "visible": 1},
-          {"caseName":"Ear Speaker","caseId":12,"enable":1, "visible": 1},
-          {"caseName":"Bottom Microphone","caseId":15,"enable":1, "visible": 1},
-          {"caseName":"Video Microphone","caseId":16,"enable":1, "visible": 1},
-          {"caseName":"Front Microphone","caseId":17,"enable":1, "visible": 1}
         ]}
-
       ]},
       {"testTypeName":"Semi-Automatic","types":[
         {"name":"Battery","typeItems":[

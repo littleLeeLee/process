@@ -268,16 +268,12 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
     private var isPowerTest = false
     private var isVolumeUpTest = false
     private var isVolumeDownTest = false
+    private var canTestVib = false
 
     private fun hasFinishTest(){
-
-            if(isPowerTest  && isVolumeUpTest && isVolumeDownTest ){
-                /*for (testCase in resultCaseList) {
-                    testCase.result = 1
-                }*/
+            if(canTestVib && isPowerTest  && isVolumeUpTest && isVolumeDownTest ){
                 checkVibration()
             }
-
     }
     private var resultCaseList = arrayListOf<TestCase>(
         TestCase(30,"Power Button","",1,0),
@@ -297,6 +293,22 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
             sendResult(BUTTON_POSITION, PASSED,resultCaseList)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        canTestVib = true
+            tv_btnPower.postDelayed(
+                    Runnable {
+                        hasFinishTest()
+                    },500
+            )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        canTestVib = false
+    }
+
     override fun onStart() {
         super.onStart()
         ScreenShotFileObserverManager.registerScreenShotFileObserver(object :
@@ -329,6 +341,7 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
         super.onStop()
         ScreenShotFileObserverManager.unregisteScreenShotFileObserver()
     }
+
 
     private fun reSetView(){
 

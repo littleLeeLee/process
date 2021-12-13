@@ -52,8 +52,17 @@ class AdbConnectService : Service() {
             XLog.d("send data:$description")
             Thread(Runnable {
                 if(!TextUtils.isEmpty(description)){
-                    outStream?.write(description.toByteArray())
-                    outStream?.flush()
+                    if(serverSocket != null){
+                        if(!serverSocket?.isClosed!!){
+                            outStream?.write(description.toByteArray())
+                            outStream?.flush()
+                        }else{
+                            ToastUtils.showShort("连接已断开")
+                        }
+                    }else{
+                        ToastUtils.showShort("Socket Error")
+                    }
+
                 }
             }).start()
 

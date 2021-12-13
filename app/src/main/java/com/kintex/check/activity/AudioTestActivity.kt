@@ -20,20 +20,14 @@ import com.kintex.check.utils.ResultCode.PASSED
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_audiotest.*
+import kotlinx.android.synthetic.main.view_info.*
 import java.io.File
 
 class AudioTestActivity : BaseActivity(), View.OnClickListener {
 
     val disposable: CompositeDisposable = CompositeDisposable()
-    val TAG = javaClass.simpleName!!
-    val p0 = Profiler("p0")
-    val p1 = Profiler("p1")
-    val p2 = Profiler("p2")
-    val p3 = Profiler("p3")
+    val TAG = javaClass.simpleName
 
-    var isSpeakerTest = false
-    var isEarSpeakerTest = false
-    var isBottomMicTest = false
     var currentTest = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +37,7 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setView() {
-
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         btn_play.setOnTouchListener(object : View.OnTouchListener{
             override fun onTouch(v: View, event: MotionEvent): Boolean {
 
@@ -221,6 +215,7 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
     private fun stopPlayer() {
 
         try {
+            audioManager!!.mode = AudioManager.MODE_NORMAL
             if(mediaPlayer != null){
 
                 if(mediaPlayer!!.isPlaying){
@@ -235,16 +230,17 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    private var audioManager :AudioManager?=null
+
     private fun playEarSound() {
 
-        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        audioManager.isSpeakerphoneOn = false
-        audioManager.mode = AudioManager.MODE_IN_COMMUNICATION
+        audioManager!!.isSpeakerphoneOn = false
+        audioManager!!.mode = AudioManager.MODE_IN_COMMUNICATION
 
-        val streamMaxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL)
-        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,streamMaxVolume,1)
-        val streamMaxVolume1 = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,streamMaxVolume1,1)
+        val streamMaxVolume = audioManager!!.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL)
+        audioManager!!.setStreamVolume(AudioManager.STREAM_VOICE_CALL,streamMaxVolume,1)
+        val streamMaxVolume1 = audioManager!!.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        audioManager!!.setStreamVolume(AudioManager.STREAM_MUSIC,streamMaxVolume1,1)
 
         val openFd = assets.openFd("opening.wav")
         mediaPlayer = MediaPlayer()
@@ -252,7 +248,6 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
         mediaPlayer!!.setOnPreparedListener {
             XLog.d("OnPrepared")
             mediaPlayer!!.start()
-
         }
 
         mediaPlayer!!.setOnErrorListener(object : MediaPlayer.OnErrorListener {
@@ -262,16 +257,10 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
             }
         })
         mediaPlayer!!.setOnCompletionListener {
-
-
-
         }
         mediaPlayer!!.prepare()
-
     }
     var  mediaPlayer : MediaPlayer ?=null
-
-
 
     private fun playRecoderSound(){
         if(!isAdd){
@@ -345,7 +334,7 @@ class AudioTestActivity : BaseActivity(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-            testNext()
+        testNext()
     }
 
 
