@@ -54,8 +54,12 @@ class AdbConnectService : Service() {
                 if(!TextUtils.isEmpty(description)){
                     if(serverSocket != null){
                         if(!serverSocket?.isClosed!!){
-                            outStream?.write(description.toByteArray())
-                            outStream?.flush()
+                            XLog.d("send!!!!!!${serverSocket}")
+                            if(connected != null && !connected?.isClosed!!){
+                                XLog.d("send!!!!!${connected}")
+                                outStream?.write(description.toByteArray())
+                                outStream?.flush()
+                            }
                         }else{
                             ToastUtils.showShort("连接已断开")
                         }
@@ -100,7 +104,6 @@ class AdbConnectService : Service() {
                 while (isRunning) {
                     connected = serverSocket?.accept()
                     XLog.d("accept")
-
                     val connHandle = Thread(ConnectionHandle(connected!!))
                     connHandle.start()
                 }
