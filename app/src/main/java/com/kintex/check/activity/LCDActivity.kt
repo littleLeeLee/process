@@ -1,20 +1,29 @@
 package com.kintex.check.activity
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
+import android.provider.Settings
+import android.telephony.PhoneStateListener
+import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
 import android.widget.GridLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import com.android.internal.telephony.ITelephony
+import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
 import com.kintex.check.bean.CaseType
@@ -92,6 +101,13 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
     }
 
     private fun prepareCase() {
+        //监听电话
+        teleManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        phoneListener = MyPhoneStateListener()
+        teleManager!!.listen(
+                phoneListener,
+                PhoneStateListener.LISTEN_CALL_STATE
+        )
         //NFC
         var hasNFC =  caseType!!.typeItems.find {
             it.caseId == CaseId.NFC.id
@@ -109,43 +125,64 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
             if(proximitySensor != null){
                 sensorManager!!.registerListener(mySensorListener, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL)
             }
+        }else{
+            isProFinish = true
         }
         //光线感应器
         var hasLight = caseType!!.typeItems.find {
             it.caseId == CaseId.LightSensor.id
         }
+        val defaultSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT)
+        if(defaultSensor == null){
+            ToastUtils.showLong("没有找到光线感应器")
+        }
+
+
         XLog.d("hasLight:$hasLight")
         if(hasLight != null){
             lightSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT)
             if (lightSensor != null) {
                 sensorManager!!.registerListener(mySensorListener, lightSensor, 100000)
-                tv_lightFail.setOnClickListener {
-                    isLightFinish = true
-                    sendTestResult(FAILED,CaseId.LightSensor.id)
-                    if(isProFinish){
-                        doNext(view_sensor)
-                    }
+            }
+        }else{
+            isLightFinish = true
+        }
 
-                }
-                tv_proFail.setOnClickListener {
-                    isProFinish = true
-                    sendTestResult(FAILED,CaseId.ProximitySensor.id)
-                    if(isLightFinish){
-                        doNext(view_sensor)
-                    }
-                }
+        tv_lightFail.setOnClickListener {
+            isLightFinish = true
+            sendTestResult(FAILED,CaseId.LightSensor.id)
+            if(isProFinish){
+                doNext(view_sensor)
+            }
 
-                btn_proPass.setOnClickListener {
+        }
+        btn_lightPass.setOnClickListener {
 
-                    isProFinish = true
-                    sendTestResult(PASSED,CaseId.ProximitySensor.id)
-                    if(isLightFinish){
-                        doNext(view_sensor)
-                    }
+            isLightFinish = true
+            sendTestResult(PASSED,CaseId.LightSensor.id)
+            if(isProFinish){
+                doNext(view_sensor)
+            }
 
-                }
+        }
+        tv_proFail.setOnClickListener {
+            isProFinish = true
+            sendTestResult(FAILED,CaseId.ProximitySensor.id)
+            if(isLightFinish){
+                doNext(view_sensor)
             }
         }
+        btn_proPass.setOnClickListener {
+
+            isProFinish = true
+            sendTestResult(PASSED,CaseId.ProximitySensor.id)
+            if(isLightFinish){
+                doNext(view_sensor)
+            }
+
+        }
+
+
         //红绿蓝
         var hasDisplay = caseType!!.typeItems.find {
             it.caseId == CaseId.Display.id
@@ -217,9 +254,96 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
             }
 
         }
-
-
     }
+
+    fun endCall() {
+        // TODO Auto-generated method stub
+        // "android.os.ServiceManager" 是系统服务 ，一般方法没法用
+        try {
+            // 用反射得到该类的对象
+            val clazz = Class.forName("android.os.ServiceManager")
+            //	System.out.println("反射对象");
+            // 获得用其方法
+            /**
+             * getService 是要调用方法的全名 String 是要传入参数的类型
+             */
+            val method = clazz.getMethod("getService", String::class.java)
+            //	System.out.println("得到方法");
+            /**
+             * 调用方法 1,是调用该方法的对象 如果方法是静态的写null 2.执行方法是 需要的真实参数
+             */
+            val obj = method.invoke(null, TELEPHONY_SERVICE)
+            //	System.out.println("调用方法");
+            /**
+             * 调用远程服务 需要aidl
+             */
+            val ite: ITelephony = ITelephony.Stub.asInterface(obj as IBinder)
+            // 挂电话
+            ite.endCall()
+            XLog.d("执行挂电话方法")
+        } catch (e: java.lang.Exception) {
+            // TODO Auto-generated catch block
+            e.printStackTrace()
+        }
+    }
+
+
+    private fun callPhone() {
+        ToastUtils.showLong("请拨打电话，并将手机靠近脸部2秒")
+        val num ="112"
+        var intent: Intent? = null
+        val uri: Uri = Uri.parse("tel:$num")
+        if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.CALL_PHONE
+                ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ToastUtils.showShort("请到设置中打开电话权限")
+            intent = Intent(Settings.ACTION_SETTINGS)
+            startActivity(intent)
+            return
+        }
+        intent = Intent(Intent.ACTION_CALL,uri)
+        startActivity(intent)
+    /*    view_sensor.postDelayed(Runnable {
+            endCall()
+        },3000)*/
+    }
+
+    private var lastCallState = 0
+    private var currCallState = 0
+    private var teleManager : TelephonyManager ?=null
+    private var phoneListener : MyPhoneStateListener?=null
+
+    inner  class MyPhoneStateListener : PhoneStateListener() {
+        override fun onCallStateChanged(
+                state: Int,
+                incomingNumber: String
+        ) {
+
+            lastCallState = currCallState
+            currCallState = state
+
+            when (state) {
+                TelephonyManager.CALL_STATE_IDLE -> {
+
+                    if (lastCallState == TelephonyManager.CALL_STATE_OFFHOOK) {
+                        XLog.d("挂电话！")
+                     //   showChooseDialog()
+                    }
+                }
+                TelephonyManager.CALL_STATE_RINGING -> {
+
+                }
+                TelephonyManager.CALL_STATE_OFFHOOK -> {
+
+                }
+                else -> {
+                }
+            }
+        }
+    }
+
     private fun sendTestResult(result: Int,id: Int) {
         sendCaseResult(id,result, ResultCode.MANUAL)
     }
@@ -403,7 +527,13 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
         if(isLightFinish  && isProFinish){
            doNext(view_sensor)
         }else{
+            if(!isProFinish){
+
+            }
             view_sensor.visibility = View.VISIBLE
+            btn_call.setOnClickListener {
+                callPhone()
+            }
         }
 
 
@@ -433,7 +563,6 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                         ligFirstX = light
                     } else {
                         if (kotlin.math.abs(light - ligFirstX) > 15) {
-
                             isLightFinish = true
                             sensorManager?.unregisterListener(mySensorListener,lightSensor)
                             sendTestResult(PASSED,CaseId.LightSensor.id)
@@ -462,7 +591,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                             sendTestResult(PASSED,CaseId.ProximitySensor.id)
                             sensorManager?.unregisterListener(mySensorListener,proximitySensor)
                             runOnUiThread {
-                                tv_lightValue.text = "距离值： 通过"
+                                tv_proximityValue.text = "距离值： 通过"
                                 if(isLightFinish){
                                     doNext(view_sensor)
                                 }
@@ -503,6 +632,9 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        teleManager?.listen(phoneListener,
+                PhoneStateListener.LISTEN_NONE)
+        phoneListener = null
             testNext()
         NfcUtils.mNfcAdapter = null
         if(proximitySensor != null){

@@ -7,7 +7,9 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.opengl.GLSurfaceView
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import com.blankj.utilcode.util.ToastUtils
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
@@ -90,6 +92,7 @@ class AccelerometerActivity : BaseActivity() ,SensorEventListener{
     //陀螺仪
     private var gyroscopeSensor: Sensor?=null
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun getAllSensor() {
 
         val sensorList = sensorManager!!.getSensorList(Sensor.TYPE_ALL)

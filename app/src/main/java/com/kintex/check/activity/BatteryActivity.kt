@@ -77,19 +77,29 @@ class BatteryActivity  : BaseActivity() {
                if(!isUsbTest && !isWillTest){
                    sendCaseResult(CaseId.USBCharge.id, FAILED, ResultCode.MANUAL)
                    isUsbTest = true
+                   isUsbPass = false
                    tv_usbresult.text = "fail"
                    tv_usbresult.setTextColor(resources.getColor(R.color.red))
                }else if(isUsbTest && !isWillTest){
+                 //  ToastUtils.showShort("2fail")
                    isWillTest = true
                    tv_wrlless.text = "fail"
                    tv_wrlless.setTextColor(resources.getColor(R.color.red))
+                   if(isUsbPass){
+                       sendCaseResult(CaseId.USBCharge.id, PASSED, ResultCode.MANUAL)
+                   }else{
+                       sendCaseResult(CaseId.USBCharge.id, FAILED, ResultCode.MANUAL)
+                   }
                    sendCaseResult(CaseId.WirelessCharge.id, FAILED, ResultCode.MANUAL)
                    finish()
+
                }else if(!isUsbTest && isWillTest){
+              //     ToastUtils.showShort("1fail")
                    isUsbTest = true
                    tv_usbresult.text = "fail"
                    tv_usbresult.setTextColor(resources.getColor(R.color.red))
                    sendCaseResult(CaseId.USBCharge.id, FAILED, ResultCode.MANUAL)
+                   sendCaseResult(CaseId.WirelessCharge.id, PASSED, ResultCode.MANUAL)
                    finish()
                }
 
@@ -192,7 +202,7 @@ class BatteryActivity  : BaseActivity() {
                             if(isUsbTest){
                                 tv_wrlless.text = "pass"
                                 tv_wrlless.setTextColor(resources.getColor(R.color.green))
-                                finish()
+                             //   finish()
                             }else{
                                 tv_wrlless.text = "pass"
                                 tv_wrlless.setTextColor(resources.getColor(R.color.green))

@@ -8,12 +8,12 @@
     <string name="GPS">GPS</string>
     <string name="Passed">Passed</string>
     <string name="Failed">Failed</string>
-    <string name="BlueTooth">BlueTooth</string>
+    <string name="Bluetooth">BlueTooth</string>
     <string name="Gyroscope">Gyroscope</string>
     <string name="Barometer">Barometer</string>
     <string name="Accelerometer">Accelerometer</string>
     <string name="NFC">NFC</string>
-    <string name="Magnetometer">Magnetometer</string>
+    <string name="Magnetomeyer">Magnetometer</string>
     <string name="Sensor">Sensor</string>
     <string name="Secure">Secure</string>
     <string name="FingerprintSensor">Fingerprint Sensor</string>
@@ -33,7 +33,7 @@
     <string name="VolumeDownButton">Volume Down Button</string>
     <string name="VolumeUpButton">Volume Up Button</string>
     <string name="SilenceButton">Silence Button</string>
-    <string name="Vibration">Vibration</string>
+    <string name="Vibrate">Vibration</string>
     <string name="CameraTest">Camera Test</string>
     <string name="TrueDepthCamera">True Depth Camera</string>
     <string name="FrontCamera">Front Camera</string>

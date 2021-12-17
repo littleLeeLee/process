@@ -8,12 +8,12 @@
     <string name="GPS">GPS</string>
     <string name="Passed">通过</string>
     <string name="Failed">失败</string>
-    <string name="BlueTooth">蓝牙</string>
+    <string name="Bluetooth">蓝牙</string>
     <string name="Gyroscope">陀螺仪</string>
     <string name="Barometer">气压计</string>
     <string name="Accelerometer">加速度传感器</string>
     <string name="NFC">NFC</string>
-    <string name="Magnetometer">磁力计</string>
+    <string name="Magnetomeyer">磁力计</string>
     <string name="Sensor">传感器</string>
     <string name="Secure">安全</string>
     <string name="FingerprintSensor">指纹解锁</string>
@@ -31,7 +31,7 @@
     <string name="VolumeDownButton">音量增加按键</string>
     <string name="VolumeUpButton">音量减少按键</string>
     <string name="SilenceButton">静音按键</string>
-    <string name="Vibration">震动</string>
+    <string name="Vibrate">震动</string>
     <string name="CameraTest">相机测试</string>
     <string name="TrueDepthCamera">原深感摄像头</string>
     <string name="FrontCamera">前摄像头</string>

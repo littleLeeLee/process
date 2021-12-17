@@ -189,7 +189,7 @@
         android:id="@+id/view_sensor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +215,7 @@
             android:text="光线值："
             android:textSize="@dimen/tv_textsize_l"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_proximityValue" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_call" />
 
         <TextView
             android:id="@+id/tv_proximityValue"
@@ -261,6 +261,45 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_proFail"
             app:layout_constraintEnd_toStartOf="@+id/tv_proFail"
             app:layout_constraintTop_toTopOf="@+id/tv_proFail" />
+
+        <Button
+            android:id="@+id/btn_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="点击测试全面屏距离感应器"
+            app:layout_constraintStart_toStartOf="@+id/tv_proximityValue"
+            app:layout_constraintTop_toBottomOf="@+id/tv_proximityValue" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全面屏手机只能再波打电话情况下激活距离感应器"
+            android:textSize="8sp"
+            app:layout_constraintStart_toStartOf="@+id/btn_call"
+            app:layout_constraintTop_toBottomOf="@+id/btn_call" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="请移动手机到不同的光线环景"
+            android:textSize="8sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_lightValue"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lightValue" />
+
+        <Button
+            android:id="@+id/btn_lightPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/green"
+            android:text="@string/Passed"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_lightFail"
+            app:layout_constraintEnd_toStartOf="@+id/tv_lightFail"
+            app:layout_constraintTop_toTopOf="@+id/tv_lightFail" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

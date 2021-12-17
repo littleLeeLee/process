@@ -44,6 +44,7 @@ class CallPhoneActivity : BaseActivity() {
     private fun setView() {
 
         teleManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
         val simState = teleManager!!.simState
         if(simState == TelephonyManager.SIM_STATE_ABSENT || simState == TelephonyManager.SIM_STATE_UNKNOWN){
             tv_simState.text = "没有发现SIM卡"

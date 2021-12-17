@@ -134,8 +134,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="无线充电："
-        app:layout_constraintStart_toStartOf="@+id/tv_discrete"
-        app:layout_constraintTop_toBottomOf="@+id/tv_discrete" />
+        app:layout_constraintStart_toStartOf="@+id/textView24"
+        app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
     <TextView
         android:id="@+id/textView24"
@@ -143,8 +143,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="有线充电："
-        app:layout_constraintStart_toStartOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintStart_toStartOf="@+id/tv_discrete"
+        app:layout_constraintTop_toBottomOf="@+id/tv_discrete" />
 
     <TextView
         android:id="@+id/tv_wrlless"
