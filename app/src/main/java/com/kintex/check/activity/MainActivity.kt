@@ -552,7 +552,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         rotationSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
         gyroscopeSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
 
-
         if (accelerometerSensor != null) {
             XLog.d("accelerometerSensor")
             sensorManager!!.registerListener(mySensorListener, accelerometerSensor, 1000000)

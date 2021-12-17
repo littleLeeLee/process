@@ -95,10 +95,11 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
     }
 
     private fun showColorView() {
-
         view_lcd.visibility = View.VISIBLE
-
     }
+
+    private var  hasProx = false
+    private var hasLight = false
 
     private fun prepareCase() {
         //监听电话
@@ -116,36 +117,47 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
             val nfcUtils = NfcUtils(this)
         }
         //距离感应器
-        var hasProx = caseType!!.typeItems.find {
+        var hasPro = caseType!!.typeItems.find {
             it.caseId == CaseId.ProximitySensor.id
         }
         XLog.d("hasProx:$hasProx")
-        if(hasProx != null){
+        if(hasPro != null){
+            hasProx = true
             proximitySensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_PROXIMITY)
             if(proximitySensor != null){
                 sensorManager!!.registerListener(mySensorListener, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL)
             }
         }else{
+            hasProx = false
             isProFinish = true
+            tv_proximityValue.visibility =View.GONE
+            btn_proPass.visibility = View.GONE
+            tv_proFail.visibility = View.GONE
+            btn_call.visibility = View.GONE
+            textView25.visibility = View.GONE
         }
         //光线感应器
-        var hasLight = caseType!!.typeItems.find {
+        var hasLightSensor = caseType!!.typeItems.find {
             it.caseId == CaseId.LightSensor.id
         }
         val defaultSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT)
         if(defaultSensor == null){
             ToastUtils.showLong("没有找到光线感应器")
         }
-
-
         XLog.d("hasLight:$hasLight")
-        if(hasLight != null){
+        if(hasLightSensor != null){
+            hasLight = true
             lightSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT)
             if (lightSensor != null) {
                 sensorManager!!.registerListener(mySensorListener, lightSensor, 100000)
             }
         }else{
+            hasLight = false
             isLightFinish = true
+            tv_lightValue.visibility = View.GONE
+            btn_lightPass.visibility = View.GONE
+            tv_lightFail.visibility = View.GONE
+            textView27.visibility = View.GONE
         }
 
         tv_lightFail.setOnClickListener {
@@ -219,7 +231,14 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
     private fun doNext(view: View?) {
         view?.visibility = View.GONE
         if(view?.id == R.id.view_sensor){
-            currentPositon+=2
+            var k =0
+            if(hasLight){
+               k++
+            }
+            if(hasProx){
+                k++
+            }
+            currentPositon+=k
         }else{
             currentPositon++
         }
