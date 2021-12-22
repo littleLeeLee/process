@@ -68,4 +68,7 @@
     <string name="TouchRecode">Touch Recode</string>
     <string name="UnTest">unTest</string>
     <string name="Testing">Testing...</string>
+    <string name="silent">Silent</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="ring">Ring</string>
 </resources>

@@ -58,7 +58,10 @@
         tools:targetApi="n">
         <activity android:name=".activity.MainActivity">
         </activity>
-        <activity android:name=".activity.BaseActivity" />
+        <activity android:name=".activity.BaseActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity android:name=".activity.WelcomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,19 +72,27 @@
         <activity android:name=".activity.TestAdbActivity" />
         <activity android:name=".activity.EventBusActivity" />
         <activity android:name=".activity.ButtonActivity"
+            android:screenOrientation="portrait"
             />
-        <activity android:name=".activity.AccelerometerActivity" />
+        <activity android:name=".activity.AccelerometerActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.AccelerometerPlayActivity" />
-        <activity android:name=".activity.CameraActivity" />
-        <activity android:name=".activity.SpeakerActivity" />
+        <activity android:name=".activity.CameraActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SpeakerActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.DigitizerActivity" >
         </activity>
-        <activity android:name=".activity.LCDActivity" />
+        <activity android:name=".activity.LCDActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.MicEarActivity" />
-        <activity android:name=".activity.HeadSetActivity" />
-        <activity android:name=".activity.CallPhoneActivity" />
+        <activity android:name=".activity.HeadSetActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CallPhoneActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".other.AdbTestActivity" />
-        <activity android:name=".activity.BatteryActivity" />
+        <activity android:name=".activity.BatteryActivity"
+                    android:screenOrientation="portrait"/>
         <activity android:name=".activity.NFCActivity"
            >
             <intent-filter>
@@ -95,7 +106,8 @@
         <activity android:name=".activity.ShowResultActivity" />
         <activity android:name=".activity.AccessibilityActivity" />
         <activity android:name=".audioview.AudioActivity" />
-        <activity android:name=".activity.AudioTestActivity" />
+        <activity android:name=".activity.AudioTestActivity"
+            android:screenOrientation="portrait"/>
 
         <receiver android:name=".recevier.KeyEventReceiver" />
         <receiver android:name=".recevier.ScreenReceiver" />

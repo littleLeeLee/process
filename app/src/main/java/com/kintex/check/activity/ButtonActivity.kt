@@ -1,9 +1,11 @@
 package com.kintex.check.activity
 
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.media.AudioManager
 import android.os.Bundle
 import android.os.Vibrator
 import android.view.KeyEvent
@@ -13,6 +15,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import com.elvishew.xlog.XLog
 import com.kintex.check.R
+import com.kintex.check.bean.CaseType
 import com.kintex.check.bean.KeyEventBean
 import com.kintex.check.bean.TestCase
 import com.kintex.check.recevier.KeyEventReceiver
@@ -41,6 +44,13 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
     private var titleDone : TextView ?= null
     private var keyReceiver : KeyEventReceiver?=null
     private var screenReceiver : ScreenReceiver?=null
+    private var vibrateReceiver : VibrateReceiver ?=null
+    private var isFirst = true
+
+
+    private var isVibratePass = false
+    private var isVibrateKeyTestFinish = false
+    private var hasVibrateKey = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +60,17 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_button)
+        //一加手机静音震动按键
+        val brand = android.os.Build.BRAND
+        XLog.d("brand$brand")
+        val find = caseType!!.typeItems.find {
+            it.caseId == CaseId.SilenceButton.id
+        }
+        if(find != null && brand == "OnePlus"){
+            hasVibrateKey = true
+            view_one.visibility = View.VISIBLE
+        }
+
         btnReset = findViewById(R.id.tv_btnReset)
         btnReset!!.setOnClickListener(this)
         titleHome = findViewById(R.id.tv_titleName)
@@ -60,9 +81,18 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
         titleDone = findViewById(R.id.tv_titleDone)
         titleDone!!.setOnClickListener(this)
 
+        tv_silentFail.setOnClickListener(this)
+        tv_vibrateFail.setOnClickListener(this)
+        tv_ringFail.setOnClickListener(this)
+
         keyReceiver = KeyEventReceiver()
         val intentFilter = IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)
         registerReceiver(keyReceiver,intentFilter)
+
+        vibrateReceiver = VibrateReceiver()
+        val intentFilter1 = IntentFilter("android.media.RINGER_MODE_CHANGED")
+        registerReceiver(vibrateReceiver,intentFilter1)
+
         btn_power.setOnClickListener(this)
         btn_volunDown.setOnClickListener(this)
         btn_volunUp.setOnClickListener(this)
@@ -79,22 +109,16 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
         when(v!!.id){
 
             R.id.tv_titleReset->{
-
                 finish()
-
             }
 
             R.id.tv_btnReset->{
-
                 reSetView()
-
             }
 
             R.id.tv_titleDone->{
-
                // finishTest()
                 finish()
-
             }
 
             R.id.btn_power->{
@@ -120,8 +144,55 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
                 sendCaseResult(CaseId.VolumeDownButton.id, FAILED, ResultCode.MANUAL)
                 hasFinishTest()
             }
+
+            R.id.tv_silentFail->{
+                goFailCase()
+
+            }
+
+            R.id.tv_vibrateFail->{
+                goFailCase()
+            }
+
+            R.id.tv_ringFail->{
+                goFailCase()
+            }
         }
 
+    }
+
+    private fun goFailCase() {
+        tv_silentResult.text = resources.getString(R.string.Failed)
+        tv_silentResult.setTextColor(resources.getColor(R.color.red))
+        tv_vibrateResult.text = resources.getString(R.string.Failed)
+        tv_vibrateResult.setTextColor(resources.getColor(R.color.red))
+        tv_ringResult.text = resources.getString(R.string.Failed)
+        tv_ringResult.setTextColor(resources.getColor(R.color.red))
+        isVibratePass = false
+        isVibrateKeyTestFinish = true
+        checkVibrateKeyPass()
+    }
+
+    //手动拨动按键有没有完成
+    private fun isManualFinish(){
+        if(isVibrateFinish&& isSilentFinish && isRingFinish){
+            isVibratePass = true
+            checkVibrateKeyPass()
+        }
+    }
+
+    //判断一加静音按钮是否正常
+    private fun checkVibrateKeyPass(){
+
+
+        if(isVibratePass){
+            sendCaseResult(CaseId.SilenceButton.id, PASSED,ResultCode.MANUAL)
+        }else{
+            sendCaseResult(CaseId.SilenceButton.id, PASSED,ResultCode.MANUAL)
+        }
+        isVibrateKeyTestFinish = true
+
+        hasFinishTest()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -210,6 +281,69 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
 
     }
 
+    private var isVibrateFinish =false
+    private var isSilentFinish =false
+    private var isRingFinish =false
+
+    //监听情景模式
+  inner class VibrateReceiver : BroadcastReceiver(){
+      override fun onReceive(context: Context?, intent: Intent) {
+
+          if (intent.action.equals(AudioManager.RINGER_MODE_CHANGED_ACTION)) {
+              if(isFirst){
+                  isFirst = false
+                  return
+              }
+              var am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+              var ringerMode = am.ringerMode
+              when (ringerMode) {
+                   AudioManager.RINGER_MODE_NORMAL->{
+                       //normal
+                       XLog.d("normal")
+                       runOnUiThread {
+                           tv_ringResult.text = resources.getString(R.string.Passed)
+                           tv_ringResult.setTextColor(resources.getColor(R.color.green))
+                           tv_ringFail.visibility = View.GONE
+                           isRingFinish = true
+                           isManualFinish()
+                       }
+                   }
+
+                  AudioManager.RINGER_MODE_VIBRATE->{
+                      //vibrate
+                      XLog.d("vibrate")
+                      runOnUiThread {
+                          tv_vibrateResult.text = resources.getString(R.string.Passed)
+                          tv_vibrateResult.setTextColor(resources.getColor(R.color.green))
+                          tv_vibrateFail.visibility = View.GONE
+                          isVibrateFinish = true
+                          isManualFinish()
+                      }
+                  }
+
+
+                  AudioManager.RINGER_MODE_SILENT->{
+                      //silent
+                      XLog.d("silent")
+                      runOnUiThread {
+                          tv_silentResult.text = resources.getString(R.string.Passed)
+                          tv_silentResult.setTextColor(resources.getColor(R.color.green))
+                          tv_silentFail.visibility = View.GONE
+                          isSilentFinish = true
+                          isManualFinish()
+                      }
+                  }
+
+              }
+          }
+
+
+      }
+
+  }
+
+
+    //检测震动功能
     private fun checkVibration() {
         vibrator = getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
         try {
@@ -262,6 +396,7 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
         testNext()
         unregisterReceiver(keyReceiver)
         unregisterReceiver(screenReceiver)
+        unregisterReceiver(vibrateReceiver)
         EventBus.getDefault().unregister(this)
     }
 
@@ -271,9 +406,19 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
     private var canTestVib = false
 
     private fun hasFinishTest(){
+
+        if(hasVibrateKey){
+
+            if(isVibrateKeyTestFinish && canTestVib && isPowerTest  && isVolumeUpTest && isVolumeDownTest ){
+                checkVibration()
+            }
+        }else{
+
             if(canTestVib && isPowerTest  && isVolumeUpTest && isVolumeDownTest ){
                 checkVibration()
             }
+        }
+
     }
     private var resultCaseList = arrayListOf<TestCase>(
         TestCase(30,"Power Button","",1,0),
@@ -299,7 +444,7 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
         canTestVib = true
             tv_btnPower.postDelayed(
                     Runnable {
-                        hasFinishTest()
+                      //  hasFinishTest()
                     },500
             )
     }
@@ -357,7 +502,9 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
     }
 
     companion object{
-        fun start(context: Context){
+        var caseType : CaseType ?=null
+        fun start(context: Context, caseType: CaseType?){
+            this.caseType = caseType
             context.startActivity(Intent(context,ButtonActivity::class.java))
         }
     }

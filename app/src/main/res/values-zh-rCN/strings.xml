@@ -68,4 +68,7 @@
     <string name="TouchRecode">长按录音</string>
     <string name="UnTest">未测试</string>
     <string name="Testing">测试中...</string>
+    <string name="silent">静音</string>
+    <string name="vibrate">震动</string>
+    <string name="ring">响铃</string>
 </resources>

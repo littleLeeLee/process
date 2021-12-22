@@ -215,7 +215,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                LCDActivity.start(this,caseList[position])
             }
             getString(R.string.Button)->{
-                ButtonActivity.start(this)
+                ButtonActivity.start(this,caseList[position])
             }
             getString(R.string.CameraTest)->{
                 CameraActivity.start(this)
