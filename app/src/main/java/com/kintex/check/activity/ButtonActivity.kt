@@ -69,6 +69,7 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
         if(find != null && brand == "OnePlus"){
             hasVibrateKey = true
             view_one.visibility = View.VISIBLE
+            XLog.d("hasVibKey")
         }
 
         btnReset = findViewById(R.id.tv_btnReset)
@@ -236,14 +237,13 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
     private final val SCREEN_ON =  3
     private final val SCREEN_OFF = 4
     private final val KEY_POWER =  5
-    private var isPowerDown = false
     private var isScreenOff = false
     private var isScreenOn = false
     private var vibrator: Vibrator? = null
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onKeyEvent(result: KeyEventBean){
-        XLog.d("onKeyEvent")
+        XLog.d("onKeyEvent：${result.keyName}，${result.keyEvent}")
         when (result.keyEvent) {
             KEY_MENU -> {
                 //菜单
@@ -263,19 +263,27 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
             SCREEN_ON -> {
                 isScreenOn = true
 
-                if(isScreenOn && isScreenOff && isPowerDown){
-                    tv_power.setTextColor(resources.getColor(R.color.green))
-                    tv_power.text = "PASS"
-                    isPowerTest = true
-                    sendCaseResult(CaseId.PowerButton.id, PASSED, ResultCode.MANUAL)
-                    hasFinishTest()
+                if(isScreenOn && isScreenOff ){
+                    if(!isPowerTest){
+                        tv_power.setTextColor(resources.getColor(R.color.green))
+                        tv_power.text = "PASS"
+                        isPowerTest = true
+                        sendCaseResult(CaseId.PowerButton.id, PASSED, ResultCode.MANUAL)
+                        hasFinishTest()
+                    }
                 }
             }
             SCREEN_OFF -> {
                 isScreenOff = true
             }
             KEY_POWER -> {
-                isPowerDown = true
+                if(!isPowerTest){
+                    tv_power.setTextColor(resources.getColor(R.color.green))
+                    tv_power.text = "PASS"
+                    isPowerTest = true
+                    sendCaseResult(CaseId.PowerButton.id, PASSED, ResultCode.MANUAL)
+                    hasFinishTest()
+                }
             }
         }
 
@@ -444,7 +452,7 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
         canTestVib = true
             tv_btnPower.postDelayed(
                     Runnable {
-                      //  hasFinishTest()
+                        hasFinishTest()
                     },500
             )
     }
