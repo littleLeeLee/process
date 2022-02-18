@@ -57,16 +57,16 @@
         android:theme="@style/AppTheme"
         tools:targetApi="n">
         <activity android:name=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activity.BaseActivity"
             android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".activity.WelcomeActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.ProximityActivity" />
         <activity android:name=".activity.TestAdbActivity" />

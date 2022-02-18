@@ -49,11 +49,12 @@ import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : BaseActivity(), View.OnClickListener {
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
         setContentView(R.layout.newmain)
-        tv_version.text = "K-Check ${AppUtils.getAppVersionName()}"
+        tv_version.text = resources.getString(R.string.app_name) +"\t" + AppUtils.getAppVersionName()
         startAdbService()
         btn_reset.setOnClickListener(this)
         btn_done.setOnClickListener(this)

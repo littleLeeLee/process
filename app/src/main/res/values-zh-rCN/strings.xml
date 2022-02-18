@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KintexCheck</string>
+    <string name="app_name">Kcheck</string>
     <string name="loading">加载</string>
     <string name="AutomaticTesting">自动测试</string>
     <string name="Connection">无线连接</string>

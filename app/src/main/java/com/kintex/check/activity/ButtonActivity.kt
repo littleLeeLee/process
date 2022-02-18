@@ -351,7 +351,7 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
   }
 
 
-    //检测震动功能
+    //检测震动功能1234
     private fun checkVibration() {
         vibrator = getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
         try {
@@ -382,6 +382,7 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
                 return false
             }
         })
+
         dialog.cancelable = false
         dialog.setCancelButton("否", object : OnDialogButtonClickListener {
             override fun onClick(baseDialog: BaseDialog?, v: View?): Boolean {
@@ -392,7 +393,6 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
                     finish()
                 }
                 return false
-
             }
         })
         dialog.show()
@@ -413,6 +413,7 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
     private var isVolumeDownTest = false
     private var canTestVib = false
 
+
     private fun hasFinishTest(){
 
         if(hasVibrateKey){
@@ -420,6 +421,7 @@ class ButtonActivity : BaseActivity(), View.OnClickListener {
             if(isVibrateKeyTestFinish && canTestVib && isPowerTest  && isVolumeUpTest && isVolumeDownTest ){
                 checkVibration()
             }
+
         }else{
 
             if(canTestVib && isPowerTest  && isVolumeUpTest && isVolumeDownTest ){

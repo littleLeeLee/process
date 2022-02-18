@@ -55,7 +55,7 @@ android {
             applicationVariants.all { variant ->
                 variant.outputs.all {
 
-                    outputFileName = "Kintexcheck${defaultConfig.versionCode}-${defaultConfig.versionName}.apk"
+                    outputFileName = "Kcheck${defaultConfig.versionCode}-${defaultConfig.versionName}.apk"
 
                 }
             }

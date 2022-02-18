@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KintexCheck</string>
+    <string name="app_name">Kcheck</string>
     <string name="loading">loading</string>
     <string name="AutomaticTesting">AutomaticTesting</string>
     <string name="Connection">Connection</string>
