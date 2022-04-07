@@ -511,11 +511,16 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
     }
 
+    private var isCountPass = false
+
     private fun checkCount() {
 
         if(touchCount == 91){
+            isCountPass = true
             sendTestResult(PASSED,CaseId.TouchPanel.id)
             doNext(view_digitizer)
+        }else{
+            isCountPass = false
         }
 
     }
@@ -587,7 +592,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                             sendTestResult(PASSED,CaseId.LightSensor.id)
                             runOnUiThread {
                                 tv_lightValue.text = "光线值： 通过"
-                                if(isProFinish){
+                                if(isProFinish&&isCountPass){
                                     doNext(view_sensor)
                                 }
                             }
@@ -611,7 +616,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                             sensorManager?.unregisterListener(mySensorListener,proximitySensor)
                             runOnUiThread {
                                 tv_proximityValue.text = "距离值： 通过"
-                                if(isLightFinish){
+                                if(isLightFinish&&isCountPass){
                                     doNext(view_sensor)
                                 }
                             }
