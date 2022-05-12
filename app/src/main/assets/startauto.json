@@ -61,12 +61,30 @@
             "caseId":54,
             "enable":1,
             "visible":1
+          },
+          {
+            "caseName":"TrueTone",
+            "caseId":51,
+            "enable":1,
+            "visible":1
           }
         ]}
       ]},
-      {
-        "testTypeName":"ManualTest","types":[
+      {"testTypeName":"CoTest","types":[
         {"name":"ScreenTest","typeItems":[
+
+          {
+            "caseName":"LCD Quality",
+            "caseId":66,
+            "enable":1,
+            "visible":1
+          },
+          {
+            "caseName":"Display",
+            "caseId":37,
+            "enable":1,
+            "visible":1
+          },
           {
             "caseName":"Touch Panel",
             "caseId":38,
@@ -80,83 +98,46 @@
             "visible":1
           },
           {
-            "caseName":"NFC",
-            "caseId":50,
-            "enable":1,
-            "visible":2
-          },
-          {
-            "caseName":"TrueTone",
-            "caseId":51,
-            "enable":1,
-            "visible":1
-          },
-          {
             "caseName":"Multi Touch",
             "caseId":52,
             "enable":1,
             "visible":1
-          }]},
-        {"name":"ButtonTest","typeItems":[
-          {
-            "caseName":"Power Button",
-            "caseId":30,
-            "enable":1,
-            "visible":1
-          },
-          {
-            "caseName":"Home Button",
-            "caseId":31,
-            "enable":1,
-            "visible":1
-          },
-          {
-            "caseName":"Volume Down Button",
-            "caseId":32,
-            "enable":1,
-            "visible":1
-          },
-          {
-            "caseName":"Volume Up Button",
-            "caseId":33,
-            "enable":1,
-            "visible":1
-          },
-          {
-            "caseName":"Silence Button",
-            "caseId":34,
-            "enable":1,
-            "visible":1
           }
         ]
-      } ]},
-      {
-        "testTypeName":"CoTest","types":[
-        {"name":"AutoTest","typeItems":[
-          {
-            "caseName":"LCD Quality",
-            "caseId":66,
-            "enable":1,
-            "visible":1
-          },
-          {
-            "caseName":"Wireless Charge",
-            "caseId":47,
-            "enable":1,
-            "visible":1
-          },
-          {
-            "caseName":"Display",
-            "caseId":37,
-            "enable":1,
-            "visible":1
-          },
-          {
-            "caseName":"Vibration",
-            "caseId":45,
-            "enable":1,
-            "visible":1
-          },
+        },
+        {"name":"ButtonTest","typeItems":[
+
+        {
+          "caseName":"Power Button",
+          "caseId":30,
+          "enable":1,
+          "visible":1
+        }, {
+          "caseName":"Home Button",
+          "caseId":31,
+          "enable":1,
+          "visible":1
+        },
+        {
+          "caseName":"Volume Down Button",
+          "caseId":32,
+          "enable":1,
+          "visible":1
+        },
+        {
+          "caseName":"Volume Up Button",
+          "caseId":33,
+          "enable":1,
+          "visible":1
+        },
+        {
+          "caseName":"Silence Button",
+          "caseId":34,
+          "enable":1,
+          "visible":1
+        }
+        ]},
+        {"name":"CameraTest","typeItems":[
           {
             "caseName":"True Depth Camera",
             "caseId":22,
@@ -192,7 +173,11 @@
             "caseId":27,
             "enable":1,
             "visible":1
-          },
+          }
+
+
+        ]},
+        {"name":"AudioTest","typeItems":[
           {
             "caseName":"Headset-Left",
             "caseId":18,
@@ -241,8 +226,31 @@
             "enable":1,
             "visible":1
           }
-        ]
-      } ]}
+        ]},
+        {"name":"Sensor","typeItems":[
+
+          {
+            "caseName":"Wireless Charge",
+            "caseId":47,
+            "enable":1,
+            "visible":1
+          } ,
+          {
+            "caseName":"NFC",
+            "caseId":50,
+            "enable":1,
+            "visible":2
+          },
+          {
+            "caseName":"Vibration",
+            "caseId":45,
+            "enable":1,
+            "visible":1
+          }
+
+     ]}
+        ]}
     ]
-  }
-}
+      }
+
+ }
