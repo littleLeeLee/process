@@ -68,6 +68,90 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         val gson = Gson()
         val testData = gson.fromJson(strFromAssets, NewTestPlanBean::class.java)
         getJsonData(testData)
+        setSensor()
+    }
+
+
+    var hasAcc = false
+    var hasRot = false
+    var hasGyr = false
+    private fun setSensor() {
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensorList = sensorManager!!.getSensorList(Sensor.TYPE_ALL)
+        XLog.d("sensor list :" + sensorList.size)
+        caseList.forEach { it ->
+            it.typeItems.forEach {
+                if(it.caseId == CaseId.Accelerometer.id){
+                    hasAcc = true
+                }else if(it.caseId == CaseId.Magnetometer.id){
+                    hasRot = true
+                }else if(it.caseId == CaseId.Gyroscope.id){
+                    hasGyr = true
+                }
+            }
+        }
+
+        //加速度
+        if(hasAcc){
+            accelerometerSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        }
+
+        //旋转矢量传感器  磁力计
+        if(hasRot){
+            rotationSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        }
+
+        //陀螺仪
+        if(hasGyr){
+            gyroscopeSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+        }
+
+        val sensors = caseList.find {
+            it.name == getString(R.string.Sensor)
+        }
+        var size = 0
+        for (j in caseList.indices){
+            size  += caseList[j].typeItems.size
+        }
+        XLog.d("size : "+ size)
+        if(sensors != null){
+            if(!hasAcc || accelerometerSensor == null){
+                val find = sensors.typeItems.find {
+                    it.caseId == CaseId.Accelerometer.id
+                }
+                val indexOf = sensors.typeItems.indexOf(find)
+                sensors.typeItems.removeAt(indexOf)
+                XLog.d("accelerometerSensor")
+            }
+
+            if(!hasRot || rotationSensor == null){
+                val find = sensors.typeItems.find {
+                    it.caseId == CaseId.Magnetometer.id
+                }
+                val indexOf = sensors.typeItems.indexOf(find)
+                sensors.typeItems.removeAt(indexOf)
+                XLog.d("rotationSensor")
+            }
+
+            if(!hasGyr || gyroscopeSensor == null){
+                val find = sensors.typeItems.find {
+                    it.caseId == CaseId.Gyroscope.id
+                }
+                val indexOf = sensors.typeItems.indexOf(find)
+                sensors.typeItems.removeAt(indexOf)
+                XLog.d("gyroscopeSensor")
+            }
+            mainListAdapter?.notifyDataSetChanged()
+        }else{
+            XLog.d(" == null")
+        }
+         size = 0
+        for (j in caseList.indices){
+            size  += caseList[j].typeItems.size
+        }
+        totalCount = size
+        XLog.d("size : "+ size)
+
     }
 
     private var autoTestCount = 0
@@ -546,12 +630,26 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private fun getAllSensor() {
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mySensorListener = MySensorListener()
-        val sensorList = sensorManager!!.getSensorList(Sensor.TYPE_ALL)
-        XLog.d("sensor list :" + sensorList.size)
-        accelerometerSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+   /*     val sensorList = sensorManager!!.getSensorList(Sensor.TYPE_ALL)
+        XLog.d("sensor list :" + sensorList.size)*/
+
+/*
+        //加速度
+        if(hasAcc){
+            accelerometerSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        }
+
         //旋转矢量传感器  磁力计
-        rotationSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
-        gyroscopeSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+        if(hasRot){
+            rotationSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        }
+
+
+        //陀螺仪
+        if(hasGyr){
+            gyroscopeSensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+        }*/
+
 
         if (accelerometerSensor != null) {
             XLog.d("accelerometerSensor")
@@ -705,6 +803,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
 
+                //加速度
                 Sensor.TYPE_ACCELEROMETER -> {
                     val X_lateral: Float = event.values[0]
                     val Y_longitudinal: Float = event.values[1]

@@ -6,19 +6,19 @@ data class NewTestPlanBean(
 
 data class StartAction(
     val name: String,
-    val operations: List<Operation>,
+    val operations: ArrayList<Operation>,
     val udid: String
 )
 
 data class Operation(
     val testTypeName: String,
-    val types: List<CaseType>
+    var types: ArrayList<CaseType>
 )
 
 data class CaseType(
         val typeId :Int =0,
         var name: String,
-        val typeItems: List<TypeItem>,
+        var typeItems: ArrayList<TypeItem>,
         var state : Int ? = 2
 )
 

@@ -67,6 +67,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
     private fun startCaseTest(currentPositon: Int) {
         val typeItem = caseType!!.typeItems[currentPositon]
+        XLog.d("ID = " + typeItem.caseId)
         when(typeItem.caseId){
 
             CaseId.NFC.id->{
@@ -242,7 +243,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
         }else{
             currentPositon++
         }
-
+        XLog.d("currentPositon :"+currentPositon + "caseType :" + caseType!!.typeItems.size)
         if( currentPositon== caseType!!.typeItems.size){
             finish()
         }else{
@@ -373,16 +374,19 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
         tv_digitizerFailed.setOnClickListener {
             sendTestResult(FAILED,CaseId.TouchPanel.id)
+            isCountFinish = true
             doNext(view_digitizer)
         }
 
         tv_failed1.setOnClickListener {
             sendTestResult(FAILED,CaseId.TouchPanel.id)
+            isCountFinish = true
             doNext(view_digitizer)
         }
 
         tv_failed2.setOnClickListener {
             sendTestResult(FAILED,CaseId.TouchPanel.id)
+            isCountFinish = true
             doNext(view_digitizer)
         }
 
@@ -511,16 +515,14 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
 
     }
 
-    private var isCountPass = false
+    private var isCountFinish = false
 
     private fun checkCount() {
 
         if(touchCount == 91){
-            isCountPass = true
+            isCountFinish = true
             sendTestResult(PASSED,CaseId.TouchPanel.id)
             doNext(view_digitizer)
-        }else{
-            isCountPass = false
         }
 
     }
@@ -592,7 +594,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                             sendTestResult(PASSED,CaseId.LightSensor.id)
                             runOnUiThread {
                                 tv_lightValue.text = "光线值： 通过"
-                                if(isProFinish&&isCountPass){
+                                if(isProFinish&&isCountFinish){
                                     doNext(view_sensor)
                                 }
                             }
@@ -616,7 +618,7 @@ class LCDActivity : BaseActivity(), View.OnClickListener, View.OnTouchListener {
                             sensorManager?.unregisterListener(mySensorListener,proximitySensor)
                             runOnUiThread {
                                 tv_proximityValue.text = "距离值： 通过"
-                                if(isLightFinish&&isCountPass){
+                                if(isLightFinish&&isCountFinish){
                                     doNext(view_sensor)
                                 }
                             }
