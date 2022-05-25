@@ -120,8 +120,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     it.caseId == CaseId.Accelerometer.id
                 }
                 val indexOf = sensors.typeItems.indexOf(find)
-                sensors.typeItems.removeAt(indexOf)
-                XLog.d("accelerometerSensor")
+                if(indexOf!= -1){
+                    sensors.typeItems.removeAt(indexOf)
+                    XLog.d("accelerometerSensor")
+                }
+
             }
 
             if(!hasRot || rotationSensor == null){
@@ -129,8 +132,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     it.caseId == CaseId.Magnetometer.id
                 }
                 val indexOf = sensors.typeItems.indexOf(find)
-                sensors.typeItems.removeAt(indexOf)
-                XLog.d("rotationSensor")
+                if(indexOf!= -1){
+                    sensors.typeItems.removeAt(indexOf)
+                    XLog.d("rotationSensor")
+                }
+
             }
 
             if(!hasGyr || gyroscopeSensor == null){
@@ -138,8 +144,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     it.caseId == CaseId.Gyroscope.id
                 }
                 val indexOf = sensors.typeItems.indexOf(find)
-                sensors.typeItems.removeAt(indexOf)
-                XLog.d("gyroscopeSensor")
+                if(indexOf!= -1){
+                    sensors.typeItems.removeAt(indexOf)
+                    XLog.d("gyroscopeSensor")
+                }
+
             }
             mainListAdapter?.notifyDataSetChanged()
         }else{
